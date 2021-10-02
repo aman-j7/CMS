@@ -1,8 +1,10 @@
 <?php
+include 'phpmailer.php';
+include 'smtp.php';
+include"config.php";
 $flag=1;
 $otp=0;
 $reg=0;
-include"config.php";
 
 if(isset($_POST["submit2"])){
 	$o1=$_POST["otp1"];
@@ -25,6 +27,31 @@ if(isset($_POST["submit1"])){
     if($row){
     	$email=$row['email'];
         $otp=rand(100000,999999);
+        $mail = new PHPMailer(true);
+  
+        try {
+            $mail->SMTPDebug = 2;                                       
+            $mail->isSMTP();                                            
+            $mail->Host       = 'smtp.gmail.com;';                    
+            $mail->SMTPAuth   = true;                             
+            $mail->Username   = 'projectcms05@gmail.com';                 
+            $mail->Password   = 'teaching@123';                        
+            $mail->SMTPSecure = 'tls';                              
+            $mail->Port       = 587;  
+          
+            $mail->setFrom('projectcms05@gmail.com', 'Name');           
+            $mail->addAddress('harshkandpal22@gmail.com');
+            //$mail->addAddress('receiver2@gfg.com', 'Name');
+               
+            $mail->isHTML(true);                                  
+            $mail->Subject = 'Subject';
+            $mail->Body    = 'HTML message body in <b>bold</b> ';
+            $mail->AltBody = 'Body in plain text for non-HTML mail clients';
+            $mail->send();
+            echo "Mail has been sent successfully!";
+        } catch (Exception $e) {
+            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        }
         echo $email;
         echo $otp;
         $flag=0;
