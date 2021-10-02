@@ -1,6 +1,8 @@
 <?php
-include 'phpmailer.php';
-include 'smtp.php';
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+  
+require 'vendor/autoload.php';
 include"config.php";
 $flag=1;
 $otp=0;
@@ -12,11 +14,12 @@ if(isset($_POST["submit2"])){
 	$reg=$_POST["reg"];
 	$flag=0;
     if($o1==$otp){
-    	mysqli_query($conn,"update `login` set password=123 where reg_id=$reg");
-    	header("Location:login.php");
+    	mysqli_query($conn,"update `login` set password='CMS@123' where reg_id=$reg");
+        echo '<script>alert("Your default password is CMS@123");
+        window.location.href="login.php"</script>';
     }
     else {
-        echo "Invalid OTP";
+        echo '<script>alert("Invalid OTP")</script>';
     }
 }
 
@@ -27,38 +30,38 @@ if(isset($_POST["submit1"])){
     if($row){
     	$email=$row['email'];
         $otp=rand(100000,999999);
-        $mail = new PHPMailer(true);
-  
-        try {
-            $mail->SMTPDebug = 2;                                       
-            $mail->isSMTP();                                            
-            $mail->Host       = 'smtp.gmail.com;';                    
-            $mail->SMTPAuth   = true;                             
-            $mail->Username   = 'projectcms05@gmail.com';                 
-            $mail->Password   = 'teaching@123';                        
-            $mail->SMTPSecure = 'tls';                              
-            $mail->Port       = 587;  
-          
-            $mail->setFrom('projectcms05@gmail.com', 'Name');           
-            $mail->addAddress('harshkandpal22@gmail.com');
-            //$mail->addAddress('receiver2@gfg.com', 'Name');
-               
-            $mail->isHTML(true);                                  
-            $mail->Subject = 'Subject';
-            $mail->Body    = 'HTML message body in <b>bold</b> ';
-            $mail->AltBody = 'Body in plain text for non-HTML mail clients';
-            $mail->send();
-            echo "Mail has been sent successfully!";
-        } catch (Exception $e) {
-            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        $msg="Your otp is".strval($otp);
+        echo $msg;
+        $mail = new PHPMailer;
+        $mail->setFrom('rojectcms05@gmail.com');
+        $mail->addAddress($email);
+        $mail->Subject = 'Otp for new password';
+        $mail->Body = $msg;
+        $mail->isSMTP();
+        $mail->SMTPSecure = 'tls';
+        $mail->Host = 'smtp.gmail.com';
+        $mail->SMTPAuth = true;
+        $mail->Port = 587;
+        $mail->Username = 'projectcms05@gmail.com';
+
+        //Set the password of your gmail address here
+        $mail->Password = 'teaching@123';
+        if($mail->send()) {
+            echo '<script>alert("Email has been sent")</script>';
         }
-        echo $email;
-        echo $otp;
+        else
+        {
+            echo '<script>alert("Email has not been sent");
+            window.location.href="login.php"</script>';
+        }
+        
         $flag=0;
     }
 	else {
-        echo "login failed";
-        header("Location:login.php");
+        echo '<script>alert("Invalid registration number");
+        window.location.href="login.php"</script>';
+        
+
     }
 }
 ?>
