@@ -1,9 +1,5 @@
 <?php
-$hostname='localhost';
-$username='root';
-$password='';
-$database_name='moodle';
-$conn=mysqli_connect($hostname,$username,$password,$database_name);
+include"config.php";
 if(isset($_POST["submit"])){
     $e=$_POST["id"];
     $p=$_POST["password"];
@@ -42,7 +38,7 @@ if(isset($_POST["submit"])){
     <tr>
         <td></td>
         <td><input id="submit" type="submit"  value="Login" name="submit"></td>
-        <td><a href="forget_pass.php">Forget Password ? </a></td>
+        <td><a href="forget.php">Forget Password ? </a></td>
     </tr>
 </table>
 </form>
