@@ -29,7 +29,7 @@ if(isset($_POST["submit"])){
 <table  align="center"  cellspacing=" 25">
     <tr>
         <th>Registration No</th>
-        <td><input type="integer" placeholder="Mail@gmail.com"  name="id" required></td>
+        <td><input type="integer" name="id" required></td>
     </tr>
     <tr>
         <th>Password</th>
