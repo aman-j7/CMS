@@ -55,7 +55,7 @@ if(isset($_POST["submit"])){
                   <div class="text-center pt-1 mb-5 pb-1">
                     <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="submit">Log in</button>
                     <br>
-                    <a class="text-muted" href="#!">Forgot password?</a>
+                    <a class="text-muted" href="forget.php">Forgot password?</a>
                   </div>
 
                 </form>
