@@ -1,0 +1,16 @@
+#header {
+    background: url() center center / cover no-repeat ;
+  }
+.card:hover {
+    transform: scale(1.1); 
+    opacity:0.8;
+  }
+.card{
+    opacity:1.0;
+    
+}
+.card-img-top{
+    height: 300px;
+    width:300px;
+}
+
