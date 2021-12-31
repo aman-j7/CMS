@@ -83,7 +83,7 @@ if( $row['password']=="CMS@123"   ){
       </div>
     </div>
     <div class="col-lg-4 mb-4 mt-4">
-    <a href="" style="color:black">
+    <a href="manage_course.php" style="color:black">
     <div class="card">
       <img src="https://media1.thehungryjpeg.com/thumbs2/800_121015_63396a0e1974444fdcdfc91bc487db4074c67f9b_happy-people-reading-books-in-garden.jpg" alt="" class="card-img-top">
       <div class="card-body">
