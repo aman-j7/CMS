@@ -48,7 +48,7 @@ if( $row['password']=="CMS@123"   ){
   <div class="container">
     <div class="row ">
     <div class="col-lg-4 mb-4 mt-4 ">
-    <a href="https://practice.geeksforgeeks.org/courses/Java-Foundation?source=google&medium=cpc&device=c&keyword=gfg&matchtype=b&campaignid=12547146199&adgroup=119586647019&gclid=CjwKCAiAzrWOBhBjEiwAq85QZ2kLyQH7PA7rGSeXCyLWc8PuTWgeU2w6MZA-_E3qRumdRIMCBSJhDRoCzAgQAvD_BwE" style="color:black">
+    <a href="manage_faculty.php" style="color:black">
     <div class="card" >
       <img src="https://news.miami.edu/life/_assets/images/images-stories/2019/08/faculty-new-year-940x529.jpg" alt="" class="card-img-top">
       <div class="card-body">
@@ -102,11 +102,11 @@ if( $row['password']=="CMS@123"   ){
       </div>
     </div>
     <div class="col-lg-4 mt-4">
-    <a href="" style="color:black">
+    <a href="manage_department.php" style="color:black">
     <div class="card">
       <img src="https://trackrover.com/wp-content/uploads/2019/07/Automatic-Attendance-and-Employee-Efficiency-Monitoring-Solution.jpg" alt="" class="card-img-top">
       <div class="card-body">
-        <h5 class="card-title text-center">Settings</h5>
+        <h5 class="card-title text-center">Manage Department</h5>
     </a>
       </div>
      </div>
