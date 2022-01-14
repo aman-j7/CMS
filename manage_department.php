@@ -1,5 +1,6 @@
 <?php
 include"config.php";
+$flag=0;
 if(isset($_POST["submit_add_department"])){
     $f=$_GET["f"];
     $d_id=$_POST["d_id"];
@@ -21,6 +22,7 @@ else if(isset($_POST["submit_update_department"])){
 }
 else if(isset($_POST["submit_drop_department"])){
     $d_id=$_POST["d_id"];
+    $res=mysqli_query($conn,"update faculty JOIN department ON department.dept_id=faculty.dept_id set faculty.dept_id='NULL'");
     mysqli_query($conn,"DELETE FROM `department` where dept_id='$d_id'");
 }
 ?>
@@ -75,12 +77,12 @@ else if(isset($_POST["submit_drop_department"])){
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-        <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Add Department</h5>
+        <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel"><?php if($flag) echo "Update Department"; else echo "Add Department";?></h5>
         </div>
         <div class="modal-body">
           <form role="form" action="manage_department.php?f=<?php echo $flag?>" method="POST">
             <div class="form-group">
-              <label>DepartmentId</label>
+              <label>Department Id</label>
               <input type="text" class="form-control"  name="d_id" placeholder="Enter Department id" value="<?php if($flag) echo $row['dept_id']; else echo "";?>" required>
             </div>
             <div class="form-group">
