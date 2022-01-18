@@ -3,6 +3,7 @@ include"config.php";
 if(isset($_POST["submit"])){
     $e=$_POST["id"];
     $p=$_POST["password"];
+    $p=md5($p);
     $res=mysqli_query($conn,"select role from login where reg_id=$e and password='$p'");
     $row=mysqli_fetch_array($res);
     if( $row   ){
@@ -30,7 +31,6 @@ if(isset($_POST["submit"])){
 <link rel="stylesheet" href="CSS/cms.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <title>E-Learning</title>
-
 </head>
 
 <body>

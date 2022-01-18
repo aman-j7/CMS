@@ -13,6 +13,7 @@ if(isset($_POST["submit_add_faculty"])){
     else
     {
         mysqli_query($conn,"insert into faculty values('$f_id','$f_name','$d_id')");
+        mysqli_query($conn,"insert into login values('$f_id','68e445b4745a37fb5a133fa0fa728400','teacher')");
     }
 } 
 else if(isset($_POST["submit_update_faculty"])){

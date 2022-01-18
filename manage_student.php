@@ -13,6 +13,7 @@ if(isset($_POST["submit_add_student"])){
     else
     {
         mysqli_query($conn,"insert into student values('$s_id','$s_name','$d_id')");
+        mysqli_query($conn,"insert into login values('$s_id','68e445b4745a37fb5a133fa0fa728400','student','abcd@gmail.com')");
     }
 } 
 else if(isset($_POST["submit_update_student"])){
