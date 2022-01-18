@@ -1,6 +1,6 @@
 <?php
 include "config.php";
-$id= $_GET['reg'];
+$id=$_SESSION['user_id'];
 $res=mysqli_query($conn,"select password from login where reg_id=$id");
 $row=mysqli_fetch_array($res);
 if( $row['password']=="CMS@123"   ){
@@ -58,7 +58,7 @@ if( $row['password']=="CMS@123"   ){
      </div>
     </div>
   <div class="col-lg-4 mb-4 mt-4">
-  <a href="" style="color:black"> 
+  <a href="manage_student.php" style="color:black"> 
   <div class="card">
       <img src="https://www.designmantic.com/blog/wp-content/uploads/2020/07/Graphic-Design-Courses-718x300.jpg" alt="" class="card-img-top">
       <div class="card-body">

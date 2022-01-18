@@ -1,6 +1,6 @@
 <?php
 include"config.php";
-$id=$_GET['reg'];
+$id=$_SESSION['user_id'];
 if(isset($_POST["submit"])){
     $pass1=$_POST['pass1'];
     $pass2=$_POST['pass2'];
@@ -8,7 +8,7 @@ if(isset($_POST["submit"])){
         if( $pass1!= "CMS@123"   ){
         mysqli_query($conn,"update `login` set password='$pass2' where reg_id=$id");
         echo '<script>alert("Your Password Has Been Changed Successfully");
-        window.location.href="login.php"</script>';
+        window.location.href="admin_dashboard.php"</script>';
         }
         else {
             echo '<script>alert("Use Some Other Password")</script>';
@@ -46,7 +46,7 @@ if(isset($_POST["submit"])){
                   <img src="https://seeklogo.com/images/G/graduated-online-education-logo-2327B5F5C0-seeklogo.com.png" style="width: 185px;" alt="logo">
                 </div>
 
-                <form method="POST" action="change_password.php?reg=<?php echo $id ?>">
+                <form method="POST" action="change_password.php">
                   <p><strong>Enter New Password</strong></p>
 
                   <div class="form-outline mb-4">

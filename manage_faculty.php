@@ -6,7 +6,6 @@ if(isset($_POST["submit_add_faculty"])){
     $f_id=$_POST["f_id"];
     $f_name=$_POST["f_name"];
     $d_id=$_POST["d_id"];
-    mysqli_query($conn,"insert into faculty values('$f_id','$f_name','$d_id')");
     if($f)
     {
         mysqli_query($conn,"update faculty set faculty_name='$f_name',dept_id='$d_id' where faculty_id='$f_id'");
@@ -136,7 +135,7 @@ else if(isset($_POST["submit_drop_faculty"])){
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-        <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Drop Department</h5>
+        <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Drop Faculty</h5>
         </div>
         <div class="modal-body">
           <form role="form" action="manage_faculty.php" method="POST">

@@ -6,14 +6,17 @@ if(isset($_POST["submit"])){
     $res=mysqli_query($conn,"select role from login where reg_id=$e and password='$p'");
     $row=mysqli_fetch_array($res);
     if( $row   ){
+        $_SESSION['user_id']=$e;
+        echo $_SESSION['id'];
         if($row['role']=="teacher")
            header("Location:teacher_dashboard.php");
         elseif($row['role']=="admin")
-            header("Location:admin_dashboard.php?reg=".strval($e));
+            header("Location:admin_dashboard.php");
         elseif($row['role']=="student")
             header("Location:student_dashboard.php");
     }
     else {
+
       echo '<script>alert("Invalid Password")</script>';
     }
 } 
