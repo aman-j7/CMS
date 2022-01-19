@@ -33,25 +33,24 @@ if(isset($_POST["submit1"])){
         $msg="Your otp is".strval($otp);
         echo $msg;
         $mail = new PHPMailer(true);
+        $mail->isSMTP();
+        $mail->SMTPSecure = 'tls';
+        $mail->Host = 'smtp.gmail.com';
+        $mail->SMTPAuth = true;
+        $mail->Port = 587;
+        $mail->Username = 'projectcms05@gmail.com';
+        $mail->Password = 'teaching@123';
         $mail->setFrom('projectcms05@gmail.com');
         $mail->addAddress($email);
         $mail->Subject = 'Otp for new password';
         $mail->Body = $msg;
-        $mail->isSMTP();
-        $mail->SMTPSecure = 'tls';
-        $mail->Host = 'ssl://smtp.gmail.com';
-        $mail->SMTPAuth = true;
-        $mail->Port = 587;
-        $mail->Username = 'projectcms05@gmail.com';
-
-        //Set the password of your gmail address here
-        $mail->Password = 'teaching@123';
+       
         if($mail->send()) {
-            echo '<script>alert("Email has been sent")</script>';
+            echo '<script>alert("Otp has been sent to the registered email id")</script>';
         }
         else
         {
-            echo '<script>alert("Email has not been sent");
+            echo '<script>alert("Error Occured!");
             window.location.href="login.php"</script>';
         }
         
@@ -95,8 +94,44 @@ if(isset($_POST["submit1"])){
         <td></td>
         <td><input id="submit" type="submit"  value="Submit" name="submit2"></td>
     </tr>
+    <tr>
+        <td></td>
+        <td>Time left = <span id="timer"></span></td>
+    </tr>
 </table>
 </form>
+
+<script>
+        document.getElementById('timer').innerHTML =
+        00 + ":" + 10;
+        Timer();
+
+
+        function Timer() {
+        var presentTime = document.getElementById('timer').innerHTML;
+        var timeArray = presentTime.split(/[:]+/);
+        var m = timeArray[0];
+        var s = second((timeArray[1] - 1));
+        if(s==59){m=m-1}
+        if(m<0){
+            alert("Otp has been exipiried");
+            window.location.href="forget.php";
+        }
+        
+        document.getElementById('timer').innerHTML =
+            m + ":" + s;
+        console.log(m)
+        setTimeout(Timer, 1000);
+      
+        
+        }
+      
+        function second(sec) {
+        if (sec < 10 && sec >= 0) {sec = "0" + sec};
+        if (sec < 0) {sec = "59"};
+        return sec;
+        }
+</script>
 <?php endif; ?>
 </body>
 </html>
