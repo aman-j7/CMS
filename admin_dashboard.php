@@ -5,10 +5,7 @@ $res=mysqli_query($conn,"select password from login where reg_id=$id");
 $row=mysqli_fetch_array($res);
 if( $row['password']=="68e445b4745a37fb5a133fa0fa728400"   ){
     header("Location:change_password.php");
-    
-
 }
-
 ?>
 <html>
     <head>
