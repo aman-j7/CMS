@@ -14,7 +14,7 @@ if(isset($_POST["submit2"])){
 	$reg=$_POST["reg"];
 	$flag=0;
     if($o1==$otp){
-    	mysqli_query($conn,"update `login` set password='CMS@123' where reg_id=$reg");
+    	mysqli_query($conn,"update `login` set password='68e445b4745a37fb5a133fa0fa728400' where reg_id=$reg");
         echo '<script>alert("Your default password is CMS@123");
         window.location.href="login.php"</script>';
     }
