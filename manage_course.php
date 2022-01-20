@@ -1,7 +1,8 @@
 <?php
 include"config.php";
-$flag1=0;
 $faculty=0;
+$flag=0;
+$student=0;
 if(isset($_POST["submit_add_course"])){
    $f=$_GET["f"];
    $c_id=$_POST["c_id"];
@@ -13,6 +14,9 @@ if(isset($_POST["submit_add_course"])){
   else
   {
     mysqli_query($conn,"insert into courses values('$c_id','$c_name')");
+    $myfile=fopen("$c_id.php","w");
+    fclose($myfile);
+    copy("faculty_template.php", "$c_id.php");
   }
 } 
 else if(isset($_POST["submit_update_course"])){
@@ -50,10 +54,38 @@ else if(isset($_POST["submit_update_faculty"])){
 }
 else if(isset($_POST["submit_drop_faculty"])){
   $c_id=$_POST["c_id"];
-  mysqli_query($conn,"DELETE FROM `courses` where course_id='$c_id'");
+  $f_id=$_POST['f_id'];
+  mysqli_query($conn,"DELETE FROM `teaches` where course_id='$c_id' AND faculty_id='$f_id'");
 }
 
-
+else if(isset($_POST["submit_add_student"])){
+  $f=$_GET["f"];
+  $c_id=$_POST["c_id"];
+  $s_id=$_POST["s_id"];
+    if($f)
+    {
+     $olds_id=$_POST['os_id'];
+     $oldc_id=$_POST['oc_id'];
+     mysqli_query($conn,"UPDATE `assign` SET `course_id`='$c_id',`student_id`='$s_id' WHERE `course_id` = '$oldc_id' AND `student_id`='$olds_id'");
+   }
+   else
+   {
+     mysqli_query($conn,"INSERT INTO `assign`(`course_id`, `student_id`) VALUES ('$c_id','$s_id')");
+   }
+ } 
+ else if(isset($_POST["submit_update_student"])){
+   $c_id=$_POST["c_id"];
+   $s_id=$_POST['s_id'];
+   $res=mysqli_query($conn,"SELECT `course_id`, `student_id` FROM `assign` WHERE `course_id`='$c_id' AND `student_id`='$s_id'");
+   $row=mysqli_fetch_array($res);
+   $student=1;
+ }
+ else if(isset($_POST["submit_drop_student"])){
+   $c_id=$_POST["c_id"];
+   $s_id=$_POST['s_id'];
+   mysqli_query($conn,"DELETE FROM `assign` where course_id='$c_id' AND student_id='$s_id'");
+ }
+ 
 ?>
 
 <html>
@@ -63,9 +95,6 @@ else if(isset($_POST["submit_drop_faculty"])){
   </title>
   <link rel="stylesheet" href="CSS/admin.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
@@ -98,6 +127,13 @@ else if(isset($_POST["submit_drop_faculty"])){
         });
         </script>";
       }
+      else if($student){
+        echo "<script type='text/javascript'>
+        $(document).ready(function(){
+          $('#modal7').modal('show');
+          });
+          </script>";
+        }
       ?>
       <nav class="navbar navbar-expand-md navbar-dark bg-dark">
         <div class="container-fluid">
@@ -132,7 +168,7 @@ else if(isset($_POST["submit_drop_faculty"])){
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel"><?php if($flag) echo "Update Faculty"; else echo "Add Faculty";?></h5>
+                <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel"><?php if($flag) echo "Update Course"; else echo "Add Course";?></h5>
               </div>
               <div class="modal-body">
                 <form role="form" action="manage_course.php?f=<?php echo $flag?>" method="POST">
@@ -220,13 +256,13 @@ else if(isset($_POST["submit_drop_faculty"])){
                   </div>
                   <div class="form-group">
                     <label>Faculty Id</label>
-                    <input type="text" class="form-control" placeholder="Enter Course name" name="f_id" value="<?php if($faculty) echo $row['faculty_id']; else echo "";?>" required>
+                    <input type="text" class="form-control" placeholder="Enter Faculty id" name="f_id" value="<?php if($faculty) echo $row['faculty_id']; else echo "";?>" required>
                   </div>
                 </div>
                 <?php
                   if($faculty){
                     echo "<input type='text' name='oc_id' value=$c_id hidden> ";
-                    echo "<input type='text' name='fc_id' value=$f_id hidden>\n";
+                    echo "<input type='text' name='of_id' value=$f_id hidden>\n";
                   }
                 ?>
                 <div class="modal-footer">
@@ -253,7 +289,7 @@ else if(isset($_POST["submit_drop_faculty"])){
                   </div>
                   <div class="form-group">
                     <label>Faculty Id</label>
-                    <input type="text" class="form-control"  name="f_id" placeholder="Enter Course id" required>
+                    <input type="text" class="form-control"  name="f_id" placeholder="Enter Faculty id" required>
                   </div>
                 </div>
                 <div class="modal-footer">
@@ -271,13 +307,17 @@ else if(isset($_POST["submit_drop_faculty"])){
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Drop Course</h5>
+                <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Drop Faculty Course</h5>
               </div>
               <div class="modal-body">
                 <form role="form" action="manage_course.php" method="POST">
                   <div class="form-group">
                     <label>Course Id</label>
                     <input type="text" class="form-control"  name="c_id" placeholder="Enter Course id" required>
+                  </div>
+                  <div class="form-group">
+                    <label>Faculty Id</label>
+                    <input type="text" class="form-control"  name="f_id" placeholder="Enter Faculty id" required>
                   </div>
                 </div>
                 <div class="modal-footer">
@@ -288,6 +328,99 @@ else if(isset($_POST["submit_drop_faculty"])){
             </div>
           </div>
         </div> 
+        
+
+
+
+        <div class="modal fade" id="modal7" role="dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel"><?php if($student) echo "Update Student Course"; else echo "Add Student Course";?></h5>
+              </div>
+              <div class="modal-body">
+                <form role="form" action="manage_course.php?f=<?php echo $student?>" method="POST">
+                  <div class="form-group">
+                    <label>Course Id</label>
+                    <input type="text" class="form-control"  name="c_id" placeholder="Enter Course id" value="<?php if($student) echo $row['course_id']; else echo "";?>" required>
+                  </div>
+                  <div class="form-group">
+                    <label>Student Id</label>
+                    <input type="text" class="form-control" placeholder="Enter Student id" name="s_id" value="<?php if($student) echo $row['student_id']; else echo "";?>" required>
+                  </div>
+                </div>
+                <?php
+                  if($student){
+                    echo "<input type='text' name='oc_id' value=$c_id hidden> ";
+                    echo "<input type='text' name='os_id' value=$s_id hidden>\n";
+                  }
+                ?>
+                <div class="modal-footer">
+                  <input type="submit" class="btn btn-default btn-success" name="submit_add_student" value="<?php if($student) echo "Update"; else echo "Add";?>"/>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div> 
+
+
+        <div class="modal fade" id="modal8" role="dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Update Student Course</h5>
+              </div>
+              <div class="modal-body">
+                <form role="form" action="manage_course.php" method="POST">
+                  <div class="form-group">
+                    <label>Course Id</label>
+                    <input type="text" class="form-control"  name="c_id" placeholder="Enter Course id" required>
+                  </div>
+                  <div class="form-group">
+                    <label>Student Id</label>
+                    <input type="text" class="form-control"  name="s_id" placeholder="Enter Student id" required>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <input type="submit" class="btn btn-default btn-success" name="submit_update_student" value="Proceed"/>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div> 
+
+
+
+        <div class="modal fade" id="modal9" role="dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Drop Student Course</h5>
+              </div>
+              <div class="modal-body">
+                <form role="form" action="manage_course.php" method="POST">
+                  <div class="form-group">
+                    <label>Course Id</label>
+                    <input type="text" class="form-control"  name="c_id" placeholder="Enter Course id" required>
+                  </div>
+                  <div class="form-group">
+                    <label>Student Id</label>
+                    <input type="text" class="form-control"  name="s_id" placeholder="Enter Student id" required>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <input type="submit" class="btn btn-default btn-success" name="submit_drop_student" value="Delete"/>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div> 
+
+
+
 
 
 
@@ -372,7 +505,7 @@ else if(isset($_POST["submit_drop_faculty"])){
             <div class="row">
               <div class="text-center"><h1><strong>Student</strong></h1></div>
               <div class="col-lg-4 mt-4">
-                <a href="" style="color:black">
+              <a href="#" data-bs-toggle="modal" data-bs-target="#modal7" style="color:black">
                   <div class="card">
                     <img src="https://www.easywork.asia/wp-content/uploads/2021/07/feature-attendance-report.svg" alt="" class="card-img-top" style="background-color:skyblue">
                     <div class="card-body">
@@ -382,7 +515,7 @@ else if(isset($_POST["submit_drop_faculty"])){
                 </div>
               </div>
               <div class="col-lg-4 mt-4">
-                <a href="" style="color:black">
+              <a href="#" data-bs-toggle="modal" data-bs-target="#modal8" style="color:black">
                   <div class="card">
                     <img src="https://icon-library.com/images/result-icon/result-icon-26.jpg" alt="" class="card-img-top">
                     <div class="card-body">
@@ -392,7 +525,7 @@ else if(isset($_POST["submit_drop_faculty"])){
                 </div>
               </div>
               <div class="col-lg-4 mt-4">
-                <a href="" style="color:black">
+              <a href="#" data-bs-toggle="modal" data-bs-target="#modal9" style="color:black">
                   <div class="card">
                     <img src="https://trackrover.com/wp-content/uploads/2019/07/Automatic-Attendance-and-Employee-Efficiency-Monitoring-Solution.jpg" alt="" class="card-img-top">
                     <div class="card-body">
