@@ -17,6 +17,7 @@ if(isset($_POST["submit_add_course"])){
     $myfile=fopen("$c_id.php","w");
     fclose($myfile);
     copy("faculty_template.php", "$c_id.php");
+    mysqli_query($conn,"CREATE TABLE $c_id ( `no` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, `header` VARCHAR(100) NOT NULL , `link` VARCHAR(100)  , `notes` VARCHAR(100)  , `ref` VARCHAR(100)  , `assigment` VARCHAR(100))");
   }
 } 
 else if(isset($_POST["submit_update_course"])){
@@ -28,6 +29,8 @@ else if(isset($_POST["submit_update_course"])){
 else if(isset($_POST["submit_drop_course"])){
   $c_id=$_POST["c_id"];
   mysqli_query($conn,"DELETE FROM `courses` where course_id='$c_id'");
+  mysqli_query($conn,"DROP TABLE $c_id");
+  unlink("$c_id.php");
 }
 
 else if(isset($_POST["submit_add_faculty"])){

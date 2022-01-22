@@ -1,12 +1,38 @@
 <?php
+include"config.php";
+$course=$_GET["course"];
 $flag=0;
 if(isset($_POST["submit"])){
-
+    $f=$_POST['f'];
     $h=$_POST["head"];
-    $mld=$_POST["material_link"];
+    $ml=$_POST["material_link"];
     $hl=$_POST["lecture_link"];
     $rl=$_POST['refrence'];
-    $flag=1;
+    $al=$_POST["assigment"];
+    if($hl=="")
+      $hl=NULL;
+    if($ml=="")
+      $ml=NULL;
+    if($rl=="")
+      $rl=NULL;
+    if($al=="")
+      $al=NULL;
+     if($f){
+       $no=$_POST['no'];
+       mysqli_query($conn,"UPDATE `$course` SET `header`='$h',`link`='$hl',`notes`='$ml',`ref`='$rl',`assigment`='$al' WHERE `no`=$no");
+     }
+     else
+      mysqli_query($conn,"INSERT INTO `$course` ( `header`, `link`, `notes`, `ref`, `assigment`) VALUES ('$h','$hl','$ml','$rl','$al')");
+} 
+else if(isset($_POST["update"])){
+  $no=$_POST['no'];
+  $up=mysqli_query($conn,"SELECT `no`, `header`, `link`, `notes`, `ref`, `assigment` FROM $course WHERE `no`=$no");
+  $up=mysqli_fetch_array($up);
+  $flag=1;
+} 
+else if(isset($_POST["delete"])){
+  $no=$_POST['no'];
+  mysqli_query($conn,"DELETE FROM $course WHERE  `no`=$no");
 } 
 ?>
 <html>
@@ -63,6 +89,15 @@ if(isset($_POST["submit"])){
 </nav>
 </head>
 <body>
+<?php			
+  if($flag) {
+    echo "<script type='text/javascript'>
+    $(document).ready(function(){
+      $('#modal1').modal('show');
+      });
+      </script>";
+    } 
+?>
 <div class="modal fade" id="modal1" role="dialog">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -70,26 +105,36 @@ if(isset($_POST["submit"])){
         <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Update  Student</h5>
         </div>
         <div class="modal-body">
-          <form role="form" action="tcs607.php" method="POST">
+          <form role="form" action="<?php echo $course.'.php?course='.$course;?>" method="POST">
             <div class="form-group">
               <label>Header</label>
-              <input type="text" class="form-control"  name="head" placeholder="header" required>
+              <input type="text" class="form-control"  name="head" placeholder="header" value="<?php if($flag) echo $up['header']; else echo "";?>" required>
             </div>
             <div class="form-group">
               <label>Lecuture Link</label>
-              <input type="text" class="form-control"  name="lecture_link" placeholder="Link" required>
+              <input type="text" class="form-control"  name="lecture_link" placeholder="Link" value="<?php if($flag) echo $up['link']; else echo "";?>" >
             </div>
             <div class="form-group">
               <label>Material Link</label>
-              <input type="text" class="form-control"  name="material_link" placeholder="Link" required>
+              <input type="text" class="form-control"  name="material_link" placeholder="Link" value="<?php if($flag) echo $up['notes']; else echo "";?>" >
             </div>
             <div class="form-group">
               <label>Refrences </label>
-              <input type="text" class="form-control"  name="refrence" placeholder="Link" required>
+              <input type="text" class="form-control"  name="refrence" placeholder="Link" value="<?php if($flag) echo $up['ref']; else echo "";?>">
             </div>
+            <div class="form-group">
+              <label>Assigment </label>
+              <input type="text" class="form-control"  name="assigment" placeholder="Link" value="<?php if($flag) echo $up['assigment']; else echo "";?>">
+            </div>
+            <input type="integer" name="f" value=<?php echo $flag;?> hidden>
+            <?php 
+            if($flag){
+              echo '<input type="integer" name="no" value='.$up['no'].' hidden><br>';
+            }
+            ?>
         </div>
         <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" onClick="onClick1" >Submit</button>
+        <input type="submit" class="btn btn-default btn-success" name="submit" value="<?php if($flag) echo 'Update'; else echo "Submit";?>"/>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
 </form>
@@ -98,36 +143,35 @@ if(isset($_POST["submit"])){
   </div>
 <button type="button" class="btn btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#modal1">Open Modal</button>
 <div class="container">
- <!-- <?php 
-    while($flag){
+ <?php 
+    $row=mysqli_query($conn,"SELECT `no`, `header`, `link`, `notes`, `ref`, `assigment` FROM $course");
+    while($res=mysqli_fetch_array($row)){
         echo '<div class="col-lg-4 mt-4">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title text-center">';
-            echo $h;
-            echo '</h5>
-            <a href="';
-            echo $hl;
-            echo '">lecture video link</a><br>
-            <a href="';
-            echo $mld;
-            echo '">Material link</a><br>
-            <a href="';
-            echo $rl;
-            echo 'S">refrences</a><br>
-         </div>
+            <h5 class="card-title text-center">'.$res['header'].'</h5>';
+            if($res['link']!=NULL)
+              echo'<a href="'.$res['link'].'">lecture video link</a><br>';
+            if($res['notes']!=NULL)
+              echo'<a href="'.$res['notes'].'">Material link</a><br>';
+            if($res['ref']!=NULL)
+              echo'<a href="'.$res['ref'].'">refrences</a><br>';
+            if($res['assigment']!=NULL)
+              echo'<a href="'.$res['assigment'].'">assigment</a><br>';
+         echo'</div>
+         <form role="form" action="'.$course.'.php?course='.$course.'" method="POST">
+         <tr>
+         <td><input type="integer" name="no" value='.$res['no'].' hidden></td>
+         <td><input type="submit" class="btn btn-default btn-success" name="update" value="Update"/></td>
+         <td><input type="submit" class="btn btn-default btn-success" name="delete" value="Delete"/></td>
+         </tr>
+         </form>
          </div>
         </div>';
-        $flag=0;
     }
-?> -->
+?>
 
 
 </div>
-<script>
-  function onClick1(){
-    alert("hi");
-  }
-  </script>
 </body>
 </html>

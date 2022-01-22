@@ -57,6 +57,7 @@ if(isset($_POST["submit"])){
 
                   <div class="form-outline mb-4">
                     <input type="password" name="password" required id="login2" class="form-control" placeholder="Password"/>
+                    <p id="error_pass"></p>
                   </div>
 
                   <div class="text-center pt-1 mb-5 pb-1">

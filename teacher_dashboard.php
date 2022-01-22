@@ -5,7 +5,7 @@ $res=mysqli_query($conn,"SELECT course_id FROM `teaches` WHERE faculty_id='f012'
 <html>
     <head>
     <title>
-      Manage Department
+      Teacher Dashboard
     </title>
     <link rel="stylesheet" href="CSS/admin.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -32,7 +32,7 @@ $res=mysqli_query($conn,"SELECT course_id FROM `teaches` WHERE faculty_id='f012'
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
       <li class="nav-item active">
-        <a class="nav-link" href="admin_dashboard.php">Home</a>
+        <a class="nav-link" href="teacher_dashboard.php">Home</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">Features</a>
@@ -65,15 +65,11 @@ $res=mysqli_query($conn,"SELECT course_id FROM `teaches` WHERE faculty_id='f012'
         echo '
                 <div class="row ">
                 <div class="col-lg-4 mb-4 mt-4 ">
-                    <a href="';
-                    echo $counter;
-                    echo'.php" style="color:black">
+                    <a href="'.$counter.'.php?course='.$counter.'" style="color:black">
                     <div class="card" >
                         <img src="https://news.miami.edu/life/_assets/images/images-stories/2019/08/faculty-new-year-940x529.jpg" alt="" class="card-img-top">
                         <div class="card-body">
-                        <h5 class="card-title text-center">';
-                        echo $counter;
-                        echo' </h5>
+                        <h5 class="card-title text-center">'.$counter.'</h5>
                         </a>
                     </div>
                     </div>
