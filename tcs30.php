@@ -38,7 +38,7 @@ else if(isset($_POST["delete"])){
 <html>
     <head>
     <title>
-      Manage Department
+      <?php echo $course;?>
     </title>
     <link rel="stylesheet" href="CSS/admin.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -141,37 +141,45 @@ else if(isset($_POST["delete"])){
       </div>
     </div>
   </div>
-<button type="button" class="btn btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#modal1">Open Modal</button>
-<div class="container">
+<section id="gallery ">
+<div class="container border border-3 d-grid gap-3 pb-4 px-4">
+  <div class="row text-center pt-4"><h2>Material</h2></div>
+  <button type="button" class="btn btn-info btn-dark" data-bs-toggle="modal" data-bs-target="#modal1"><h5>Add Material</h5></button>
  <?php 
     $row=mysqli_query($conn,"SELECT `no`, `header`, `link`, `notes`, `ref`, `assigment` FROM $course");
+    $c=0;
     while($res=mysqli_fetch_array($row)){
+        if($c%3==0)
+          echo' <div class="row ">';
+        $c=$c+1;
         echo '<div class="col-lg-4 mt-4">
-        <div class="card">
+        <div class="card border border-success">
           <div class="card-body">
             <h5 class="card-title text-center">'.$res['header'].'</h5>';
             if($res['link']!=NULL)
-              echo'<a href="'.$res['link'].'">lecture video link</a><br>';
+              echo'<a href="'.$res['link'].'" class="link-secondary">lecture video link</a><br>';
             if($res['notes']!=NULL)
-              echo'<a href="'.$res['notes'].'">Material link</a><br>';
+              echo'<a href="'.$res['notes'].'" class="link-secondary">Material link</a><br>';
             if($res['ref']!=NULL)
-              echo'<a href="'.$res['ref'].'">refrences</a><br>';
+              echo'<a href="'.$res['ref'].'" class="link-secondary">refrences</a><br>';
             if($res['assigment']!=NULL)
-              echo'<a href="'.$res['assigment'].'">assigment</a><br>';
+              echo'<a href="'.$res['assigment'].'" class="link-secondary">assigment</a><br>';
          echo'</div>
          <form role="form" action="'.$course.'.php?course='.$course.'" method="POST">
          <tr>
          <td><input type="integer" name="no" value='.$res['no'].' hidden></td>
-         <td><input type="submit" class="btn btn-default btn-success" name="update" value="Update"/></td>
-         <td><input type="submit" class="btn btn-default btn-success" name="delete" value="Delete"/></td>
+         <td><input type="submit" class="btn btn-default btn btn-outline-dark btn-sm mx-1" name="update" value="Update"/></td>
+         <td><input type="submit" class="btn btn-default btn-outline-danger btn-sm mx-1" name="delete" value="Delete"/></td>
          </tr>
          </form>
          </div>
         </div>';
+        if($c%3==0)
+          echo'</div>';
     }
 ?>
 
-
 </div>
+  </section>
 </body>
 </html>
