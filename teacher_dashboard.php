@@ -56,16 +56,21 @@ $res=mysqli_query($conn,"SELECT course_id FROM `teaches` WHERE faculty_id='f012'
 </nav>
 </head>
 <body>
-<section id="gallery">
-          <div class="container">
-    <?php
+  <div class="container mt-2 ">
+  <?php
+    $c=0;
     while($row=mysqli_fetch_array($res))
     {
-        $counter=$row['course_id'];
+      if($c%3==0)
+        echo'<div class="row">';
+      $c=$c+1;
+      $counter=$row['course_id'];
+      $t=mysqli_query($conn,"SELECT `course_name` FROM `courses` where course_id='$counter'");
+      $t=mysqli_fetch_array($t);
+      $t=$t["course_name"];
         echo '
-                <div class="row ">
                 <div class="col-lg-4 mb-4 mt-4 ">
-                    <a href="'.$counter.'.php?course='.$counter.'" style="color:black">
+                    <a href="'.$counter.'.php?course='.$counter.'& course_name='.$t.'" style="color:black">
                     <div class="card" >
                         <img src="https://news.miami.edu/life/_assets/images/images-stories/2019/08/faculty-new-year-940x529.jpg" alt="" class="card-img-top">
                         <div class="card-body">
@@ -73,11 +78,11 @@ $res=mysqli_query($conn,"SELECT course_id FROM `teaches` WHERE faculty_id='f012'
                         </a>
                     </div>
                     </div>
-                </div>
-                ';
+                    </div>';
+                    if($c%3==0)
+                    echo'</div>';
     }
     ?>
     </div>
-</section>
 </body>
 </html>
