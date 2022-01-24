@@ -1,4 +1,5 @@
 <?php
+$f=0;
 include"config.php";
 if(isset($_POST["submit"])){
     $e=$_POST["id"];
@@ -18,7 +19,7 @@ if(isset($_POST["submit"])){
     }
     else {
 
-      echo '<script>alert("Invalid Password")</script>';
+      $f=1;
     }
 } 
 ?>
@@ -43,11 +44,10 @@ if(isset($_POST["submit"])){
           <div class="row g-0">
             <div class="col-lg-6">
               <div class="card-body p-md-5 mx-md-4">
-
                 <div class="text-center mb-4">
                   <img src="https://seeklogo.com/images/G/graduated-online-education-logo-2327B5F5C0-seeklogo.com.png" style="width: 185px;" alt="logo">
                 </div>
-
+                <p id="error"></p>
                 <form method="POST" action="login.php">
                   <p><strong>Please login to your account</strong></p>
 
@@ -82,7 +82,20 @@ if(isset($_POST["submit"])){
     </div>
   </div>
 </section>
+<script>
+  function myfunc()
+  {
+    document.getElementById("error").innerHTML += 
+              '<div class="alert alert-danger" role="alert">Invalid login, please try again</div>';
 
+  }
+</script>
+<?php
+  if($f==1)
+  {
+    echo'<script>myfunc();</script>';
+  }
+?>
 </body>
 
 </html>

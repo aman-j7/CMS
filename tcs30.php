@@ -10,24 +10,28 @@ if(isset($_POST["submit"])){
     $hl=$_POST["lecture_link"];
     $rl=$_POST['refrence'];
     $al=$_POST["assigment"];
+    $ul=$_POST["upload"];
     if($hl=="")
       $hl=NULL;
     if($ml=="")
       $ml=NULL;
     if($rl=="")
       $rl=NULL;
-    if($al=="")
+    if($al==""||$ul=="")
+    {
       $al=NULL;
+      $ul=NULL;
+    }
      if($f){
        $no=$_POST['no'];
-       mysqli_query($conn,"UPDATE `$course` SET `header`='$h',`link`='$hl',`notes`='$ml',`ref`='$rl',`assigment`='$al' WHERE `no`=$no");
+       mysqli_query($conn,"UPDATE `$course` SET `header`='$h',`link`='$hl',`notes`='$ml',`ref`='$rl',`assigment`='$al',`upload`='$ul' WHERE `no`=$no");
      }
      else
-      mysqli_query($conn,"INSERT INTO `$course` ( `header`, `link`, `notes`, `ref`, `assigment`) VALUES ('$h','$hl','$ml','$rl','$al')");
+      mysqli_query($conn,"INSERT INTO `$course` ( `header`, `link`, `notes`, `ref`, `assigment,``upload`) VALUES ('$h','$hl','$ml','$rl','$al','$ul')");
 } 
 else if(isset($_POST["update"])){
   $no=$_POST['no'];
-  $up=mysqli_query($conn,"SELECT `no`, `header`, `link`, `notes`, `ref`, `assigment` FROM $course WHERE `no`=$no");
+  $up=mysqli_query($conn,"SELECT `no`, `header`, `link`, `notes`, `ref`, `assigment`,`upload` FROM $course WHERE `no`=$no");
   $up=mysqli_fetch_array($up);
   $flag=1;
 } 
@@ -105,26 +109,32 @@ else if(isset($_POST["delete"])){
         <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Update  Student</h5>
         </div>
         <div class="modal-body">
-          <form role="form" action="<?php echo $course.'.php?course='.$course;?>" method="POST">
+          <form role="form" action="<?php echo $course.'.php?course='.$course.'& course_name='.$subject;?>" method="POST">
             <div class="form-group">
               <label>Header</label>
-              <input type="text" class="form-control"  name="head" placeholder="header" value="<?php if($flag) echo $up['header']; else echo "";?>" required>
+              <input type="text" class="form-control"  name="head" placeholder="topic" value="<?php if($flag) echo $up['header']; else echo "";?>" required>
             </div>
             <div class="form-group">
-              <label>Lecuture Link</label>
-              <input type="text" class="form-control"  name="lecture_link" placeholder="Link" value="<?php if($flag) echo $up['link']; else echo "";?>" >
+              <label>Lecture Link</label>
+              <input type="text" class="form-control"  name="lecture_link" placeholder=" Lecture Link" value="<?php if($flag) echo $up['link']; else echo "";?>" >
             </div>
             <div class="form-group">
               <label>Material Link</label>
-              <input type="text" class="form-control"  name="material_link" placeholder="Link" value="<?php if($flag) echo $up['notes']; else echo "";?>" >
+              <input type="text" class="form-control"  name="material_link" placeholder="Material Link" value="<?php if($flag) echo $up['notes']; else echo "";?>" >
             </div>
             <div class="form-group">
               <label>Refrences </label>
-              <input type="text" class="form-control"  name="refrence" placeholder="Link" value="<?php if($flag) echo $up['ref']; else echo "";?>">
+              <input type="text" class="form-control"  name="refrence" placeholder="Reference Link" value="<?php if($flag) echo $up['ref']; else echo "";?>">
             </div>
             <div class="form-group">
-              <label>Assigment </label>
-              <input type="text" class="form-control"  name="assigment" placeholder="Link" value="<?php if($flag) echo $up['assigment']; else echo "";?>">
+              <label>Assigment Link</label>
+              <input type="text" class="form-control"  name="assigment" placeholder=" Assigment Link" value="<?php if($flag) echo $up['assigment']; else echo "";?>">
+              <label>Upload Link</label>
+              <input type="text" class="form-control"  name="upload" placeholder="Upload Link" value="<?php if($flag) echo $up['upload']; else echo "";?>">
+            </div>
+            <div class="form-group">
+              <label>Upload Link</label>
+              <input type="text" class="form-control"  name="upload" placeholder="Upload Link" value="<?php if($flag) echo $up['upload']; else echo "";?>">
             </div>
             <input type="integer" name="f" value=<?php echo $flag;?> hidden>
             <?php 
@@ -220,7 +230,7 @@ else if(isset($_POST["delete"])){
   <div class="row text-center pt-4"><h2>Material</h2></div>
   <button type="button" class="btn btn-info btn-dark" data-bs-toggle="modal" data-bs-target="#modal1"><h5>Add Material</h5></button>
  <?php 
-    $row=mysqli_query($conn,"SELECT `no`, `header`, `link`, `notes`, `ref`, `assigment` FROM $course");
+    $row=mysqli_query($conn,"SELECT `no`, `header`, `link`, `notes`, `ref`, `assigment`,`upload` FROM $course");
     $c=0;
     while($res=mysqli_fetch_array($row)){
         if($c%3==0)
@@ -237,9 +247,12 @@ else if(isset($_POST["delete"])){
             if($res['ref']!=NULL)
               echo'<a href="'.$res['ref'].'" class="link-secondary">refrences</a><br>';
             if($res['assigment']!=NULL)
-              echo'<a href="'.$res['assigment'].'" class="link-secondary">assigment</a><br>';
+            {
+              echo'<a href="'.$res['assigment'].'" class="link-secondary">assigment link</a><br>';
+              echo'<a href="'.$res['upload'].'" class="link-secondary">upload link</a><br>';
+            }
          echo'</div>
-         <form role="form" action="'.$course.'.php?course='.$course.'" method="POST">
+         <form role="form" action="'.$course.'.php?course='.$course.'& course_name='.$subject.'" method="POST">
          <tr>
          <td><input type="integer" name="no" value='.$res['no'].' hidden></td>
          <td><input type="submit" class="btn btn-default btn-outline-danger btn-sm mx-1 me-2" name="delete" value="Delete" style="float:right"/></td>
