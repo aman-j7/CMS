@@ -9,6 +9,7 @@ if(isset($_POST["submit"])){
     $row=mysqli_fetch_array($res);
     if( $row   ){
         $_SESSION['user_id']=$e;
+        $_SESSION['type']=$row['role'];
         echo $_SESSION['id'];
         if($row['role']=="teacher")
            header("Location:teacher_dashboard.php");

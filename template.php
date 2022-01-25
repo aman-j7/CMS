@@ -3,7 +3,7 @@ include"config.php";
 $course=$_GET["course"];
 $subject=$_GET["course_name"];
 $flag=0;
-$role="teacher";
+$role=$_SESSION['type'];
 if(isset($_POST["submit"])){
     $f=$_POST['f'];
     $h=$_POST["head"];
@@ -228,11 +228,14 @@ else if(isset($_POST["delete"])){
   ?>
   </h1>
 </div>
-<div class="container border border-3 d-grid gap-3 pb-4 px-4 mt-4">
+<?php
+if($role=="teacher")
+{
+echo'<div class="container border border-3 d-grid gap-3 pb-4 px-4 mt-4">
   <div class="row text-center pt-4"><h2>Material</h2></div>
-  <button type="button" class="btn btn-info btn-dark" data-bs-toggle="modal" data-bs-target="#modal1"><h5>Add Material</h5></button>
- <?php 
-    $row=mysqli_query($conn,"SELECT `no`, `header`, `link`, `notes`, `ref`, `assigment`,`upload` FROM $course");
+  <button type="button" class="btn btn-info btn-dark" data-bs-toggle="modal" data-bs-target="#modal1"><h5>Add Material</h5></button>'; 
+}
+$row=mysqli_query($conn,"SELECT `no`, `header`, `link`, `notes`, `ref`, `assigment`,`upload` FROM $course");
     $c=0;
     while($res=mysqli_fetch_array($row)){
         if($c%3==0)
