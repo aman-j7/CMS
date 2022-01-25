@@ -3,6 +3,7 @@ include"config.php";
 $course=$_GET["course"];
 $subject=$_GET["course_name"];
 $flag=0;
+$role="teacher";
 if(isset($_POST["submit"])){
     $f=$_POST['f'];
     $h=$_POST["head"];
@@ -93,64 +94,56 @@ else if(isset($_POST["delete"])){
 </nav>
 </head>
 <body>
-<?php			
-  if($flag) {
-    echo "<script type='text/javascript'>
-    $(document).ready(function(){
-      $('#modal1').modal('show');
-      });
-      </script>";
-    } 
+
+<?php
+    if($role=="teacher"){
+
+         echo '<div class="modal fade" id="modal1" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Update  Student</h5>
+            </div>
+            <div class="modal-body">
+              <form role="form" action="'.$course.'.php?course='.$course.'& course_name='.$subject; echo '" method="POST">
+                <div class="form-group">
+                  <label>Header</label>
+                  <input type="text" class="form-control"  name="head" placeholder="topic" value="'; if($flag) echo $up['header']; else echo "";echo'" required>
+                </div>
+                <div class="form-group">
+                  <label>Lecture Link</label>
+                  <input type="text" class="form-control"  name="lecture_link" placeholder=" Lecture Link" value="'; if($flag) echo $up['link']; else echo "";echo '" >
+                </div>
+                <div class="form-group">
+                  <label>Material Link</label>
+                  <input type="text" class="form-control"  name="material_link" placeholder="Material Link" value="'; if($flag) echo $up['notes']; else echo "";echo '" >
+                </div>
+                <div class="form-group">
+                  <label>Refrences </label>
+                  <input type="text" class="form-control"  name="refrence" placeholder="Reference Link" value="'; if($flag) echo $up['ref']; else echo "";echo '">
+                </div>
+                <div class="form-group">
+                  <label>Assigment Link</label>
+                  <input type="text" class="form-control"  name="assigment" placeholder=" Assigment Link" value="'; if($flag) echo $up['assigment']; else echo "";echo '">
+                  <label>Upload Link</label>
+                  <input type="text" class="form-control"  name="upload" placeholder="Upload Link" value="'; if($flag) echo $up['upload']; else echo ""; echo'">
+                </div>
+                <input type="integer" name="f" value='.$flag.' hidden>';
+                if($flag){
+                  echo '<input type="integer" name="no" value='.$up['no'].' hidden><br>';
+                }
+                echo '
+            </div>
+            <div class="modal-footer">
+            <input type="submit" class="btn btn-default btn-success" name="submit" value="'; if($flag) echo 'Update'; else echo "Submit";echo '"/>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+    </form>
+          </div>
+        </div>
+      </div>';
+    }
 ?>
-<div class="modal fade" id="modal1" role="dialog">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-        <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Update  Student</h5>
-        </div>
-        <div class="modal-body">
-          <form role="form" action="<?php echo $course.'.php?course='.$course.'& course_name='.$subject;?>" method="POST">
-            <div class="form-group">
-              <label>Header</label>
-              <input type="text" class="form-control"  name="head" placeholder="topic" value="<?php if($flag) echo $up['header']; else echo "";?>" required>
-            </div>
-            <div class="form-group">
-              <label>Lecture Link</label>
-              <input type="text" class="form-control"  name="lecture_link" placeholder=" Lecture Link" value="<?php if($flag) echo $up['link']; else echo "";?>" >
-            </div>
-            <div class="form-group">
-              <label>Material Link</label>
-              <input type="text" class="form-control"  name="material_link" placeholder="Material Link" value="<?php if($flag) echo $up['notes']; else echo "";?>" >
-            </div>
-            <div class="form-group">
-              <label>Refrences </label>
-              <input type="text" class="form-control"  name="refrence" placeholder="Reference Link" value="<?php if($flag) echo $up['ref']; else echo "";?>">
-            </div>
-            <div class="form-group">
-              <label>Assigment Link</label>
-              <input type="text" class="form-control"  name="assigment" placeholder=" Assigment Link" value="<?php if($flag) echo $up['assigment']; else echo "";?>">
-              <label>Upload Link</label>
-              <input type="text" class="form-control"  name="upload" placeholder="Upload Link" value="<?php if($flag) echo $up['upload']; else echo "";?>">
-            </div>
-            <div class="form-group">
-              <label>Upload Link</label>
-              <input type="text" class="form-control"  name="upload" placeholder="Upload Link" value="<?php if($flag) echo $up['upload']; else echo "";?>">
-            </div>
-            <input type="integer" name="f" value=<?php echo $flag;?> hidden>
-            <?php 
-            if($flag){
-              echo '<input type="integer" name="no" value='.$up['no'].' hidden><br>';
-            }
-            ?>
-        </div>
-        <div class="modal-footer">
-        <input type="submit" class="btn btn-default btn-success" name="submit" value="<?php if($flag) echo 'Update'; else echo "Submit";?>"/>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
-</form>
-      </div>
-    </div>
-  </div>
   <div class="container-fluid">
     <div class="row flex-nowrap">
         <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
@@ -220,6 +213,15 @@ else if(isset($_POST["delete"])){
         </div>
         <div class="col py-3 ">
         <div class="container border border-3 mt-4 ">
+        <?php			
+  if($flag) {
+    echo "<script type='text/javascript'>
+    $(document).ready(function(){
+      $('#modal1').modal('show');
+      });
+      </script>";
+    } 
+?>
   <h1 class="text-center pt-2 pb-2">
   <?php
     echo $subject.' ('.$course.')';
@@ -251,14 +253,17 @@ else if(isset($_POST["delete"])){
               echo'<a href="'.$res['assigment'].'" class="link-secondary">assigment link</a><br>';
               echo'<a href="'.$res['upload'].'" class="link-secondary">upload link</a><br>';
             }
-         echo'</div>
-         <form role="form" action="'.$course.'.php?course='.$course.'& course_name='.$subject.'" method="POST">
-         <tr>
-         <td><input type="integer" name="no" value='.$res['no'].' hidden></td>
-         <td><input type="submit" class="btn btn-default btn-outline-danger btn-sm mx-1 me-2" name="delete" value="Delete" style="float:right"/></td>
-         <td><input type="submit" class="btn btn-default btn btn-outline-dark btn-sm mx-1 me-2" name="update" value="Update" style="float:right"/></td>
-         </tr>
-         </form>
+         echo'</div>';
+        if($role=="teacher"){
+           echo '<form role="form" action="'.$course.'.php?course='.$course.'& course_name='.$subject.'" method="POST">
+           <tr>
+           <td><input type="integer" name="no" value='.$res['no'].' hidden></td>
+           <td><input type="submit" class="btn btn-default btn-outline-danger btn-sm mx-1 me-2" name="delete" value="Delete" style="float:right"/></td>
+           <td><input type="submit" class="btn btn-default btn btn-outline-dark btn-sm mx-1 me-2" name="update" value="Update" style="float:right"/></td>
+           </tr>
+           </form>';
+        }
+         echo '
          </div>
         </div>';
         if($c%3==0)
