@@ -3,7 +3,7 @@ include"config.php";
 $course=$_GET["course"];
 $subject=$_GET["course_name"];
 $flag=0;
-$role="student";
+$role="teacher";
 if(isset($_POST["submit"])){
     $f=$_POST['f'];
     $h=$_POST["head"];
