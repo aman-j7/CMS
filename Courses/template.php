@@ -1,5 +1,5 @@
 <?php
-include "includes/config.php";
+include "../includes/config.php";
 $course = $_GET["course"];
 $subject = $_GET["course_name"];
 $flag = 0;

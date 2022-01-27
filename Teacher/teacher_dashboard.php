@@ -33,7 +33,7 @@ $res = mysqli_query($conn, "SELECT course_id FROM `teaches` WHERE faculty_id='f0
       $t = $t["course_name"];
       echo '
                 <div class="col-lg-4 mb-4 mt-4 ">
-                    <a href="' . $counter . '.php?course=' . $counter . '& course_name=' . $t . '" style="color:black">
+                    <a href="../Courses/' .$counter . '.php?course=' . $counter . '& course_name=' . $t . '" style="color:black">
                     <div class="card" >
                         <img src="https://news.miami.edu/life/_assets/images/images-stories/2019/08/faculty-new-year-940x529.jpg" alt="" class="card-img-top">
                         <div class="card-body">
