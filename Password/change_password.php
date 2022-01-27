@@ -1,5 +1,5 @@
 <?php
-include"config.php";
+include "../includes/config.php";
 $id=$_SESSION['user_id'];
 if(isset($_POST["submit"])){
     $pass1=$_POST['pass1'];
@@ -25,7 +25,7 @@ if(isset($_POST["submit"])){
 
 <head>
 
-<link rel="stylesheet" href="CSS/cms.css">
+<link rel="stylesheet" href="CSS/login.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <title>E-Learning</title>
 

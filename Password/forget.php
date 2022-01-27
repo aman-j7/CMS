@@ -2,8 +2,8 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
   
-require 'vendor/autoload.php';
-include"config.php";
+require '../vendor/autoload.php';
+include"../includes/config.php";
 $flag=1;
 $otp=0;
 $reg=0;
@@ -114,7 +114,7 @@ if(isset($_POST["submit1"])){
         var s = second((timeArray[1] - 1));
         if(s==59){m=m-1}
         if(m<0){
-            alert("Otp has been exipiried");
+            alert("Otp has been exipired");
             window.location.href="forget.php";
         }
         
