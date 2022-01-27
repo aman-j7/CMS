@@ -10,8 +10,10 @@ if (isset($_POST["submit"])) {
   if ($row) {
     $_SESSION['user_id'] = $e;
     $_SESSION['type'] = $row['role'];
-    echo $_SESSION['id'];
-    if ($row['role'] == "teacher")
+    if ($p== "68e445b4745a37fb5a133fa0fa728400") {
+      header("Location:Password/change_password.php");
+    }
+    elseif ($row['role'] == "teacher")
       header("Location:Teacher/teacher_dashboard.php");
     elseif ($row['role'] == "admin")
       header("Location:Admin/admin_dashboard.php");

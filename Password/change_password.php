@@ -8,7 +8,7 @@ if(isset($_POST["submit"])){
         if( $pass1!= "CMS@123"   ){
         mysqli_query($conn,"update `login` set password='$pass2' where reg_id=$id");
         echo '<script>alert("Your Password Has Been Changed Successfully");
-        window.location.href="admin_dashboard.php"</script>';
+        window.location.href="../Admin/admin_dashboard.php"</script>';
         }
         else {
             echo '<script>alert("Use Some Other Password")</script>';

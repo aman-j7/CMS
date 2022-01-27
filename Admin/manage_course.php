@@ -11,9 +11,9 @@ if (isset($_POST["submit_add_course"])) {
     mysqli_query($conn, "update courses set course_name='$c_name' where course_id='$c_id'");
   } else {
     mysqli_query($conn, "insert into courses values('$c_id','$c_name')");
-    $myfile = fopen("$c_id.php", "w");
+    $myfile = fopen("../Courses/$c_id.php", "w");
     fclose($myfile);
-    copy("template.php", "$c_id.php");
+    copy("../Courses/template.php", "../Courses/$c_id.php");
     mysqli_query($conn, "CREATE TABLE $c_id ( `no` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, `header` VARCHAR(100) NOT NULL , `link` VARCHAR(100)  , `notes` VARCHAR(100)  , `ref` VARCHAR(100)  , `assigment` VARCHAR(100), `upload` VARCHAR(100))");
   }
 } else if (isset($_POST["submit_update_course"])) {
