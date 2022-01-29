@@ -1,6 +1,8 @@
 <?php
 include "../includes/config.php";
 $id=$_SESSION['user_id'];
+$same_pass=0;
+$wrong_pass=0;
 if(isset($_POST["submit"])){
     $pass1=$_POST['pass1'];
     $pass2=$_POST['pass2'];
@@ -8,14 +10,14 @@ if(isset($_POST["submit"])){
         if( $pass1!= "CMS@123"   ){
         mysqli_query($conn,"update `login` set password='$pass2' where reg_id=$id");
         echo '<script>alert("Your Password Has Been Changed Successfully");
-        window.location.href="../Admin/admin_dashboard.php"</script>';
+        window.location.href="../login.php"</script>';
         }
         else {
-            echo '<script>alert("Use Some Other Password")</script>';
+            $same_pass=1;
         }
     }
     else{
-        echo '<script>alert("Your Password Does Not Match")</script>';
+        $wrong_pass=1;
     }
 } 
 ?>
@@ -25,9 +27,9 @@ if(isset($_POST["submit"])){
 
 <head>
 
-<link rel="stylesheet" href="CSS/login.css">
+<link rel="stylesheet" href="../CSS/login.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <title>E-Learning</title>
+    <title>Change Password</title>
 
 </head>
 
@@ -45,10 +47,11 @@ if(isset($_POST["submit"])){
                 <div class="text-center mb-4">
                   <img src="https://seeklogo.com/images/G/graduated-online-education-logo-2327B5F5C0-seeklogo.com.png" style="width: 185px;" alt="logo">
                 </div>
-
-                <form method="POST" action="change_password.php">
+                 
+                <form method="POST" action="change_password.php" autocomplete="off">
+                <?php if($same_pass) echo'<div class="alert alert-info" role="alert">Cannot Use Default password!</div>';
+                      if($wrong_pass) echo'<div class="alert alert-danger" role="alert">Password does not match!</div>';?>
                   <p><strong>Enter New Password</strong></p>
-
                   <div class="form-outline mb-4">
                     <input type="text" name="pass1"  class="form-control" placeholder="New Password"/>
                   </div>

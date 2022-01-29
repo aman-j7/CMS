@@ -9,7 +9,7 @@ if (isset($_POST["submit"])) {
   if ($row) {
     $_SESSION['user_id'] = $e;
     $_SESSION['type'] = $row['role'];
-    if ($p== "68e445b4745a37fb5a133fa0fa728400") {
+    if ($p== "CMS@123") {
       header("Location:Password/change_password.php");
     }
     elseif ($row['role'] == "teacher")
@@ -49,7 +49,7 @@ if (isset($_POST["submit"])) {
                     <img src="https://seeklogo.com/images/G/graduated-online-education-logo-2327B5F5C0-seeklogo.com.png" style="width: 185px;" alt="logo">
                   </div>
                   <p id="error"></p>
-                  <form method="POST" action="login.php">
+                  <form method="POST" action="login.php" autocomplete="off">
                     <p><strong>Please login to your account</strong></p>
 
                     <div class="form-outline mb-4">
