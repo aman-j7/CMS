@@ -7,15 +7,6 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="admin_dashboard.php">Home</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Features</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Pricing</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#">Disabled</a>
-                </li>
             </ul>
         </div>
         <div class="dropdown">

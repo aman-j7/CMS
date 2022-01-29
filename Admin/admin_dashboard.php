@@ -20,11 +20,15 @@ $id = $_SESSION['user_id'];
 
   <?php include '../includes/navbar.php'; ?>
   
-  <section id="header" class="jumbotron text-center">
-    <h1 class="display-3">Welcome</h1>
-  </section>
 
-  <section id="gallery">
+<div class="container border border-3 mt-4 ">
+<h1 class="text-center pt-2 pb-2">
+  WELCOME
+</h1>
+</div>
+
+
+  <div class="container border border-3 d-grid gap-3 pb-4 px-4 mt-4">
     <div class="container">
       <div class="row ">
         <div class="col-lg-4 mb-4 mt-4 ">
@@ -93,7 +97,7 @@ $id = $_SESSION['user_id'];
     </div>
     </div>
     </div>
-  </section>
+</div>
   </div>
   </div>
 </body>
