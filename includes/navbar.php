@@ -9,19 +9,16 @@
                 </li>
             </ul>
         </div>
-        <div class="dropdown">
-            <div id="nav_user">
-                <a href="#" onclick="myFunction()">
-                    <svg class="dropbtn bg-dark" xmlns="http://www.w3.org/2000/svg" width="70" height="30" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
-                    </svg></a>
-            </div>
+        <div id="nav_user" class="dropdown">
             <button onclick="myFunction()" class="dropbtn bg-dark">Dropdown</button>
+            <a href="javascript:myFunction();">
+                <svg class="dropbtn bg-dark" xmlns="http://www.w3.org/2000/svg" width="70" height="30" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+                </svg></a>
             <div id="myDropdown" class="dropdown-content">
-                <a href="#home">Home</a>
-                <a href="#about">About</a>
-                <a href="#contact">Contact</a>
+                <a href="#home">Profile</a>
+                <a href="#about">Logout</a>
             </div>
         </div>
     </div>
