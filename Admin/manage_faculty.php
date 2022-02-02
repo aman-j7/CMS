@@ -1,14 +1,8 @@
 <?php
 include "../includes/config.php";
+include "../includes/random_color.php";
 $flag = 0;
-function randomHex() {
-   $chars = 'ABCDEF0123456789';
-   $color = '#';
-   for ( $i = 0; $i < 6; $i++ ) {
-      $color .= $chars[rand(0, strlen($chars) - 1)];
-   }
-   return $color;
-}
+
 if (isset($_POST["submit_add_faculty"])) {
   $f = $_GET["f"];
   $f_id = $_POST["f_id"];
@@ -44,15 +38,6 @@ if (isset($_POST["submit_add_faculty"])) {
   <link rel="stylesheet" href="../css/admin.css">
   <link rel="stylesheet" href="../css/header.css">
   <script type="text/javascript" src="../js/header.js"></script>
-
-  <style>
-    .card-img {
-      height: 300px;
-      width: 100%;
-      background-attachment: fixed;
-      background-size: cover;
-    }
-  </style>
 
 </head>
 
@@ -164,7 +149,7 @@ if (isset($_POST["submit_add_faculty"])) {
         <div class="col-lg-4 mt-4">
           <a href="#" data-bs-toggle="modal" data-bs-target="#modal1" style="color:black">
             <div class="card">
-            <img src="../images/box-img1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex();?>">
+            <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex();?>">
               <div class="card-body">
                 <h5 class="card-title text-center">Add Faculty </h5>
           </a>
@@ -174,7 +159,7 @@ if (isset($_POST["submit_add_faculty"])) {
     <div class="col-lg-4 mt-4">
       <a href="#" data-bs-toggle="modal" data-bs-target="#modal2" style="color:black">
         <div class="card">
-          <img src="../images/box-img1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex();?>">
+          <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex();?>">
           <div class="card-body">
             <h5 class="card-title text-center">Update Faculty</h5>
       </a>
@@ -184,7 +169,7 @@ if (isset($_POST["submit_add_faculty"])) {
     <div class="col-lg-4 mt-4">
       <a href="#" data-bs-toggle="modal" data-bs-target="#modal3" style="color:black">
         <div class="card">
-          <img src="../images/box-img1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex();?>">
+          <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex();?>">
           <div class="card-body">
             <h5 class="card-title text-center">Drop Faculty</h5>
       </a>

@@ -1,5 +1,6 @@
 <?php
 include "../includes/config.php";
+include "../includes/random_color.php";
 $faculty = 0;
 $flag = 0;
 $student = 0;
@@ -399,7 +400,7 @@ if (isset($_POST["submit_add_course"])) {
         <div class="col-lg-4 mb-4 mt-4 ">
           <a href="#" data-bs-toggle="modal" data-bs-target="#modal1" style="color:black">
             <div class="card">
-              <img src="https://news.miami.edu/life/_assets/images/images-stories/2019/08/faculty-new-year-940x529.jpg" alt="" class="card-img-top">
+            <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex();?>">
               <div class="card-body">
                 <h5 class="card-title text-center">Add Courses</h5>
           </a>
@@ -409,7 +410,7 @@ if (isset($_POST["submit_add_course"])) {
     <div class="col-lg-4 mb-4 mt-4">
       <a href="#" data-bs-toggle="modal" data-bs-target="#modal2" style="color:black">
         <div class="card">
-          <img src="https://www.designmantic.com/blog/wp-content/uploads/2020/07/Graphic-Design-Courses-718x300.jpg" alt="" class="card-img-top">
+        <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex();?>">
           <div class="card-body">
             <h5 class="card-title text-center">Update Courses</h5>
       </a>
@@ -419,7 +420,7 @@ if (isset($_POST["submit_add_course"])) {
     <div class="col-lg-4 mb-4 mt-4">
       <a href="#" data-bs-toggle="modal" data-bs-target="#modal3" style="color:black">
         <div class="card">
-          <img src="https://media1.thehungryjpeg.com/thumbs2/800_121015_63396a0e1974444fdcdfc91bc487db4074c67f9b_happy-people-reading-books-in-garden.jpg" alt="" class="card-img-top">
+        <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex();?>">
           <div class="card-body">
             <h5 class="card-title text-center">Drop Courses</h5>
       </a>
@@ -436,7 +437,7 @@ if (isset($_POST["submit_add_course"])) {
       <div class="col-lg-4 mt-4">
         <a href="#" data-bs-toggle="modal" data-bs-target="#modal4" style="color:black">
           <div class="card">
-            <img src="https://www.easywork.asia/wp-content/uploads/2021/07/feature-attendance-report.svg" alt="" class="card-img-top" style="background-color:skyblue">
+          <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex();?>">
             <div class="card-body">
               <h5 class="card-title text-center">Add Faculty Course</h5>
         </a>
@@ -446,7 +447,7 @@ if (isset($_POST["submit_add_course"])) {
     <div class="col-lg-4 mt-4">
       <a href="#" data-bs-toggle="modal" data-bs-target="#modal5" style="color:black">
         <div class="card">
-          <img src="https://icon-library.com/images/result-icon/result-icon-26.jpg" alt="" class="card-img-top">
+        <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex();?>">
           <div class="card-body">
             <h5 class="card-title text-center">Update Faculty Course</h5>
       </a>
@@ -456,7 +457,7 @@ if (isset($_POST["submit_add_course"])) {
     <div class="col-lg-4 mt-4">
       <a href="#" data-bs-toggle="modal" data-bs-target="#modal6" style="color:black">
         <div class="card">
-          <img src="https://trackrover.com/wp-content/uploads/2019/07/Automatic-Attendance-and-Employee-Efficiency-Monitoring-Solution.jpg" alt="" class="card-img-top">
+        <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex();?>">
           <div class="card-body">
             <h5 class="card-title text-center">Drop Faculty Course</h5>
       </a>
@@ -473,7 +474,7 @@ if (isset($_POST["submit_add_course"])) {
       <div class="col-lg-4 mt-4">
         <a href="#" data-bs-toggle="modal" data-bs-target="#modal7" style="color:black">
           <div class="card">
-            <img src="https://www.easywork.asia/wp-content/uploads/2021/07/feature-attendance-report.svg" alt="" class="card-img-top" style="background-color:skyblue">
+          <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex();?>">
             <div class="card-body">
               <h5 class="card-title text-center">Add Student Course</h5>
         </a>
@@ -483,7 +484,7 @@ if (isset($_POST["submit_add_course"])) {
     <div class="col-lg-4 mt-4">
       <a href="#" data-bs-toggle="modal" data-bs-target="#modal8" style="color:black">
         <div class="card">
-          <img src="https://icon-library.com/images/result-icon/result-icon-26.jpg" alt="" class="card-img-top">
+        <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex();?>">
           <div class="card-body">
             <h5 class="card-title text-center">Update Student Course</h5>
       </a>
@@ -493,7 +494,7 @@ if (isset($_POST["submit_add_course"])) {
     <div class="col-lg-4 mt-4">
       <a href="#" data-bs-toggle="modal" data-bs-target="#modal9" style="color:black">
         <div class="card">
-          <img src="https://trackrover.com/wp-content/uploads/2019/07/Automatic-Attendance-and-Employee-Efficiency-Monitoring-Solution.jpg" alt="" class="card-img-top">
+        <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex();?>">
           <div class="card-body">
             <h5 class="card-title text-center">Drop Student Course</h5>
       </a>

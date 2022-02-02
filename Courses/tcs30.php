@@ -106,7 +106,7 @@ if (isset($_POST["submit"])) {
             </div>
             <div class="modal-body">
               <form role="form" action="' . $course . '.php?course=' . $course . '& course_name=' . $subject;
-    echo '" method="POST">
+    echo '" method="POST" autocomplete="off">
                 <div class="form-group">
                   <label>Header</label>
                   <input type="text" class="form-control"  name="head" placeholder="topic" value="';

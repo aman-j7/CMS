@@ -19,11 +19,9 @@ $id = $_SESSION['user_id'];
 <body>
 
   <?php include '../includes/navbar.php'; ?>
-  
-
-<div class="container border border-3 mt-4 ">
+<div class="container mt-4 ">
 <h1 class="text-center pt-2 pb-2">
-  WELCOME
+  DASHBOARD
 </h1>
 </div>
 

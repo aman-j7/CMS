@@ -11,6 +11,14 @@
 .card-img-top {
   height: 300px;
   width: 100%;
+} 
+  .modal-dialog {
+    min-height: calc(100vh - 60px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: auto;
+
 }
 .modal-header,
 .close {
@@ -22,4 +30,25 @@
 
 .modal-footer {
   background-color: #f9f9f9;
+}
+@-webkit-keyframes modal-animation {
+  from {
+      top: -100px;
+      opacity: 0;
+  }
+  to {
+      top: 0px;
+      opacity: 1;
+  }
+}
+
+@keyframes modal-animation {
+  from {
+      top: -100px;
+      opacity: 0;
+  }
+  to {
+      top: 0px;
+      opacity: 1;
+  }
 }
