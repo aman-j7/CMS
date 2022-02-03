@@ -2,11 +2,13 @@ form {
   font-family: Helvetica, sans-serif;
 }
 
-.gradient-form {
+body {
   background-image: url("../images/login_bg_img.jpg");
+}
+
+.gradient-form {
   background-repeat: repeat;
   background-size: cover;
-  background-color:  #7ac5c5;
 }
 
 .fade {
