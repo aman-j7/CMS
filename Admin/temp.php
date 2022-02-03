@@ -17,7 +17,14 @@ if (isset($_POST["submit_add_faculty"])) {
   echo "innn";
 } 
 else if (isset($_POST["csv"])){
-  echo "csv";
+  $handle = fopen($_FILES['file1']['name'], "r");
+  $headers = fgetcsv($handle, 1000, ",");
+  while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) 
+  {
+    mysqli_query($conn, "insert into faculty values('$data[0]','$data[1]','$data[2]')");
+    mysqli_query($conn, "insert into login values('$data[0]','CMS@123','teacher')");
+  }
+
 }
 ?>
 <html>
@@ -125,7 +132,7 @@ else if (isset($_POST["csv"])){
         tmp[2].disabled=true;
         let file=document.createElement("input");
         file.type="file";
-        file.name="file";
+        file.name="file1";
         file.id="file";
         file.required=true;
         tmp[3].appendChild(file);
@@ -136,7 +143,7 @@ else if (isset($_POST["csv"])){
         tmp[0].disabled=false;
         tmp[1].disabled=false;
         tmp[2].disabled=false;
-        let file = document.getElementById("file");
+        let file = document.getElementById("file1");
         tmp[3].removeChild(file);
         tmp[4].setAttribute("name","submit_add_faculty");
     }
