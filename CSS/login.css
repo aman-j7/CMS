@@ -6,11 +6,6 @@ body {
   background-image: url("../images/login_bg_img.jpg");
 }
 
-.gradient-form {
-  background-repeat: repeat;
-  background-size: cover;
-}
-
 .fade {
   -webkit-animation-name: fade;
   -webkit-animation-duration: 0.5s;
