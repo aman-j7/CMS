@@ -14,24 +14,20 @@ if (isset($_POST["submit_add_faculty"])) {
     mysqli_query($conn, "insert into faculty values('$f_id','$f_name','$d_id')");
     mysqli_query($conn, "insert into login values('$f_id','CMS@123','teacher')");
   }
-  echo "innn";
 } 
 else if (isset($_POST["csv"])){
-  $handle = fopen($_FILES['file1']['name'], "r");
-  $headers = fgetcsv($handle, 1000, ",");
-  while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) 
-  {
-    mysqli_query($conn, "insert into faculty values('$data[0]','$data[1]','$data[2]')");
-    mysqli_query($conn, "insert into login values('$data[0]','CMS@123','teacher')");
-  }
-
+    $handle = fopen($_FILES['filename']['tmp_name'], "r");
+    fgetcsv($handle, 1000, ",");
+    while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) 
+    {
+      mysqli_query($conn, "insert into faculty values('$data[0]','$data[1]','$data[2]')");
+      mysqli_query($conn, "insert into login values('$data[0]','CMS@123','teacher','abc@gamil.com')");
+    }
+    fclose($handle);
 }
 ?>
 <html>
-
 <head>
-
-
   <title>
     Manage Faculty
   </title>
@@ -66,7 +62,7 @@ else if (isset($_POST["csv"])){
                                                                                 else echo "Add Faculty"; ?></h5>
         </div>
         <div class="modal-body">
-          <form role="form" action="temp.php?f=<?php echo $flag ?>" method="POST">
+          <form role="form" action="temp.php?f=<?php echo $flag ?>" method="POST" enctype='multipart/form-data's>
             <div class="form-group">
               <label>Faculty Id</label>
               <input type="text" class="form-control input1" name="f_id" placeholder="Enter Faculty id" value="<?php if ($flag) echo $row['faculty_id'];
@@ -87,7 +83,7 @@ else if (isset($_POST["csv"])){
               <label>Update Using CSV File</label>
             </div>
             <div class="form-group input1">
-              
+            <input size='50' type='file' name='filename'>
             </div>
         </div>
 
@@ -130,12 +126,13 @@ else if (isset($_POST["csv"])){
         tmp[0].disabled=true;
         tmp[1].disabled=true;
         tmp[2].disabled=true;
-        let file=document.createElement("input");
-        file.type="file";
-        file.name="file1";
-        file.id="file";
-        file.required=true;
-        tmp[3].appendChild(file);
+        // let file=document.createElement("input");
+        // file.type="file";
+        // file.name="file1";
+        // file.id="file";
+        // file.required=true;
+        // file.accept=".csv";
+        // tmp[3].appendChild(file);
         tmp[4].setAttribute("name","csv");
         
       }
@@ -143,8 +140,8 @@ else if (isset($_POST["csv"])){
         tmp[0].disabled=false;
         tmp[1].disabled=false;
         tmp[2].disabled=false;
-        let file = document.getElementById("file1");
-        tmp[3].removeChild(file);
+        // let file = document.getElementById("file1");
+        // tmp[3].removeChild(file);
         tmp[4].setAttribute("name","submit_add_faculty");
     }
   }
