@@ -32,6 +32,7 @@ if (isset($_POST["submit"])) {
   <link rel="stylesheet" href="CSS/login.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+  <script type="text/javascript" src="js/login.js"></script>
   <title>E-Learning</title>
 </head>
 
@@ -65,7 +66,7 @@ if (isset($_POST["submit"])) {
                     </div>
 
                     <div class="form-outline mb-4">
-                      <input type="password" name="password" required id="login1" class="form-control" placeholder="Password" />
+                      <input type="password" name="password" required class="form-control pass_toggle" placeholder="Password" />
                       <p id="error_pass"></p>
                     </div>
                     <div class="form-outline mb-4 form-check form-switch">
@@ -102,43 +103,12 @@ if (isset($_POST["submit"])) {
       </div>
     </div>
   </section>
+
   <script>
-    function myfunc() {
-      document.getElementById("error").innerHTML +=
-        '<div class="alert alert-danger" role="alert">Invalid login, please try again</div>';
-
-    }
-
-    function pass_toggle() {
-      var x = document.getElementById("login1");
-      if (x.type === "password") {
-        x.type = "text";
-      } else {
-        x.type = "password";
-      }
-
-    }
-
     var slideIndex = 0;
     showSlides();
-
-    function showSlides() {
-      var i;
-      var slides = document.getElementsByClassName("mySlides");
-      
-      for (i = 0; i < slides.length; i++) {
-        slides[i].style.display = "none";
-      }
-      slideIndex++;
-      if (slideIndex > slides.length) {
-        slideIndex = 1
-      }
-      
-      slides[slideIndex - 1].style.display = "block";
-      
-      setTimeout(showSlides, 4000); // Change image every 2 seconds
-    }
   </script>
+  
   <?php
   if ($f == 1) {
     echo '<script>myfunc();</script>';
