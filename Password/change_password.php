@@ -27,7 +27,7 @@ if (isset($_POST["submit"])) {
 
   <link rel="stylesheet" href="../CSS/login.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.16/dist/sweetalert2.all.min.js"></script>
   <script type="text/javascript" src="../js/login.js"></script>
 
   <title>Change Password</title>
@@ -36,13 +36,15 @@ if (isset($_POST["submit"])) {
 
 <body id = "change_pass">
   <?php if ($flag)
-    echo '<script>
-        swal("Password Changed Successfully!","", "success", {
-          button: "OK",
-        }).then(function() {
-        window.location = "../login.php";
+    echo "<script>
+    Swal.fire({
+      icon: 'success',
+      title: 'Password Changed Successfully!',
+      timer: 10000
+    }).then(function() {
+        window.location = '../login.php';
     });
-      </script>'; ?>
+      </script>"; ?>
   <section class="h-100 gradient-form">
     <div class="container h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">
