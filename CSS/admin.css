@@ -31,24 +31,4 @@
 .modal-footer {
   background-color: #f9f9f9;
 }
-@-webkit-keyframes modal-animation {
-  from {
-      top: -100px;
-      opacity: 0;
-  }
-  to {
-      top: 0px;
-      opacity: 1;
-  }
-}
 
-@keyframes modal-animation {
-  from {
-      top: -100px;
-      opacity: 0;
-  }
-  to {
-      top: 0px;
-      opacity: 1;
-  }
-}
