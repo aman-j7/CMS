@@ -1,272 +1,175 @@
-<html>
-<head>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-    <style>
-         
-
-.nav-pills > li > a {
-   border-radius: 0;
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Navbar</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:500&display=swap" rel="stylesheet">
+        <style>
+           * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-#wrapper {
-   padding-left: 0;
-   -webkit-transition: all 0.5s ease;
-   -moz-transition: all 0.5s ease;
-   -o-transition: all 0.5s ease;
-   transition: all 0.5s ease;
-   overflow: hidden;
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 10%;
+  background-color: #24252a;
 }
 
-#wrapper.toggled {
-   padding-left: 250px;
-   overflow: hidden;
+.logo {
+  cursor: pointer;
 }
 
-#sidebar-wrapper {
-   z-index: 1000;
-   position: absolute;
-   left: 250px;
-   width: 0;
-   height: 100%;
-   margin-left: -250px;
-   overflow-y: auto;
-   background: #000;
-   -webkit-transition: all 0.5s ease;
-   -moz-transition: all 0.5s ease;
-   -o-transition: all 0.5s ease;
-   transition: all 0.5s ease;
+.nav__links a,
+.cta,
+.overlay__content a {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  color: #edf0f1;
+  text-decoration: none;
 }
 
-#wrapper.toggled #sidebar-wrapper {
-   width: 250px;
+.nav__links {
+  list-style: none;
+  display: flex;
 }
 
-#page-content-wrapper {
-   position: absolute;
-   padding: 15px;
-   width: 100%;
-   overflow-x: hidden;
+.nav__links li {
+  padding: 0px 20px;
 }
 
-.xyz {
-   min-width: 360px;
+.nav__links li a {
+  transition: color 0.3s ease 0s;
 }
 
-#wrapper.toggled #page-content-wrapper {
-   position: relative;
-   margin-right: 0px;
+.nav__links li a:hover {
+  color: #0088a9;
 }
 
-.fixed-brand {
-   width: auto;
-}
-/* Sidebar Styles */
-
-.sidebar-nav {
-   position: absolute;
-   top: 0;
-   width: 250px;
-   margin: 0;
-   padding: 0;
-   list-style: none;
-   margin-top: 2px;
+.cta {
+  padding: 9px 25px;
+  background-color: rgba(0, 136, 169, 1);
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background-color 0.3s ease 0s;
 }
 
-.sidebar-nav li {
-   text-indent: 15px;
-   line-height: 40px;
+.cta:hover {
+  background-color: rgba(0, 136, 169, 0.8);
 }
 
-.sidebar-nav li a {
-   display: block;
-   text-decoration: none;
-   color: #999999;
+/* Mobile Nav */
+
+.menu {
+  display: none;
 }
 
-.sidebar-nav li a:hover {
-   text-decoration: none;
-   color: #fff;
-   background: rgba(255, 255, 255, 0.2);
-   border-left: red 2px solid;
+.overlay {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  background-color: #24252a;
+  overflow-x: hidden;
+  transition: width 0.5s ease 0s;
 }
 
-.sidebar-nav li a:active,
-.sidebar-nav li a:focus {
-   text-decoration: none;
+.overlay--active {
+  width: 100%;
 }
 
-.sidebar-nav > .sidebar-brand {
-   height: 65px;
-   font-size: 18px;
-   line-height: 60px;
+.overlay__content {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-.sidebar-nav > .sidebar-brand a {
-   color: #999999;
+.overlay a {
+  padding: 15px;
+  font-size: 36px;
+  display: block;
+  transition: color 0.3s ease 0s;
 }
 
-.sidebar-nav > .sidebar-brand a:hover {
-   color: #fff;
-   background: none;
+.overlay a:hover,
+.overlay a:focus {
+  color: #0088a9;
+}
+.overlay .close {
+  position: absolute;
+  top: 20px;
+  right: 45px;
+  font-size: 60px;
+  color: #edf0f1;
 }
 
-.no-margin {
-   margin: 0;
+@media screen and (max-height: 450px) {
+  .overlay a {
+    font-size: 20px;
+  }
+  .overlay .close {
+    font-size: 40px;
+    top: 15px;
+    right: 35px;
+  }
 }
 
-@media (min-width: 768px) {
-   #wrapper {
-      padding-left: 250px;
-   }
-   .fixed-brand {
-      width: 250px;
-   }
-   #wrapper.toggled {
-      padding-left: 0;
-   }
-   #sidebar-wrapper {
-      width: 250px;
-   }
-   #wrapper.toggled #sidebar-wrapper {
-      width: 250px;
-   }
-   #wrapper.toggled-2 #sidebar-wrapper {
-      width: 50px;
-   }
-   #wrapper.toggled-2 #sidebar-wrapper:hover {
-      width: 250px;
-   }
-   #page-content-wrapper {
-      padding: 20px;
-      position: relative;
-      -webkit-transition: all 0.5s ease;
-      -moz-transition: all 0.5s ease;
-      -o-transition: all 0.5s ease;
-      transition: all 0.5s ease;
-   }
-   #wrapper.toggled #page-content-wrapper {
-      position: relative;
-      margin-right: 0;
-      padding-left: 250px;
-   }
-   #wrapper.toggled-2 #page-content-wrapper {
-      position: relative;
-      margin-right: 0;
-      margin-left: -200px;
-      -webkit-transition: all 0.5s ease;
-      -moz-transition: all 0.5s ease;
-      -o-transition: all 0.5s ease;
-      transition: all 0.5s ease;
-      width: auto;
-   }
+@media only screen and (max-width: 800px) {
+  .nav__links,
+  .cta {
+    display: none;
+  }
+  .menu {
+    display: initial;
+  }
 }
 
-        </style>
-</head>
-<body>
-<nav class="navbar navbar-default no-margin">
-      <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header fixed-brand">
-         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" id="menu-toggle">
-<span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
-</button>
-         <a class="navbar-brand" href="#"><i class="fa fa-rocket fa-4"></i> M-33</a>
-      </div>
-      <!-- navbar-header-->
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-         <ul class="nav navbar-nav">
-            <li class="active">
-               <button class="navbar-toggle collapse in" data-toggle="collapse" id="menu-toggle-2"> <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
-               </button>
-            </li>
-         </ul>
-      </div>
-      <!-- bs-example-navbar-collapse-1 -->
-   </nav>
-   <div id="wrapper">
-      <!-- Sidebar -->
-      <div id="sidebar-wrapper">
-         <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
-            <li class="active">
-               <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-dashboard fa-stack-1x "></i></span> Dashboard</a>
-               <ul class="nav-pills nav-stacked" style="list-style-type:none;">
-                  <li><a href="#">link1</a></li>
-                  <li><a href="#">link2</a></li>
-               </ul>
-            </li>
-            <li>
-               <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-flag fa-stack-1x "></i></span>Shortcut</a>
-               <ul class="nav-pills nav-stacked" style="list-style-type:none;">
-                  <li><a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-flag fa-stack-1x "></i></span>link1</a></li>
-                  <li><a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-flag fa-stack-1x "></i></span>link2</a></li>
-               </ul>
-            </li>
-            <li>
-               <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-cloud-download fa-stack-1x "></i></span>Overview</a>
-            </li>
-            <li>
-               <a href="#"> <span class="fa-stack fa-lg pull-left"><i class="fa fa-cart-plus fa-stack-1x "></i></span>Events</a>
-            </li>
-            <li>
-               <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-youtube-play fa-stack-1x "></i></span>About</a>
-            </li>
-            <li>
-               <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-wrench fa-stack-1x "></i></span>Services</a>
-            </li>
-            <li>
-               <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-server fa-stack-1x "></i></span>Contact</a>
-            </li>
-         </ul>
-      </div>
-      <!-- /#sidebar-wrapper -->
-      <!-- Page Content -->
-      <div id="page-content-wrapper">
-         <div class="container-fluid xyz">
-            <div class="row">
-               <div class="col-lg-12">
-                  <h1>Simple Admin Sidebar With Bootstrap by <a href="http://http://codepen.io/hughbalboa/">@hughbalboa</a></h1>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident laudantium nobis cum dignissimos ex inventore, velit blanditiis. Quod laborum soluta quidem culpa officia eligendi, quam, recusandae iste aliquid amet odit! </p>
-               </div>
+         </style>
+    </head>
+    <body>
+        <header>
+            <!-- <a class="logo" href="/"><img src="../images/logo.png" alt="logo" width="70" height="10"></a> -->
+            <nav>
+                <ul class="nav__links">
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">Projects</a></li>
+                    <li><a href="#">About</a></li>
+                </ul>
+            </nav>
+            <a class="cta" href="#">Contact</a>
+            <p class="menu cta">Menu</p>
+        </header>
+        <div class="overlay">
+            <a class="close">&times;</a>
+            <div class="overlay__content">
+                <a href="#">Services</a>
+                <a href="#">Projects</a>
+                <a href="#">About</a>
             </div>
-         </div>
-      </div>
-      <!-- /#page-content-wrapper -->
-   </div>
-<script>
-    $("#menu-toggle").click(function(e) {
-   e.preventDefault();
-   $("#wrapper").toggleClass("toggled");
-});
-$("#menu-toggle-2").click(function(e) {
-   e.preventDefault();
-   $("#wrapper").toggleClass("toggled-2");
-   $('#menu ul').hide();
+        </div>
+        <script type="text/javascript">
+           const doc = document;
+const menuOpen = doc.querySelector(".menu");
+const menuClose = doc.querySelector(".close");
+const overlay = doc.querySelector(".overlay");
+
+menuOpen.addEventListener("click", () => {
+  overlay.classList.add("overlay--active");
 });
 
-function initMenu() {
-   $('#menu ul').hide();
-   $('#menu ul').children('.current').parent().show();
-   //$('#menu ul:first').show();
-   $('#menu li a').click(
-      function() {
-         var checkElement = $(this).next();
-         if ((checkElement.is('ul')) && (checkElement.is(':visible'))) {
-            return false;
-         }
-         if ((checkElement.is('ul')) && (!checkElement.is(':visible'))) {
-            $('#menu ul:visible').slideUp('normal');
-            checkElement.slideDown('normal');
-            return false;
-         }
-      }
-   );
-}
-$(document).ready(function() {
-   initMenu();
+menuClose.addEventListener("click", () => {
+  overlay.classList.remove("overlay--active");
 });
-</script>
-</body>
+        </script>
+    </body>
 </html>

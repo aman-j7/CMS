@@ -126,13 +126,6 @@ else if (isset($_POST["csv"])){
         tmp[0].disabled=true;
         tmp[1].disabled=true;
         tmp[2].disabled=true;
-        // let file=document.createElement("input");
-        // file.type="file";
-        // file.name="file1";
-        // file.id="file";
-        // file.required=true;
-        // file.accept=".csv";
-        // tmp[3].appendChild(file);
         tmp[4].setAttribute("name","csv");
         
       }
@@ -140,8 +133,6 @@ else if (isset($_POST["csv"])){
         tmp[0].disabled=false;
         tmp[1].disabled=false;
         tmp[2].disabled=false;
-        // let file = document.getElementById("file1");
-        // tmp[3].removeChild(file);
         tmp[4].setAttribute("name","submit_add_faculty");
     }
   }
