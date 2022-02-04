@@ -1,7 +1,9 @@
 <?php
-include "includes/config.php";
+include "../includes/config.php";
 $course = $_GET["course"];
-$subject = $_GET["course_name"];
+$t = mysqli_query($conn, "SELECT `course_name` FROM `courses` where course_id='$course'");
+$t = mysqli_fetch_array($t);
+$subject =  $t["course_name"];
 $flag = 0;
 $role = $_SESSION['type'];
 if (isset($_POST["submit"])) {
@@ -23,10 +25,11 @@ if (isset($_POST["submit"])) {
     $ul = NULL;
   }
   if ($f) {
+    echo 'helloo';
     $no = $_POST['no'];
     mysqli_query($conn, "UPDATE `$course` SET `header`='$h',`link`='$hl',`notes`='$ml',`ref`='$rl',`assigment`='$al',`upload`='$ul' WHERE `no`=$no");
   } else
-    mysqli_query($conn, "INSERT INTO `$course` ( `header`, `link`, `notes`, `ref`, `assigment,``upload`) VALUES ('$h','$hl','$ml','$rl','$al','$ul')");
+    mysqli_query($conn, "INSERT INTO `$course` ( `header`, `link`, `notes`, `ref`, `assigment`,`upload`) VALUES ('$h','$hl','$ml','$rl','$al','$ul')");
 } else if (isset($_POST["update"])) {
   $no = $_POST['no'];
   $up = mysqli_query($conn, "SELECT `no`, `header`, `link`, `notes`, `ref`, `assigment`,`upload` FROM $course WHERE `no`=$no");
@@ -43,59 +46,13 @@ if (isset($_POST["submit"])) {
   <title>
     <?php echo $course; ?>
   </title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-  <style>
-    .navbar-nav>li {
-      padding-left: 13px;
-
-    }
-
-    #logo_nav {
-      margin-left: 13px;
-      margin-right: 13px;
-    }
-
-    #nav_user {
-      margin-right: 10px;
-      float: right;
-    }
-  </style>
-  <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <div class="container-fluid">
-      <img src="https://seeklogo.com/images/G/graduated-online-education-logo-2327B5F5C0-seeklogo.com.png" width="70" height="40" alt="E-learning" id="logo_nav" />
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item active">
-            <a class="nav-link" href="admin_dashboard.php">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Features</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Pricing</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#">Disabled</a>
-          </li>
-        </ul>
-      </div>
-      <div id="nav_user">
-        <a href="#" onclick="myfunction()">
-          <svg xmlns="http://www.w3.org/2000/svg" width="70" height="30" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
-          </svg></a>
-      </div>
-    </div>
-  </nav>
+   <?php include '../includes/cdn.php'; ?>
+  <link rel="stylesheet" href="../css/header.css">
+  <script type="text/javascript" src="../js/header.js"></script>
 </head>
-
 <body>
-
   <?php
+   include '../includes/navbar.php';
   if ($role == "teacher") {
 
     echo '<div class="modal fade" id="modal1" role="dialog">
@@ -106,7 +63,7 @@ if (isset($_POST["submit"])) {
             </div>
             <div class="modal-body">
               <form role="form" action="' . $course . '.php?course=' . $course . '& course_name=' . $subject;
-    echo '" method="POST">
+    echo '" method="POST" autocomplete="off">
                 <div class="form-group">
                   <label>Header</label>
                   <input type="text" class="form-control"  name="head" placeholder="topic" value="';
@@ -176,58 +133,12 @@ if (isset($_POST["submit"])) {
           <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
             <li class="nav-item">
               <a href="#" class="nav-link align-middle px-0 text-white">
-                <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Home</span>
+                 <span class="ms-1 d-none d-sm-inline">Home</span>
               </a>
             </li>
             <li>
-              <a href="#submenu1" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
-                <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline">Dashboard</span> </a>
-              <ul class="collapse show nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
-                <li class="w-100">
-                  <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 1 </a>
-                </li>
-                <li>
-                  <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 2 </a>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <a href="#" class="nav-link px-0 align-middle">
-                <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Orders</span></a>
-            </li>
-            <li>
-              <a href="#submenu2" data-bs-toggle="collapse" class="nav-link px-0 align-middle ">
-                <i class="fs-4 bi-bootstrap"></i> <span class="ms-1 d-none d-sm-inline">Bootstrap</span></a>
-              <ul class="collapse nav flex-column ms-1" id="submenu2" data-bs-parent="#menu">
-                <li class="w-100">
-                  <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 1</a>
-                </li>
-                <li>
-                  <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 2</a>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <a href="#submenu3" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
-                <i class="fs-4 bi-grid"></i> <span class="ms-1 d-none d-sm-inline">Products</span> </a>
-              <ul class="collapse nav flex-column ms-1" id="submenu3" data-bs-parent="#menu">
-                <li class="w-100">
-                  <a href="#" class="link-secondary"> <span class="d-none d-sm-inline">Product</span> 1</a>
-                </li>
-                <li>
-                  <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Product</span> 2</a>
-                </li>
-                <li>
-                  <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Product</span> 3</a>
-                </li>
-                <li>
-                  <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Product</span> 4</a>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <a href="#" class="nav-link px-0 align-middle">
-                <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline">Customers</span> </a>
+              <a href="#" class="nav-link px-0 align-middle text-white">
+               <span class="ms-1 d-none d-sm-inline">option2</span> </a>
             </li>
           </ul>
           <hr>
@@ -250,11 +161,12 @@ if (isset($_POST["submit"])) {
             ?>
           </h1>
         </div>
+        <div class="container border border-3 d-grid gap-3 pb-4 px-4 mt-4">
+        <div class="row text-center pt-4"><h2>Material</h2></div>
         <?php
         if ($role == "teacher") {
-          echo '<div class="container border border-3 d-grid gap-3 pb-4 px-4 mt-4">
-  <div class="row text-center pt-4"><h2>Material</h2></div>
-  <button type="button" class="btn btn-info btn-dark" data-bs-toggle="modal" data-bs-target="#modal1"><h5>Add Material</h5></button>';
+          echo '
+          <button type="button" class="btn btn-info btn-dark" data-bs-toggle="modal" data-bs-target="#modal1"><h5>Add Material</h5></button>';
         }
         $row = mysqli_query($conn, "SELECT `no`, `header`, `link`, `notes`, `ref`, `assigment`,`upload` FROM $course");
         $c = 0;

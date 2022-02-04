@@ -12,7 +12,7 @@ if (isset($_POST["submit_add_faculty"])) {
     mysqli_query($conn, "update faculty set faculty_name='$f_name',dept_id='$d_id' where faculty_id='$f_id'");
   } else {
     mysqli_query($conn, "insert into faculty values('$f_id','$f_name','$d_id')");
-    mysqli_query($conn, "insert into login values('$f_id','68e445b4745a37fb5a133fa0fa728400','teacher')");
+    mysqli_query($conn, "insert into login values('$f_id','CMS@123','teacher','teacher@gmail.com')");
   }
 } else if (isset($_POST["submit_update_faculty"])) {
   $f_id = $_POST["f_id"];
@@ -64,7 +64,7 @@ if (isset($_POST["submit_add_faculty"])) {
                                                                                 else echo "Add Faculty"; ?></h5>
         </div>
         <div class="modal-body">
-          <form role="form" action="manage_faculty.php?f=<?php echo $flag ?>" method="POST">
+          <form role="form" action="manage_faculty.php?f=<?php echo $flag ?>" method="POST" autocomplete="off">
             <div class="form-group">
               <label>Faculty Id</label>
               <input type="text" class="form-control input1" name="f_id" placeholder="Enter Faculty id" value="<?php if ($flag) echo $row['faculty_id'];
@@ -80,12 +80,14 @@ if (isset($_POST["submit_add_faculty"])) {
               <input type="text" class="form-control input1" name="d_id" placeholder="Enter Department id" value="<?php if ($flag) echo $row['dept_id'];
                                                                                                             else echo ""; ?>" required>
             </div>
+            <?php if(!$flag):?>
             <div class="form-group">
               <input type="checkbox" id="check" name="check" onclick="csvInput(this)">
               <label>Update Using CSV File</label>
             </div>
             <div class="form-group input1">
             </div>
+            <?php endif;?>
         </div>
         <div class="modal-footer">
           <input type="submit" class="btn btn-default btn-success input1" name="submit_add_faculty" value="<?php if ($flag) echo "Update";
@@ -105,7 +107,7 @@ if (isset($_POST["submit_add_faculty"])) {
           <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Update Faculty</h5>
         </div>
         <div class="modal-body">
-          <form role="form" action="manage_faculty.php" method="POST">
+          <form role="form" action="manage_faculty.php" method="POST" autocomplete="off">
             <div class="form-group">
               <label>Faculty Id</label>
               <input type="text" class="form-control" name="f_id" placeholder="Enter Faculty id" required>
@@ -129,7 +131,7 @@ if (isset($_POST["submit_add_faculty"])) {
           <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Drop Faculty</h5>
         </div>
         <div class="modal-body">
-          <form role="form" action="manage_faculty.php" method="POST">
+          <form role="form" action="manage_faculty.php" method="POST" autocomplete="off">
             <div class="form-group">
               <label>Faculty Id</label>
               <input type="text" class="form-control" name="f_id" placeholder="Enter Faculty id" required>

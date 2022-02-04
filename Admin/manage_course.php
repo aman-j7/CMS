@@ -121,7 +121,7 @@ if (isset($_POST["submit_add_course"])) {
                                                                                 else echo "Add Course"; ?></h5>
         </div>
         <div class="modal-body">
-          <form role="form" action="manage_course.php?f=<?php echo $flag ?>" method="POST">
+          <form role="form" action="manage_course.php?f=<?php echo $flag ?>" method="POST" autocomplete="off">
             <div class="form-group">
               <label>Course Id</label>
               <input type="text" class="form-control input1" name="c_id" placeholder="Enter Course id" value="<?php if ($flag) echo $row['course_id'];
@@ -132,12 +132,14 @@ if (isset($_POST["submit_add_course"])) {
               <input type="text" class="form-control input1" placeholder="Enter Course name" name="c_name" value="<?php if ($flag) echo $row['course_name'];
                                                                                                             else echo ""; ?>" required>
             </div>
+            <?php if(!$flag):?>
             <div class="form-group">
               <input type="checkbox" id="check" name="check" onclick="csvInput1(this)">
               <label>Update Using CSV File</label>
             </div>
             <div class="form-group input1">
             </div>
+            <?php endif;?>
         </div>
         <div class="modal-footer">
           <input type="submit" class="btn btn-default btn-success input1" name="submit_add_course" value="<?php if ($flag) echo "Update";
@@ -157,7 +159,7 @@ if (isset($_POST["submit_add_course"])) {
           <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Update Course</h5>
         </div>
         <div class="modal-body">
-          <form role="form" action="manage_course.php" method="POST">
+          <form role="form" action="manage_course.php" method="POST" autocomplete="off">
             <div class="form-group">
               <label>Course Id</label>
               <input type="text" class="form-control" name="c_id" placeholder="Enter Course id" required>
@@ -181,7 +183,7 @@ if (isset($_POST["submit_add_course"])) {
           <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Drop Course</h5>
         </div>
         <div class="modal-body">
-          <form role="form" action="manage_course.php" method="POST">
+          <form role="form" action="manage_course.php" method="POST" autocomplete="off">
             <div class="form-group">
               <label>Course Id</label>
               <input type="text" class="form-control" name="c_id" placeholder="Enter Course id" required>
@@ -209,7 +211,7 @@ if (isset($_POST["submit_add_course"])) {
                                                                                 else echo "Add Faculty Course"; ?></h5>
         </div>
         <div class="modal-body">
-          <form role="form" action="manage_course.php?f=<?php echo $faculty ?>" method="POST">
+          <form role="form" action="manage_course.php?f=<?php echo $faculty ?>" method="POST" autocomplete="off">
             <div class="form-group">
               <label>Course Id</label>
               <input type="text" class="form-control input2" name="c_id" placeholder="Enter Course id" value="<?php if ($faculty) echo $row['course_id'];
@@ -220,12 +222,14 @@ if (isset($_POST["submit_add_course"])) {
               <input type="text" class="form-control input2" placeholder="Enter Faculty id" name="f_id" value="<?php if ($faculty) echo $row['faculty_id'];
                                                                                                         else echo ""; ?>" required>
             </div>
+            <?php if(!$faculty):?>
             <div class="form-group">
               <input type="checkbox" id="check" name="check" onclick="csvInput2(this)">
               <label>Update Using CSV File</label>
             </div>
             <div class="form-group input2">
             </div>
+            <?php endif;?>
         </div>
         <?php
         if ($faculty) {
@@ -251,7 +255,7 @@ if (isset($_POST["submit_add_course"])) {
           <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Update Faculty Course</h5>
         </div>
         <div class="modal-body">
-          <form role="form" action="manage_course.php" method="POST">
+          <form role="form" action="manage_course.php" method="POST" autocomplete="off">
             <div class="form-group">
               <label>Course Id</label>
               <input type="text" class="form-control" name="c_id" placeholder="Enter Course id" required>
@@ -279,7 +283,7 @@ if (isset($_POST["submit_add_course"])) {
           <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Drop Faculty Course</h5>
         </div>
         <div class="modal-body">
-          <form role="form" action="manage_course.php" method="POST">
+          <form role="form" action="manage_course.php" method="POST" autocomplete="off">
             <div class="form-group">
               <label>Course Id</label>
               <input type="text" class="form-control" name="c_id" placeholder="Enter Course id" required>
@@ -309,7 +313,7 @@ if (isset($_POST["submit_add_course"])) {
                                                                                 else echo "Add Student Course"; ?></h5>
         </div>
         <div class="modal-body">
-          <form role="form" action="manage_course.php?f=<?php echo $student ?>" method="POST">
+          <form role="form" action="manage_course.php?f=<?php echo $student ?>" method="POST" autocomplete="off">
             <div class="form-group">
               <label>Course Id</label>
               <input type="text" class="form-control input3" name="c_id" placeholder="Enter Course id" value="<?php if ($student) echo $row['course_id'];
@@ -320,12 +324,14 @@ if (isset($_POST["submit_add_course"])) {
               <input type="text" class="form-control input3" placeholder="Enter Student id" name="s_id" value="<?php if ($student) echo $row['student_id'];
                                                                                                         else echo ""; ?>" required>
             </div>
+            <?php if(!$student):?>
             <div class="form-group">
               <input type="checkbox" id="check" name="check" onclick="csvInput3(this)">
               <label>Update Using CSV File</label>
             </div>
             <div class="form-group input3">
             </div>
+            <?php endif;?>
         </div>
         <?php
         if ($student) {
@@ -351,7 +357,7 @@ if (isset($_POST["submit_add_course"])) {
           <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Update Student Course</h5>
         </div>
         <div class="modal-body">
-          <form role="form" action="manage_course.php" method="POST">
+          <form role="form" action="manage_course.php" method="POST" autocomplete="off">
             <div class="form-group">
               <label>Course Id</label>
               <input type="text" class="form-control" name="c_id" placeholder="Enter Course id" required>
@@ -379,7 +385,7 @@ if (isset($_POST["submit_add_course"])) {
           <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Drop Student Course</h5>
         </div>
         <div class="modal-body">
-          <form role="form" action="manage_course.php" method="POST">
+          <form role="form" action="manage_course.php" method="POST" autocomplete="off">
             <div class="form-group">
               <label>Course Id</label>
               <input type="text" class="form-control" name="c_id" placeholder="Enter Course id" required>

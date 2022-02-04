@@ -11,7 +11,7 @@ if (isset($_POST["submit_add_student"])) {
     mysqli_query($conn, "update student set student_name='$s_name',dept_id='$d_id' where student_id='$s_id'");
   } else {
     mysqli_query($conn, "insert into student values('$s_id','$s_name','$d_id')");
-    mysqli_query($conn, "insert into login values('$s_id','68e445b4745a37fb5a133fa0fa728400','student','abcd@gmail.com')");
+    mysqli_query($conn, "insert into login values('$s_id','CMS@123','student','abcd@gmail.com')");
   }
 } else if (isset($_POST["submit_update_student"])) {
   $s_id = $_POST["s_id"];
@@ -60,7 +60,7 @@ if (isset($_POST["submit_add_student"])) {
                                                                                 else echo "Add Student"; ?></h5>
         </div>
         <div class="modal-body">
-          <form role="form" action="manage_student.php?f=<?php echo $flag ?>" method="POST">
+          <form role="form" action="manage_student.php?f=<?php echo $flag ?>" method="POST" autocomplete="off">
             <div class="form-group">
               <label>Student Id</label>
               <input type="text" class="form-control input1" name="s_id" placeholder="Enter Student id" value="<?php if ($flag) echo $row['student_id'];
@@ -76,12 +76,14 @@ if (isset($_POST["submit_add_student"])) {
               <input type="text" class="form-control input1" name="d_id" placeholder="Enter Department id" value="<?php if ($flag) echo $row['dept_id'];
                                                                                                             else echo ""; ?>" required>
             </div>
+            <?php if(!$flag):?>
             <div class="form-group">
               <input type="checkbox" id="check" name="check" onclick="csvInput(this)">
               <label>Update Using CSV File</label>
             </div>
             <div class="form-group input1">
             </div>
+            <?php endif;?>
         </div>
         <div class="modal-footer">
           <input type="submit" class="btn btn-default btn-success input1" name="submit_add_student" value="<?php if ($flag) echo "Update";
@@ -101,7 +103,7 @@ if (isset($_POST["submit_add_student"])) {
           <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Update Student</h5>
         </div>
         <div class="modal-body">
-          <form role="form" action="manage_student.php" method="POST">
+          <form role="form" action="manage_student.php" method="POST" autocomplete="off">
             <div class="form-group">
               <label>Student Id</label>
               <input type="text" class="form-control" name="s_id" placeholder="Enter Student id" required>
@@ -125,7 +127,7 @@ if (isset($_POST["submit_add_student"])) {
           <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Drop Student</h5>
         </div>
         <div class="modal-body">
-          <form role="form" action="manage_student.php" method="POST">
+          <form role="form" action="manage_student.php" method="POST" autocomplete="off">
             <div class="form-group">
               <label>Student Id</label>
               <input type="text" class="form-control" name="s_id" placeholder="Enter Student id" required>

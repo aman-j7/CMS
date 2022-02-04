@@ -25,7 +25,7 @@ if (isset($_POST["submit2"])) {
 
 if (isset($_POST["submit1"])) {
   $reg = $_POST["reg"];
-  $res = mysqli_query($conn, "select email from login where reg_id=$reg");
+  $res = mysqli_query($conn, "select email from login where reg_id='$reg'");
   $row = mysqli_fetch_array($res);
   if ($row) {
     $email = $row['email'];

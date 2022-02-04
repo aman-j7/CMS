@@ -57,7 +57,7 @@ if (isset($_POST["submit_add_department"])) {
                                                                                 else echo "Add Department"; ?></h5>
         </div>
         <div class="modal-body">
-          <form role="form" action="manage_department.php?f=<?php echo $flag ?>" method="POST">
+          <form role="form" action="manage_department.php?f=<?php echo $flag ?>" method="POST" autocomplete="off">
             <div class="form-group">
               <label>Department Id</label>
               <input type="text" class="form-control input1" name="d_id" placeholder="Enter Department id" value="<?php if ($flag) echo $row['dept_id'];
@@ -68,12 +68,14 @@ if (isset($_POST["submit_add_department"])) {
               <input type="text" class="form-control input1" placeholder="Enter Department name" name="d_name" value="<?php if ($flag) echo $row['dept_name'];
                                                                                                             else echo ""; ?>" required>
             </div>
+            <?php if(!$flag):?>
             <div class="form-group">
               <input type="checkbox" id="check" name="check" onclick="csvInput(this)">
               <label>Update Using CSV File</label>
             </div>
             <div class="form-group input1">
             </div>
+            <?php endif;?>
         </div>
         <div class="modal-footer">
           <input type="submit" class="btn btn-default btn-success input1" name="submit_add_department" value="<?php if ($flag) echo "Update";
@@ -94,7 +96,7 @@ if (isset($_POST["submit_add_department"])) {
           <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Update Department</h5>
         </div>
         <div class="modal-body">
-          <form role="form" action="manage_department.php" method="POST">
+          <form role="form" action="manage_department.php" method="POST" autocomplete="off">
             <div class="form-group">
               <label>Department Id</label>
               <input type="text" class="form-control" name="d_id" placeholder="Enter Department id" required>
@@ -118,7 +120,7 @@ if (isset($_POST["submit_add_department"])) {
           <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Drop Department</h5>
         </div>
         <div class="modal-body">
-          <form role="form" action="manage_department.php" method="POST">
+          <form role="form" action="manage_department.php" method="POST" autocomplete="off">
             <div class="form-group">
               <label>Department Id</label>
               <input type="text" class="form-control" name="d_id" placeholder="Enter Department id" required>

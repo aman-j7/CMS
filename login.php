@@ -5,7 +5,7 @@ $flag = 0;
 if (isset($_POST["submit"])) {
   $e = $_POST["id"];
   $p = $_POST["password"];
-  $res = mysqli_query($conn, "select role from login where reg_id=$e and password='$p'");
+  $res = mysqli_query($conn, "select role from login where reg_id='$e' and password='$p'");
   $row = mysqli_fetch_array($res);
   if ($row) {
     $_SESSION['user_id'] = $e;
