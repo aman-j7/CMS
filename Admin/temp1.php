@@ -15,7 +15,6 @@
 
 header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: 20px 10%;
   background-color: #24252a;
@@ -58,6 +57,7 @@ header {
   border-radius: 50px;
   cursor: pointer;
   transition: background-color 0.3s ease 0s;
+
 }
 
 .cta:hover {
@@ -113,32 +113,11 @@ header {
   color: #edf0f1;
 }
 
-@media screen and (max-height: 450px) {
-  .overlay a {
-    font-size: 20px;
-  }
-  .overlay .close {
-    font-size: 40px;
-    top: 15px;
-    right: 35px;
-  }
-}
-
-@media only screen and (max-width: 800px) {
-  .nav__links,
-  .cta {
-    display: none;
-  }
-  .menu {
-    display: initial;
-  }
-}
-
          </style>
     </head>
     <body>
         <header>
-            <!-- <a class="logo" href="/"><img src="../images/logo.png" alt="logo" width="70" height="10"></a> -->
+            <a class="logo" href="/"><img src="../images/nav_logo.png" alt="logo" width="80" height="40"></a>
             <nav>
                 <ul class="nav__links">
                     <li><a href="#">Services</a></li>
@@ -147,7 +126,6 @@ header {
                 </ul>
             </nav>
             <a class="cta" href="#">Contact</a>
-            <p class="menu cta">Menu</p>
         </header>
         <div class="overlay">
             <a class="close">&times;</a>
