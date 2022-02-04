@@ -67,22 +67,28 @@ if (isset($_POST["submit_add_faculty"])) {
           <form role="form" action="manage_faculty.php?f=<?php echo $flag ?>" method="POST">
             <div class="form-group">
               <label>Faculty Id</label>
-              <input type="text" class="form-control" name="f_id" placeholder="Enter Faculty id" value="<?php if ($flag) echo $row['faculty_id'];
+              <input type="text" class="form-control input1" name="f_id" placeholder="Enter Faculty id" value="<?php if ($flag) echo $row['faculty_id'];
                                                                                                         else echo ""; ?>" required>
             </div>
             <div class="form-group">
               <label> Faculty Name</label>
-              <input type="text" class="form-control" placeholder="Enter Faculty name" name="f_name" value="<?php if ($flag) echo $row['faculty_name'];
+              <input type="text" class="form-control input1" placeholder="Enter Faculty name" name="f_name" value="<?php if ($flag) echo $row['faculty_name'];
                                                                                                             else echo ""; ?>" required>
             </div>
             <div class="form-group">
               <label>Department Id</label>
-              <input type="text" class="form-control" name="d_id" placeholder="Enter Department id" value="<?php if ($flag) echo $row['dept_id'];
+              <input type="text" class="form-control input1" name="d_id" placeholder="Enter Department id" value="<?php if ($flag) echo $row['dept_id'];
                                                                                                             else echo ""; ?>" required>
+            </div>
+            <div class="form-group">
+              <input type="checkbox" id="check" name="check" onclick="csvInput(this)">
+              <label>Update Using CSV File</label>
+            </div>
+            <div class="form-group input1">
             </div>
         </div>
         <div class="modal-footer">
-          <input type="submit" class="btn btn-default btn-success" name="submit_add_faculty" value="<?php if ($flag) echo "Update";
+          <input type="submit" class="btn btn-default btn-success input1" name="submit_add_faculty" value="<?php if ($flag) echo "Update";
                                                                                                     else echo "Add"; ?>" />
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
@@ -181,6 +187,35 @@ if (isset($_POST["submit_add_faculty"])) {
   </section>
   </div>
   </div>
+  <script>
+    function csvInput(checkBox){
+      let tmp=document.querySelectorAll(".input1");
+      if(checkBox.checked){
+        tmp[0].disabled=true;
+        tmp[1].disabled=true;
+        tmp[2].disabled=true;
+        let file=document.createElement("input");
+        file.size="50";
+        file.type="file";
+        file.name="filename";
+        file.id="file";
+        file.required=true;
+        file.accept=".csv";
+        tmp[3].appendChild(file);
+        tmp[4].setAttribute("name","csv");
+        
+      }
+      else{
+        tmp[0].disabled=false;
+        tmp[1].disabled=false;
+        tmp[2].disabled=false;
+        let file = document.getElementById("file");
+        tmp[3].removeChild(file);
+        tmp[4].setAttribute("name","submit_add_faculty");
+    }
+  }
+    
+</script>
 </body>
 
 </html>

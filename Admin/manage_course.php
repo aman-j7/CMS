@@ -124,17 +124,23 @@ if (isset($_POST["submit_add_course"])) {
           <form role="form" action="manage_course.php?f=<?php echo $flag ?>" method="POST">
             <div class="form-group">
               <label>Course Id</label>
-              <input type="text" class="form-control" name="c_id" placeholder="Enter Course id" value="<?php if ($flag) echo $row['course_id'];
+              <input type="text" class="form-control input1" name="c_id" placeholder="Enter Course id" value="<?php if ($flag) echo $row['course_id'];
                                                                                                         else echo ""; ?>" required>
             </div>
             <div class="form-group">
               <label>Course Name</label>
-              <input type="text" class="form-control" placeholder="Enter Course name" name="c_name" value="<?php if ($flag) echo $row['course_name'];
+              <input type="text" class="form-control input1" placeholder="Enter Course name" name="c_name" value="<?php if ($flag) echo $row['course_name'];
                                                                                                             else echo ""; ?>" required>
+            </div>
+            <div class="form-group">
+              <input type="checkbox" id="check" name="check" onclick="csvInput1(this)">
+              <label>Update Using CSV File</label>
+            </div>
+            <div class="form-group input1">
             </div>
         </div>
         <div class="modal-footer">
-          <input type="submit" class="btn btn-default btn-success" name="submit_add_course" value="<?php if ($flag) echo "Update";
+          <input type="submit" class="btn btn-default btn-success input1" name="submit_add_course" value="<?php if ($flag) echo "Update";
                                                                                                     else echo "Add"; ?>" />
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
@@ -206,13 +212,19 @@ if (isset($_POST["submit_add_course"])) {
           <form role="form" action="manage_course.php?f=<?php echo $faculty ?>" method="POST">
             <div class="form-group">
               <label>Course Id</label>
-              <input type="text" class="form-control" name="c_id" placeholder="Enter Course id" value="<?php if ($faculty) echo $row['course_id'];
+              <input type="text" class="form-control input2" name="c_id" placeholder="Enter Course id" value="<?php if ($faculty) echo $row['course_id'];
                                                                                                         else echo ""; ?>" required>
             </div>
             <div class="form-group">
               <label>Faculty Id</label>
-              <input type="text" class="form-control" placeholder="Enter Faculty id" name="f_id" value="<?php if ($faculty) echo $row['faculty_id'];
+              <input type="text" class="form-control input2" placeholder="Enter Faculty id" name="f_id" value="<?php if ($faculty) echo $row['faculty_id'];
                                                                                                         else echo ""; ?>" required>
+            </div>
+            <div class="form-group">
+              <input type="checkbox" id="check" name="check" onclick="csvInput2(this)">
+              <label>Update Using CSV File</label>
+            </div>
+            <div class="form-group input2">
             </div>
         </div>
         <?php
@@ -222,7 +234,7 @@ if (isset($_POST["submit_add_course"])) {
         }
         ?>
         <div class="modal-footer">
-          <input type="submit" class="btn btn-default btn-success" name="submit_add_faculty" value="<?php if ($faculty) echo "Update";
+          <input type="submit" class="btn btn-default btn-success input2" name="submit_add_faculty" value="<?php if ($faculty) echo "Update";
                                                                                                     else echo "Add"; ?>" />
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
@@ -300,13 +312,19 @@ if (isset($_POST["submit_add_course"])) {
           <form role="form" action="manage_course.php?f=<?php echo $student ?>" method="POST">
             <div class="form-group">
               <label>Course Id</label>
-              <input type="text" class="form-control" name="c_id" placeholder="Enter Course id" value="<?php if ($student) echo $row['course_id'];
+              <input type="text" class="form-control input3" name="c_id" placeholder="Enter Course id" value="<?php if ($student) echo $row['course_id'];
                                                                                                         else echo ""; ?>" required>
             </div>
             <div class="form-group">
               <label>Student Id</label>
-              <input type="text" class="form-control" placeholder="Enter Student id" name="s_id" value="<?php if ($student) echo $row['student_id'];
+              <input type="text" class="form-control input3" placeholder="Enter Student id" name="s_id" value="<?php if ($student) echo $row['student_id'];
                                                                                                         else echo ""; ?>" required>
+            </div>
+            <div class="form-group">
+              <input type="checkbox" id="check" name="check" onclick="csvInput3(this)">
+              <label>Update Using CSV File</label>
+            </div>
+            <div class="form-group input3">
             </div>
         </div>
         <?php
@@ -316,7 +334,7 @@ if (isset($_POST["submit_add_course"])) {
         }
         ?>
         <div class="modal-footer">
-          <input type="submit" class="btn btn-default btn-success" name="submit_add_student" value="<?php if ($student) echo "Update";
+          <input type="submit" class="btn btn-default btn-success input3" name="submit_add_student" value="<?php if ($student) echo "Update";
                                                                                                     else echo "Add"; ?>" />
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
@@ -507,6 +525,83 @@ if (isset($_POST["submit_add_course"])) {
   </section>
   </div>
   </div>
+  <script>
+    function csvInput1(checkBox){
+      let tmp=document.querySelectorAll(".input1");
+      if(checkBox.checked){
+        tmp[0].disabled=true;
+        tmp[1].disabled=true;
+        let file=document.createElement("input");
+        file.size="50";
+        file.type="file";
+        file.name="filename";
+        file.id="file";
+        file.required=true;
+        file.accept=".csv";
+        tmp[2].appendChild(file);
+        tmp[3].setAttribute("name","csv");
+        
+      }
+      else{
+        tmp[0].disabled=false;
+        tmp[1].disabled=false;
+        let file = document.getElementById("file");
+        tmp[2].removeChild(file);
+        tmp[3].setAttribute("name","submit_add_course");
+    }
+  }
+  function csvInput2(checkBox){
+      let tmp=document.querySelectorAll(".input2");
+      if(checkBox.checked){
+        tmp[0].disabled=true;
+        tmp[1].disabled=true;
+        let file=document.createElement("input");
+        file.size="50";
+        file.type="file";
+        file.name="filename";
+        file.id="file";
+        file.required=true;
+        file.accept=".csv";
+        tmp[2].appendChild(file);
+        tmp[3].setAttribute("name","csv");
+        
+      }
+      else{
+        tmp[0].disabled=false;
+        tmp[1].disabled=false;
+        let file = document.getElementById("file");
+        tmp[2].removeChild(file);
+        tmp[3].setAttribute("name","submit_add_faculty");
+    }
+  }
+    
+  function csvInput3(checkBox){
+      let tmp=document.querySelectorAll(".input3");
+      if(checkBox.checked){
+        tmp[0].disabled=true;
+        tmp[1].disabled=true;
+        let file=document.createElement("input");
+        file.size="50";
+        file.type="file";
+        file.name="filename";
+        file.id="file";
+        file.required=true;
+        file.accept=".csv";
+        tmp[2].appendChild(file);
+        tmp[3].setAttribute("name","csv");
+        
+      }
+      else{
+        tmp[0].disabled=false;
+        tmp[1].disabled=false;
+        let file = document.getElementById("file");
+        tmp[2].removeChild(file);
+        tmp[3].setAttribute("name","submit_add_student");
+    }
+  }
+    
+    
+</script>
 </body>
 
 </html>

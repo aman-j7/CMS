@@ -83,7 +83,6 @@ else if (isset($_POST["csv"])){
               <label>Update Using CSV File</label>
             </div>
             <div class="form-group input1">
-            <input size='50' type='file' name='filename'>
             </div>
         </div>
 
@@ -126,6 +125,14 @@ else if (isset($_POST["csv"])){
         tmp[0].disabled=true;
         tmp[1].disabled=true;
         tmp[2].disabled=true;
+        let file=document.createElement("input");
+        file.size="50";
+        file.type="file";
+        file.name="filename";
+        file.id="file";
+        file.required=true;
+        file.accept=".csv";
+        tmp[3].appendChild(file);
         tmp[4].setAttribute("name","csv");
         
       }
@@ -133,6 +140,8 @@ else if (isset($_POST["csv"])){
         tmp[0].disabled=false;
         tmp[1].disabled=false;
         tmp[2].disabled=false;
+        let file = document.getElementById("file");
+        tmp[3].removeChild(file);
         tmp[4].setAttribute("name","submit_add_faculty");
     }
   }

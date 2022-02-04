@@ -117,7 +117,7 @@ header {
     </head>
     <body>
         <header>
-            <a class="logo" href="/"><img src="../images/nav_logo.png" alt="logo" width="80" height="40"></a>
+            <a class="logo" href="/"><img src="../images/NGL_white_logo.png" alt="logo" width="80" height="40"></a>
             <nav>
                 <ul class="nav__links">
                     <li><a href="#">Services</a></li>

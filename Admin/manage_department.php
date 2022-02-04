@@ -60,19 +60,25 @@ if (isset($_POST["submit_add_department"])) {
           <form role="form" action="manage_department.php?f=<?php echo $flag ?>" method="POST">
             <div class="form-group">
               <label>Department Id</label>
-              <input type="text" class="form-control" name="d_id" placeholder="Enter Department id" value="<?php if ($flag) echo $row['dept_id'];
+              <input type="text" class="form-control input1" name="d_id" placeholder="Enter Department id" value="<?php if ($flag) echo $row['dept_id'];
                                                                                                             else echo ""; ?>" required>
             </div>
             <div class="form-group">
               <label> Department Name</label>
-              <input type="text" class="form-control" placeholder="Enter Department name" name="d_name" value="<?php if ($flag) echo $row['dept_name'];
-                                                                                                                else echo ""; ?>" required>
+              <input type="text" class="form-control input1" placeholder="Enter Department name" name="d_name" value="<?php if ($flag) echo $row['dept_name'];
+                                                                                                            else echo ""; ?>" required>
+            </div>
+            <div class="form-group">
+              <input type="checkbox" id="check" name="check" onclick="csvInput(this)">
+              <label>Update Using CSV File</label>
+            </div>
+            <div class="form-group input1">
             </div>
         </div>
         <div class="modal-footer">
-          <input type="submit" class="btn btn-default btn-success" name="submit_add_department" value="<?php if ($flag) echo "Update";
+          <input type="submit" class="btn btn-default btn-success input1" name="submit_add_department" value="<?php if ($flag) echo "Update";
                                                                                                         else echo "Add"; ?>" />
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="flagreset()">Close</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
         </form>
       </div>
@@ -172,6 +178,33 @@ if (isset($_POST["submit_add_department"])) {
   </section>
   </div>
   </div>
+  <script>
+    function csvInput(checkBox){
+      let tmp=document.querySelectorAll(".input1");
+      if(checkBox.checked){
+        tmp[0].disabled=true;
+        tmp[1].disabled=true;
+        let file=document.createElement("input");
+        file.size="50";
+        file.type="file";
+        file.name="filename";
+        file.id="file";
+        file.required=true;
+        file.accept=".csv";
+        tmp[2].appendChild(file);
+        tmp[3].setAttribute("name","csv");
+        
+      }
+      else{
+        tmp[0].disabled=false;
+        tmp[1].disabled=false;
+        let file = document.getElementById("file");
+        tmp[2].removeChild(file);
+        tmp[3].setAttribute("name","submit_add_department");
+    }
+  }
+    
+</script>
 </body>
 
 </html>
