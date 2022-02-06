@@ -31,6 +31,7 @@ if (isset($_POST["submit"])) {
   <script type="text/javascript" src="../js/login.js"></script>
 
   <title>Change Password</title>
+  <link rel = "icon" href = "../images/favicon.ico" type = "image/x-icon">
 
 </head>
 

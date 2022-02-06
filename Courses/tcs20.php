@@ -41,53 +41,18 @@ if (isset($_POST["submit"])) {
 }
 ?>
 <html>
-  <head>
+
+<head>
   <title>
     <?php echo $course; ?>
   </title>
-  <?php include '../includes/cdn.php'; ?>
-<style>
-body {
-    font-family: "Lato", sans-serif;
-}
-
-.sidenav {
-    height: 100%;
-    width: 0;
-    position: fixed;
-    z-index: 1;
-    top: 60px;
-    left: 0;
-    background-color: #111;
-    overflow-x: hidden;
-    transition: 0.5s;
-    padding-top: 60px;
-}
-
-.sidenav a {
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 25px;
-    color: #818181;
-    display: block;
-    transition: 0.3s
-}
-
-.sidenav a:hover, .offcanvas a:focus{
-    color: #f1f1f1;
-}
-
-.closebtn {
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px !important;
-    margin-left: 50px;
-}
-</style>
+   <?php include '../includes/cdn.php'; ?>
+  <link rel="stylesheet" href="../css/header.css">
+  <script type="text/javascript" src="../js/header.js"></script>
 </head>
 <body>
-<?php
+  <?php
+   include '../includes/navbar.php';
   if ($role == "teacher") {
 
     echo '<div class="modal fade" id="modal1" role="dialog">
@@ -158,16 +123,29 @@ body {
       </div>';
   }
   ?>
-<span style="font-size:30px;cursor:pointer" onclick="openNav()">☰ open</span>
-<div id="mySidenav" class="sidenav">
-  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-  <a href="#">About</a>
-  <a href="#">Services</a>
-  <a href="#">Clients</a>
-  <a href="#">Contact</a>
-</div>
-<div id="main">
-<div class="container border border-3 mt-4 ">
+  <div class="container-fluid">
+    <div class="row flex-nowrap">
+      <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+        <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+          <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none ">
+            <span class="fs-5 d-none d-sm-inline ">Menu</span>
+          </a>
+          <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+            <li class="nav-item">
+              <a href="#" class="nav-link align-middle px-0 text-white">
+                 <span class="ms-1 d-none d-sm-inline">Home</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link px-0 align-middle text-white">
+               <span class="ms-1 d-none d-sm-inline">option2</span> </a>
+            </li>
+          </ul>
+          <hr>
+        </div>
+      </div>
+      <div class="col py-3 ">
+        <div class="container border border-3 mt-4 ">
           <?php
           if ($flag) {
             echo "<script type='text/javascript'>
@@ -230,29 +208,9 @@ body {
 
       </div>
     </div>
-<div>
-
-<script>
-function openNav() {
-    var e = document.getElementById("mySidenav");
-    var c=document.getElementById("main");
-    if (e.style.width == '250px')
-    {
-        e.style.width = '0px';
-        c.style.marginLeft='0x';
-    }
-    else 
-    {
-        e.style.width = '250px';
-        c.style.marginLeft='250px';
-    }
-}
-
-function closeNav() {
-    document.getElementById("mySidenav").style.width = "0";
-    document.getElementById("main").style.marginLeft = "0";
-}
-</script>
+  </div>
+  </div>
 
 </body>
-</html> 
+
+</html>
