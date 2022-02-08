@@ -37,17 +37,14 @@ if (isset($_POST["submit_add_department"])) {
 
 <body>
 
-  <?php include '../includes/navbar.php'; ?>
-
-  <?php
-  if ($flag) {
-    echo "<script type='text/javascript'>
+  <?php include '../includes/navbar.php'; 
+  if ($flag): ?> 
+    <script type='text/javascript'>
 			$(document).ready(function(){
 				$('#modal1').modal('show');
 			});
-		</script>";
-  }
-  ?>
+		</script>
+  <?php endif;?>
 
   <div class="modal fade" id="modal1" role="dialog">
     <div class="modal-dialog">

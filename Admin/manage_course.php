@@ -89,29 +89,26 @@ if (isset($_POST["submit_add_course"])) {
 
 <body>
 
-  <?php include '../includes/navbar.php'; ?>
-
-  <?php
-  if ($flag) {
-    echo "<script type='text/javascript'>
+  <?php include '../includes/navbar.php'; 
+  if ($flag) { ?>
+    <script type='text/javascript'>
     $(document).ready(function(){
       $('#modal1').modal('show');
       });
-      </script>";
-  } else if ($faculty) {
-    echo "<script type='text/javascript'>
+      </script>
+  <?php } else if ($faculty){?> 
+    <script type='text/javascript'>
       $(document).ready(function(){
         $('#modal4').modal('show');
         });
-        </script>";
-  } else if ($student) {
-    echo "<script type='text/javascript'>
+        </script>
+  <?php } else if ($student){ ?> 
+    <script type='text/javascript'>
         $(document).ready(function(){
           $('#modal7').modal('show');
           });
-          </script>";
-  }
-  ?>
+          </script>
+  <?php  } ?>
 
   <div class="modal fade" id="modal1" role="dialog">
     <div class="modal-dialog">
@@ -604,9 +601,7 @@ if (isset($_POST["submit_add_course"])) {
         tmp[2].removeChild(file);
         tmp[3].setAttribute("name","submit_add_student");
     }
-  }
-    
-    
+  }  
 </script>
 </body>
 

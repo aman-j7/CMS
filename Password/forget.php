@@ -49,7 +49,7 @@ if (isset($_POST["submit1"])) {
       $flag = 1;
     }
   } else {
-    $invalid_reg = 1;
+     $invalid_reg = 1;
   }
 }
 ?>
