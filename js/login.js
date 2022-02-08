@@ -1,7 +1,3 @@
-function myfunc() {
-  document.getElementById("error").innerHTML +=
-    '<div class="alert alert-danger" role="alert">Invalid login, please try again</div>';
-}
 
 function pass_toggle() {
   var x = document.getElementsByClassName("pass_toggle");

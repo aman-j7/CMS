@@ -1,17 +1,17 @@
 <?php
-$f = 0;
+$wrong_pass = 0;
 include "includes/config.php";
-$flag = 0;
+$default_pass = 0;
 if (isset($_POST["submit"])) {
-  $e = $_POST["id"];
-  $p = $_POST["password"];
-  $res = mysqli_query($conn, "select role from login where reg_id='$e' and password='$p'");
+  $registration_Id = $_POST["id"];
+  $password = $_POST["password"];
+  $res = mysqli_query($conn, "select role from login where reg_id='$registration_Id' and password='$password'");
   $row = mysqli_fetch_array($res);
   if ($row) {
-    $_SESSION['user_id'] = $e;
+    $_SESSION['user_id'] = $registration_Id;
     $_SESSION['type'] = $row['role'];
-    if ($p == "CMS@123") {
-      $flag = 1;
+    if ($password == "CMS@123") {
+      $default_pass = 1;
     } elseif ($row['role'] == "teacher")
       header("Location:Teacher/teacher_dashboard.php");
     elseif ($row['role'] == "admin")
@@ -20,7 +20,7 @@ if (isset($_POST["submit"])) {
       header("Location:Student/student_dashboard.php");
   } else {
 
-    $f = 1;
+    $wrong_pass = 1;
   }
 }
 ?>
@@ -38,18 +38,17 @@ if (isset($_POST["submit"])) {
 </head>
 
 <body>
-  <?php
-  if ($flag)
-    echo "<script>
+  <?php if($default_pass):?>
+    <script>
     Swal.fire({
       icon: 'warning',
       title: 'Login Successfull!',
       text: 'Update your default password',
       timer: 10000
     }).then(function() {
-    window.location = 'Password/change_password.php';
-});
-  </script>"; ?>
+    window.location = 'Password/change_password.php';});
+  </script>;
+  <?php endif;?>
   <section class="h-100 gradient-form">
     <div class="container h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">
@@ -113,11 +112,13 @@ if (isset($_POST["submit"])) {
     showSlides();
   </script>
   
-  <?php
-  if ($f == 1) {
-    echo '<script>myfunc();</script>';
-  }
-  ?>
+  <?php if ($wrong_pass == 1): ?>
+  <script>
+   document.getElementById("error").innerHTML +=
+    '<div class="alert alert-danger" role="alert">Invalid login, please try again</div>';
+
+  </script>
+  <?php endif;?>
 </body>
 
 </html>

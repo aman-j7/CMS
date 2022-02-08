@@ -3,7 +3,7 @@ include "../includes/config.php";
 $id = $_SESSION['user_id'];
 $same_pass = 0;
 $wrong_pass = 0;
-$flag = 0;
+$password_changed = 0;
 if (isset($_POST["submit"])) {
   $pass1 = $_POST['pass1'];
   $pass2 = $_POST['pass2'];
@@ -36,8 +36,8 @@ if (isset($_POST["submit"])) {
 </head>
 
 <body id = "change_pass">
-  <?php if ($flag)
-    echo "<script>
+  <?php if ($passoword_changed): ?>
+    <script>
     Swal.fire({
       icon: 'success',
       title: 'Password Changed Successfully!',
@@ -45,7 +45,8 @@ if (isset($_POST["submit"])) {
     }).then(function() {
         window.location = '../login.php';
     });
-      </script>"; ?>
+      </script>
+    <?php endif;?>
   <section class="h-100 gradient-form">
     <div class="container h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">
@@ -60,8 +61,12 @@ if (isset($_POST["submit"])) {
                   </div>
 
                   <form method="POST" action="change_password.php" autocomplete="off">
-                    <?php if ($same_pass) echo '<div class="alert alert-info" role="alert">Cannot Use Default password!</div>';
-                    if ($wrong_pass) echo '<div class="alert alert-danger" role="alert">Password does not match!</div>'; ?>
+                    <?php if ($same_pass): ?>
+                    <div class="alert alert-info" role="alert">Cannot Use Default password!</div>
+                    <?php endif; ?>
+                    <?php if ($wrong_pass): ?>
+                      <div class="alert alert-danger" role="alert">Password does not match!</div>
+                    <?php endif; ?>
                     <p><strong>Enter New Password</strong></p>
                     <div class="form-outline mb-4">
                       <input type="password" name="pass1" class="form-control pass_toggle" placeholder="New Password" />

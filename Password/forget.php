@@ -61,7 +61,7 @@ if (isset($_POST["submit1"])) {
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
   <script type="text/javascript" src="../js/login.js"></script>
   <title>ForgetPasword</title>
-  <link rel = "icon" href = "../images/favicon.ico" type = "image/x-icon">
+  <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
 </head>
 
 <body>
@@ -80,8 +80,12 @@ if (isset($_POST["submit1"])) {
                     </div>
                     <p id="error"></p>
                     <form method="POST" action="forget.php" autocomplete="off">
-                      <?php if ($check) echo '<div class="alert alert-danger" role="alert">OTP has not been sent!</div>';
-                      if ($invalid_reg) echo '<div class="alert alert-danger" role="alert">Invalid Registration No!</div>'; ?>
+                      <?php if ($check) : ?>
+                        <div class="alert alert-danger" role="alert">OTP has not been sent!</div>
+                      <?php endif; ?>
+                      <?php if ($invalid_reg) : ?>
+                        <div class="alert alert-danger" role="alert">Invalid Registration No!</div>
+                      <?php endif; ?>
                       <p><strong>Enter your Registration Number</strong></p>
                       <div class="form-outline mb-4">
                         <input type="integer" name="reg" class="form-control" placeholder="Registration Number" required />
@@ -130,17 +134,20 @@ if (isset($_POST["submit1"])) {
                       <img src="../images/logo.png" id="logo" style="width: 180px;" alt="logo">
                     </div>
                     <form method="POST" action="forget.php" autocomplete="off">
-                      <?php if ($invalid_otp) echo "<script>
-                                                      Swal.fire({
-                                                      icon: 'error',
-                                                      title: 'Incorrect OTP',
-                                                      text: 'Try again!',
-                                                      timer: 10000
-                                                    }).then(function() {
-                                                    window.location = 'forget.php';
-                                                });
-                                                  </script>";
-                      else echo '<div class="alert alert-success" role="alert">OTP has been successfully sent!</div>'; ?>
+                      <?php if ($invalid_otp) : ?>
+                        <script>
+                          Swal.fire({
+                            icon: 'error',
+                            title: 'Incorrect OTP',
+                            text: 'Try again!',
+                            timer: 10000
+                          }).then(function() {
+                            window.location = 'forget.php';
+                          });
+                        </script>
+                      <?php else : ?>
+                        <div class="alert alert-success" role="alert">OTP has been successfully sent!</div>
+                      <?php endif; ?>
                       <p><strong>Enter your OTP</strong></p>
                       <div class="form-outline mb-4">
                         <input type="password" name="otp1" class="form-control pass_toggle" placeholder="OTP here" required />
