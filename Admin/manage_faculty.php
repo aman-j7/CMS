@@ -2,25 +2,35 @@
 include "../includes/config.php";
 include "../includes/random_color.php";
 $flag = 0;
-if (isset($_POST["submit_add_faculty"])) {
-  $f = $_GET["f"];
-  $f_id = $_POST["f_id"];
-  $f_name = $_POST["f_name"];
-  $d_id = $_POST["d_id"];
-  if ($f) {
-    mysqli_query($conn, "update faculty set faculty_name='$f_name',dept_id='$d_id' where faculty_id='$f_id'");
-  } else {
-    mysqli_query($conn, "insert into faculty values('$f_id','$f_name','$d_id')");
-    mysqli_query($conn, "insert into login values('$f_id','CMS@123','teacher','teacher@gmail.com')");
+$exception_occur=0;
+$exception_cause=new Exception();
+try
+{
+  if (isset($_POST["submit_add_faculty"])) {
+    $f = $_GET["f"];
+    $f_id = $_POST["f_id"];
+    $f_name = $_POST["f_name"];
+    $d_id = $_POST["d_id"];
+    if ($f) {
+      mysqli_query($conn, "update faculty set faculty_name='$f_name',dept_id='$d_id' where faculty_id='$f_id'");
+    } else {
+      mysqli_query($conn, "insert into faculty values('$f_id','$f_name','$d_id')");
+      mysqli_query($conn, "insert into login values('$f_id','CMS@123','teacher','teacher@gmail.com')");
+    }
+  } else if (isset($_POST["submit_update_faculty"])) {
+    $f_id = $_POST["f_id"];
+    $res = mysqli_query($conn, "Select faculty_id,faculty_name,dept_id from faculty where faculty_id='$f_id'");
+    $row = mysqli_fetch_array($res);
+    $flag = 1;
+  } else if (isset($_POST["submit_drop_faculty"])) {
+    $f_id = $_POST["f_id"];
+    mysqli_query($conn, "DELETE FROM `faculty` where faculty_id='$f_id'");
   }
-} else if (isset($_POST["submit_update_faculty"])) {
-  $f_id = $_POST["f_id"];
-  $res = mysqli_query($conn, "Select faculty_id,faculty_name,dept_id from faculty where faculty_id='$f_id'");
-  $row = mysqli_fetch_array($res);
-  $flag = 1;
-} else if (isset($_POST["submit_drop_faculty"])) {
-  $f_id = $_POST["f_id"];
-  mysqli_query($conn, "DELETE FROM `faculty` where faculty_id='$f_id'");
+}
+catch(Exception $except){
+  $exception_occur=1;
+  $exception_cause=$except;
+
 }
 
 ?>
@@ -41,8 +51,12 @@ if (isset($_POST["submit_add_faculty"])) {
 </head>
 
 <body>
-
-  <?php include '../includes/navbar.php'; 
+<?php if($exception_occur):?>
+    <script>
+    alert("<?php echo $exception_cause->getMessage()?>");
+  </script>
+  <?php endif;
+   include '../includes/navbar.php'; 
   if ($flag):?> 
     <script type='text/javascript'>
 			$(document).ready(function(){

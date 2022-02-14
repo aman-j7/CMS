@@ -94,7 +94,7 @@ if (isset($_POST["submit"])) {
             <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Update  Student</h5>
           </div>
           <div class="modal-body">
-            <form role="form" action="<?php echo $course ?>.php?course= <?php echo $course ?>& course_name=<?php echo $subject?> " method="POST" autocomplete="off">
+            <form role="form" action="<?php echo $course ?>.php?course=<?php echo $course?>& course_name=<?php echo $subject?> " method="POST" autocomplete="off">
               <div class="form-group">
                 <label>Header</label>
                 <input type="text" class="form-control"  name="head" placeholder="topic" value="<?php if ($flag) echo $up['header'];else echo "";?>" required>

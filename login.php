@@ -1,8 +1,11 @@
 <?php
-$wrong_pass = 0;
-include "includes/config.php";
-$default_pass = 0;
-if (isset($_POST["submit"])) {
+ include "includes/config.php";
+ $wrong_pass = 0;
+ $default_pass = 0;
+ $exception_occur=0;
+ $exception_cause=new Exception();
+try{
+  if (isset($_POST["submit"])) {
   $registration_Id = $_POST["id"];
   $password = $_POST["password"];
   $res = mysqli_query($conn, "select role from login where reg_id='$registration_Id' and password='$password'");
@@ -23,6 +26,12 @@ if (isset($_POST["submit"])) {
     $wrong_pass = 1;
   }
 }
+}
+catch(Exception $except){
+  $exception_occur=1;
+  $exception_cause=$except;
+
+}
 ?>
 
 
@@ -38,7 +47,12 @@ if (isset($_POST["submit"])) {
 </head>
 
 <body>
-  <?php if($default_pass):?>
+<?php if($exception_occur):?>
+    <script>
+    alert("<?php echo $exception_cause->getMessage()?>");
+  </script>
+  <?php endif;
+  if($default_pass):?>
     <script>
     Swal.fire({
       icon: 'warning',
@@ -47,7 +61,7 @@ if (isset($_POST["submit"])) {
       timer: 10000
     }).then(function() {
     window.location = 'Password/change_password.php';});
-  </script>;
+  </script>
   <?php endif;?>
   <section class="h-100 gradient-form">
     <div class="container h-100">

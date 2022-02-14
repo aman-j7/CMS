@@ -4,71 +4,80 @@ include "../includes/random_color.php";
 $faculty = 0;
 $flag = 0;
 $student = 0;
-if (isset($_POST["submit_add_course"])) {
-  $f = $_GET["f"];
-  $c_id = $_POST["c_id"];
-  $c_name = $_POST["c_name"];
-  if ($f) {
-    mysqli_query($conn, "update courses set course_name='$c_name' where course_id='$c_id'");
-  } else {
-    mysqli_query($conn, "insert into courses values('$c_id','$c_name')");
-    $myfile = fopen("../Courses/$c_id.php", "w");
-    fclose($myfile);
-    copy("../Courses/template.php", "../Courses/$c_id.php");
-    mysqli_query($conn, "CREATE TABLE $c_id ( `no` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, `header` VARCHAR(100) NOT NULL , `link` VARCHAR(100)  , `notes` VARCHAR(100)  , `ref` VARCHAR(100)  , `assigment` VARCHAR(100), `upload` VARCHAR(100))");
+$exception_occur=0;
+$exception_cause=new Exception();
+try{
+  if (isset($_POST["submit_add_course"])) {
+    $f = $_GET["f"];
+    $c_id = $_POST["c_id"];
+    $c_name = $_POST["c_name"];
+    if ($f) {
+      mysqli_query($conn, "update courses set course_name='$c_name' where course_id='$c_id'");
+    } else {
+      mysqli_query($conn, "insert into courses values('$c_id','$c_name')");
+      $myfile = fopen("../Courses/$c_id.php", "w");
+      fclose($myfile);
+      copy("../Courses/template.php", "../Courses/$c_id.php");
+      mysqli_query($conn, "CREATE TABLE $c_id ( `no` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, `header` VARCHAR(100) NOT NULL , `link` VARCHAR(100)  , `notes` VARCHAR(100)  , `ref` VARCHAR(100)  , `assigment` VARCHAR(100), `upload` VARCHAR(100))");
+    }
+  } else if (isset($_POST["submit_update_course"])) {
+    $c_id = $_POST["c_id"];
+    $res = mysqli_query($conn, "Select course_id,course_name from courses where course_id='$c_id'");
+    $row = mysqli_fetch_array($res);
+    $flag = 1;
+  } else if (isset($_POST["submit_drop_course"])) {
+    $c_id = $_POST["c_id"];
+    mysqli_query($conn, "DELETE FROM `courses` where course_id='$c_id'");
+    mysqli_query($conn, "DROP TABLE $c_id");
+    unlink("$c_id.php");
+  } else if (isset($_POST["submit_add_faculty"])) {
+    $f = $_GET["f"];
+    $c_id = $_POST["c_id"];
+    $f_id = $_POST["f_id"];
+    if ($f) {
+      $oldf_id = $_POST['of_id'];
+      $oldc_id = $_POST['oc_id'];
+      mysqli_query($conn, "UPDATE `teaches` SET `course_id`='$c_id',`faculty_id`='$f_id' WHERE `course_id` = '$oldc_id' AND `faculty_id`='$oldf_id'");
+    } else {
+      mysqli_query($conn, "INSERT INTO `teaches`(`course_id`, `faculty_id`) VALUES ('$c_id','$f_id')");
+    }
+  } else if (isset($_POST["submit_update_faculty"])) {
+    $c_id = $_POST["c_id"];
+    $f_id = $_POST['f_id'];
+    $res = mysqli_query($conn, "SELECT `course_id`, `faculty_id` FROM `teaches` WHERE `course_id`='$c_id' AND `faculty_id`='$f_id'");
+    $row = mysqli_fetch_array($res);
+    $faculty = 1;
+  } else if (isset($_POST["submit_drop_faculty"])) {
+    $c_id = $_POST["c_id"];
+    $f_id = $_POST['f_id'];
+    mysqli_query($conn, "DELETE FROM `teaches` where course_id='$c_id' AND faculty_id='$f_id'");
+  } else if (isset($_POST["submit_add_student"])) {
+    $f = $_GET["f"];
+    $c_id = $_POST["c_id"];
+    $s_id = $_POST["s_id"];
+    if ($f) {
+      $olds_id = $_POST['os_id'];
+      $oldc_id = $_POST['oc_id'];
+      mysqli_query($conn, "UPDATE `assign` SET `course_id`='$c_id',`student_id`='$s_id' WHERE `course_id` = '$oldc_id' AND `student_id`='$olds_id'");
+    } else {
+      mysqli_query($conn, "INSERT INTO `assign`(`course_id`, `student_id`) VALUES ('$c_id','$s_id')");
+    }
+  } else if (isset($_POST["submit_update_student"])) {
+    $c_id = $_POST["c_id"];
+    $s_id = $_POST['s_id'];
+    $res = mysqli_query($conn, "SELECT `course_id`, `student_id` FROM `assign` WHERE `course_id`='$c_id' AND `student_id`='$s_id'");
+    $row = mysqli_fetch_array($res);
+    $student = 1;
+  } else if (isset($_POST["submit_drop_student"])) {
+    $c_id = $_POST["c_id"];
+    $s_id = $_POST['s_id'];
+    mysqli_query($conn, "DELETE FROM `assign` where course_id='$c_id' AND student_id='$s_id'");
   }
-} else if (isset($_POST["submit_update_course"])) {
-  $c_id = $_POST["c_id"];
-  $res = mysqli_query($conn, "Select course_id,course_name from courses where course_id='$c_id'");
-  $row = mysqli_fetch_array($res);
-  $flag = 1;
-} else if (isset($_POST["submit_drop_course"])) {
-  $c_id = $_POST["c_id"];
-  mysqli_query($conn, "DELETE FROM `courses` where course_id='$c_id'");
-  mysqli_query($conn, "DROP TABLE $c_id");
-  unlink("$c_id.php");
-} else if (isset($_POST["submit_add_faculty"])) {
-  $f = $_GET["f"];
-  $c_id = $_POST["c_id"];
-  $f_id = $_POST["f_id"];
-  if ($f) {
-    $oldf_id = $_POST['of_id'];
-    $oldc_id = $_POST['oc_id'];
-    mysqli_query($conn, "UPDATE `teaches` SET `course_id`='$c_id',`faculty_id`='$f_id' WHERE `course_id` = '$oldc_id' AND `faculty_id`='$oldf_id'");
-  } else {
-    mysqli_query($conn, "INSERT INTO `teaches`(`course_id`, `faculty_id`) VALUES ('$c_id','$f_id')");
-  }
-} else if (isset($_POST["submit_update_faculty"])) {
-  $c_id = $_POST["c_id"];
-  $f_id = $_POST['f_id'];
-  $res = mysqli_query($conn, "SELECT `course_id`, `faculty_id` FROM `teaches` WHERE `course_id`='$c_id' AND `faculty_id`='$f_id'");
-  $row = mysqli_fetch_array($res);
-  $faculty = 1;
-} else if (isset($_POST["submit_drop_faculty"])) {
-  $c_id = $_POST["c_id"];
-  $f_id = $_POST['f_id'];
-  mysqli_query($conn, "DELETE FROM `teaches` where course_id='$c_id' AND faculty_id='$f_id'");
-} else if (isset($_POST["submit_add_student"])) {
-  $f = $_GET["f"];
-  $c_id = $_POST["c_id"];
-  $s_id = $_POST["s_id"];
-  if ($f) {
-    $olds_id = $_POST['os_id'];
-    $oldc_id = $_POST['oc_id'];
-    mysqli_query($conn, "UPDATE `assign` SET `course_id`='$c_id',`student_id`='$s_id' WHERE `course_id` = '$oldc_id' AND `student_id`='$olds_id'");
-  } else {
-    mysqli_query($conn, "INSERT INTO `assign`(`course_id`, `student_id`) VALUES ('$c_id','$s_id')");
-  }
-} else if (isset($_POST["submit_update_student"])) {
-  $c_id = $_POST["c_id"];
-  $s_id = $_POST['s_id'];
-  $res = mysqli_query($conn, "SELECT `course_id`, `student_id` FROM `assign` WHERE `course_id`='$c_id' AND `student_id`='$s_id'");
-  $row = mysqli_fetch_array($res);
-  $student = 1;
-} else if (isset($_POST["submit_drop_student"])) {
-  $c_id = $_POST["c_id"];
-  $s_id = $_POST['s_id'];
-  mysqli_query($conn, "DELETE FROM `assign` where course_id='$c_id' AND student_id='$s_id'");
+}
+catch(Exception $except){
+  $exception_occur=1;
+  $exception_cause=$except;
+
 }
 
 ?>
@@ -88,8 +97,12 @@ if (isset($_POST["submit_add_course"])) {
 </head>
 
 <body>
-
-  <?php include '../includes/navbar.php'; 
+<?php if($exception_occur):?>
+    <script>
+    alert("<?php echo $exception_cause->getMessage()?>");
+  </script>
+  <?php endif;
+  include '../includes/navbar.php'; 
   if ($flag) { ?>
     <script type='text/javascript'>
     $(document).ready(function(){

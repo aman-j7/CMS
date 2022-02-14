@@ -2,25 +2,35 @@
 include "../includes/config.php";
 include "../includes/random_color.php";
 $flag = 0;
-if (isset($_POST["submit_add_student"])) {
-  $f = $_GET["f"];
-  $s_id = $_POST["s_id"];
-  $s_name = $_POST["s_name"];
-  $d_id = $_POST["d_id"];
-  if ($f) {
-    mysqli_query($conn, "update student set student_name='$s_name',dept_id='$d_id' where student_id='$s_id'");
-  } else {
-    mysqli_query($conn, "insert into student values('$s_id','$s_name','$d_id')");
-    mysqli_query($conn, "insert into login values('$s_id','CMS@123','student','abcd@gmail.com')");
+$exception_occur=0;
+$exception_cause=new Exception();
+try
+{
+  if (isset($_POST["submit_add_student"])) {
+    $f = $_GET["f"];
+    $s_id = $_POST["s_id"];
+    $s_name = $_POST["s_name"];
+    $d_id = $_POST["d_id"];
+    if ($f) {
+      mysqli_query($conn, "update student set student_name='$s_name',dept_id='$d_id' where student_id='$s_id'");
+    } else {
+      mysqli_query($conn, "insert into student values('$s_id','$s_name','$d_id')");
+      mysqli_query($conn, "insert into login values('$s_id','CMS@123','student','abcd@gmail.com')");
+    }
+  } else if (isset($_POST["submit_update_student"])) {
+    $s_id = $_POST["s_id"];
+    $res = mysqli_query($conn, "Select student_id,student_name,dept_id from student where student_id='$s_id'");
+    $row = mysqli_fetch_array($res);
+    $flag = 1;
+  } else if (isset($_POST["submit_drop_student"])) {
+    $s_id = $_POST["s_id"];
+    mysqli_query($conn, "DELETE FROM `student` where student_id='$s_id'");
   }
-} else if (isset($_POST["submit_update_student"])) {
-  $s_id = $_POST["s_id"];
-  $res = mysqli_query($conn, "Select student_id,student_name,dept_id from student where student_id='$s_id'");
-  $row = mysqli_fetch_array($res);
-  $flag = 1;
-} else if (isset($_POST["submit_drop_student"])) {
-  $s_id = $_POST["s_id"];
-  mysqli_query($conn, "DELETE FROM `student` where student_id='$s_id'");
+}
+catch(Exception $except){
+  $exception_occur=1;
+  $exception_cause=$except;
+
 }
 ?>
 <html>
@@ -38,8 +48,12 @@ if (isset($_POST["submit_add_student"])) {
 </head>
 
 <body>
-
-  <?php include '../includes/navbar.php'; 
+<?php if($exception_occur):?>
+    <script>
+    alert("<?php echo $exception_cause->getMessage()?>");
+  </script>
+  <?php endif;
+  include '../includes/navbar.php'; 
   if ($flag):?> 
     <script type='text/javascript'>
 			$(document).ready(function(){

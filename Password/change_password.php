@@ -4,6 +4,10 @@ $id = $_SESSION['user_id'];
 $same_pass = 0;
 $wrong_pass = 0;
 $password_changed = 0;
+$exception_occur=0;
+$exception_cause=new Exception();
+try
+{
 if (isset($_POST["submit"])) {
   $pass1 = $_POST['pass1'];
   $pass2 = $_POST['pass2'];
@@ -17,6 +21,12 @@ if (isset($_POST["submit"])) {
   } else {
     $wrong_pass = 1;
   }
+}
+}
+catch(Exception $except){
+  $exception_occur=1;
+  $exception_cause=$except;
+
 }
 ?>
 
@@ -36,7 +46,12 @@ if (isset($_POST["submit"])) {
 </head>
 
 <body id = "change_pass">
-  <?php if ($passoword_changed): ?>
+<?php if($exception_occur):?>
+    <script>
+    alert("<?php echo $exception_cause->getMessage()?>");
+  </script>
+  <?php endif;
+  if ($password_changed): ?>
     <script>
     Swal.fire({
       icon: 'success',

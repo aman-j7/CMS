@@ -11,46 +11,56 @@ $reg = 0;
 $check = 0;
 $invalid_reg = 0;
 $invalid_otp = 0;
-if (isset($_POST["submit2"])) {
-  $o1 = $_POST["otp1"];
-  $otp = $_POST["otp2"];
-  $reg = $_POST["reg"];
-  $flag = 0;
-  if ($o1 == $otp) {
-    header("Location:change_password.php");
-  } else {
-    $invalid_otp = 1;
+$exception_occur=0;
+$exception_cause=new Exception();
+try
+{
+  if (isset($_POST["submit2"])) {
+    $o1 = $_POST["otp1"];
+    $otp = $_POST["otp2"];
+    $reg = $_POST["reg"];
+    $flag = 0;
+    if ($o1 == $otp) {
+      header("Location:change_password.php");
+    } else {
+      $invalid_otp = 1;
+    }
+  }
+
+  if (isset($_POST["submit1"])) {
+    $reg = $_POST["reg"];
+    $res = mysqli_query($conn, "select email from login where reg_id='$reg'");
+    $row = mysqli_fetch_array($res);
+    if ($row) {
+      $email = $row['email'];
+      $otp = rand(100000, 999999);
+      $msg = "Your otp is" . strval($otp);
+      $mail = new PHPMailer(true);
+      $mail->isSMTP();
+      $mail->SMTPSecure = 'tls';
+      $mail->Host = 'smtp.gmail.com';
+      $mail->SMTPAuth = true;
+      $mail->Port = 587;
+      $mail->Username = 'projectcms05@gmail.com';
+      $mail->Password = 'teaching@123';
+      $mail->setFrom('projectcms05@gmail.com');
+      $mail->addAddress($email);
+      $mail->Subject = 'Otp for new password';
+      $mail->Body = $msg;
+      $flag = 0;
+      if (!$mail->send()) {
+        $check = 1;
+        $flag = 1;
+      }
+    } else {
+      $invalid_reg = 1;
+    }
   }
 }
+catch(Exception $except){
+  $exception_occur=1;
+  $exception_cause=$except;
 
-if (isset($_POST["submit1"])) {
-  $reg = $_POST["reg"];
-  $res = mysqli_query($conn, "select email from login where reg_id='$reg'");
-  $row = mysqli_fetch_array($res);
-  if ($row) {
-    $email = $row['email'];
-    $otp = rand(100000, 999999);
-    $msg = "Your otp is" . strval($otp);
-    $mail = new PHPMailer(true);
-    $mail->isSMTP();
-    $mail->SMTPSecure = 'tls';
-    $mail->Host = 'smtp.gmail.com';
-    $mail->SMTPAuth = true;
-    $mail->Port = 587;
-    $mail->Username = 'projectcms05@gmail.com';
-    $mail->Password = 'teaching@123';
-    $mail->setFrom('projectcms05@gmail.com');
-    $mail->addAddress($email);
-    $mail->Subject = 'Otp for new password';
-    $mail->Body = $msg;
-    $flag = 0;
-    if (!$mail->send()) {
-      $check = 1;
-      $flag = 1;
-    }
-  } else {
-     $invalid_reg = 1;
-  }
 }
 ?>
 <html>
@@ -66,7 +76,12 @@ if (isset($_POST["submit1"])) {
 
 <body>
 
-  <?php if ($flag) : ?>
+<?php if($exception_occur):?>
+    <script>
+    alert("<?php echo $exception_cause->getMessage()?>");
+  </script>
+  <?php endif;
+  if ($flag) : ?>
     <section class="h-100 gradient-form">
       <div class="container h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">

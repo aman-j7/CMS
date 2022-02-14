@@ -2,23 +2,32 @@
 include "../includes/config.php";
 include "../includes/random_color.php";
 $flag = 0;
-if (isset($_POST["submit_add_department"])) {
-  $f = $_GET["f"];
-  $d_id = $_POST["d_id"];
-  $d_name = $_POST["d_name"];
-  if ($f) {
-    mysqli_query($conn, "update department set dept_name='$d_name' where dept_id='$d_id'");
-  } else {
-    mysqli_query($conn, "insert into department values('$d_id','$d_name')");
+$exception_occur=0;
+$exception_cause=new Exception();
+try{
+  if (isset($_POST["submit_add_department"])) {
+    $f = $_GET["f"];
+    $d_id = $_POST["d_id"];
+    $d_name = $_POST["d_name"];
+    if ($f) {
+      mysqli_query($conn, "update department set dept_name='$d_name' where dept_id='$d_id'");
+    } else {
+      mysqli_query($conn, "insert into department values('$d_id','$d_name')");
+    }
+  } else if (isset($_POST["submit_update_department"])) {
+    $d_id = $_POST["d_id"];
+    $res = mysqli_query($conn, "Select dept_id,dept_name from department where dept_id='$d_id'");
+    $row = mysqli_fetch_array($res);
+    $flag = 1;
+  } else if (isset($_POST["submit_drop_department"])) {
+    $d_id = $_POST["d_id"];
+    mysqli_query($conn, "DELETE FROM `department` where dept_id='$d_id'");
   }
-} else if (isset($_POST["submit_update_department"])) {
-  $d_id = $_POST["d_id"];
-  $res = mysqli_query($conn, "Select dept_id,dept_name from department where dept_id='$d_id'");
-  $row = mysqli_fetch_array($res);
-  $flag = 1;
-} else if (isset($_POST["submit_drop_department"])) {
-  $d_id = $_POST["d_id"];
-  mysqli_query($conn, "DELETE FROM `department` where dept_id='$d_id'");
+}
+catch(Exception $except){
+  $exception_occur=1;
+  $exception_cause=$except;
+
 }
 ?>
 <html>
@@ -36,8 +45,12 @@ if (isset($_POST["submit_add_department"])) {
 </head>
 
 <body>
-
-  <?php include '../includes/navbar.php'; 
+<?php if($exception_occur):?>
+    <script>
+    alert("<?php echo $exception_cause->getMessage()?>");
+  </script>
+  <?php endif;
+  include '../includes/navbar.php'; 
   if ($flag): ?> 
     <script type='text/javascript'>
 			$(document).ready(function(){
