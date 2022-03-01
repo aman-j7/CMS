@@ -23,6 +23,15 @@ try{
     $d_id = $_POST["d_id"];
     mysqli_query($conn, "DELETE FROM `department` where dept_id='$d_id'");
   }
+  else if (isset($_POST["csv"])){
+    $handle = fopen($_FILES['filename']['tmp_name'], "r");
+    fgetcsv($handle, 1000, ",");
+    while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) 
+    {
+      mysqli_query($conn, "insert into depratment values('$data[0]','$data[1]')");
+    }
+    fclose($handle);
+}
 }
 catch(Exception $except){
   $exception_occur=1;

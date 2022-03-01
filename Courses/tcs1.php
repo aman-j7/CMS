@@ -1,14 +1,14 @@
 <?php
 include "../includes/config.php";
-$course =strtoupper($_GET["course"]);
+$course = strtoupper($_GET["course"]);
 $t = mysqli_query($conn, "SELECT `course_name` FROM `courses` where course_id='$course'");
 $t = mysqli_fetch_array($t);
-$subject = strtoupper($t["course_name"]);
+$subject =  $t["course_name"];
 $flag = 0;
-$role =$_SESSION['type'];
+$role = $_SESSION['type'];
 if (isset($_POST["submit"])) {
   $f = $_POST['f'];
-  $h = strtoupper($_POST["head"]);
+  $h = $_POST["head"];
   $ml = $_POST["material_link"];
   $hl = $_POST["lecture_link"];
   $rl = $_POST['refrence'];
@@ -115,7 +115,7 @@ if (isset($_POST["submit"])) {
   <section class="home">
     <div class="container border border-3 mt-4 ">
 
-      <h1 class="text-center pt-3 pb-2">
+      <h1 class="text-center pt-2 pb-2">
         <?php
         echo $subject . ' (' . $course . ')';
         ?>
@@ -130,36 +130,32 @@ if (isset($_POST["submit"])) {
           <div class="row ">
           <?php endif;
         $c = $c + 1; ?>
-          <div class="col-lg-4 mt-4 ">
-          <div  style="background-color:aqua" class="pb-1 pt-2 mb-1 border border-dark">
+          <div class="col-lg-4 mt-4">
+            <div class="card border border-success">
+              <div class="card-body">
                 <h5 class="card-title text-center"><?php echo $res['header'] ?> </h5>
-        </div>
-            <div class="card border border-dark">
-              <div class="card-body" style="min-height:110px">
                 <?php if ($res['link'] != NULL) : ?>
-                  <a href="<?php echo $res['link'] ?>" class="link-secondary">Lecture Video Link</a><br>
+                  <a href="<?php echo $res['link'] ?>" class="link-secondary">lecture video link</a><br>
                 <?php endif; ?>
                 <?php if ($res['notes'] != NULL) : ?>
                   <a href="<?php echo $res['notes'] ?>" class="link-secondary">Material link</a><br>
                 <?php endif; ?>
                 <?php if ($res['ref'] != NULL) : ?>
-                  <a href="<?php echo $res['ref'] ?>" class="link-secondary">Refrences</a><br>
+                  <a href="<?php echo $res['ref'] ?>" class="link-secondary">refrences</a><br>
                 <?php endif; ?>
                 <?php if ($res['assigment'] != NULL) : ?>
-                  <a href=" <?php echo $res['assigment'] ?>" class="link-secondary">Assigment Link</a><br>
-                  <a href="<?php echo $res['upload'] ?>" class="link-secondary">Upload Link</a><br>
+                  <a href=" <?php echo $res['assigment'] ?>" class="link-secondary">assigment link</a><br>
+                  <a href="<?php echo $res['upload'] ?>" class="link-secondary">upload link</a><br>
                 <?php endif; ?>
               </div>
               <?php if ($role == "teacher") : ?>
-              <div class="mb-2">
                 <form role="form" action="<?php echo $course ?>.php?course=<?php echo $course ?>&course_name=<?php echo $subject ?>" method="POST">
                   <tr>
                     <td><input type="integer" name="no" value=<?php echo $res['no'] ?> hidden></td>
-                    <td><input type="submit" class="btn btn-danger  btn-sm mx-1 me-2" name="delete" value="Delete" style="float:right" /></td>
-                    <td><input type="submit" class="btn btn-info  btn-sm mx-1 me-2" name="update" value="Update" style="float:right" /></td>
+                    <td><input type="submit" class="btn btn-default btn-outline-danger btn-sm mx-1 me-2" name="delete" value="Delete" style="float:right" /></td>
+                    <td><input type="submit" class="btn btn-default btn btn-outline-dark btn-sm mx-1 me-2" name="update" value="Update" style="float:right" /></td>
                   </tr>
                 </form>
-              </div>
             </div>
           </div>
         <?php endif;

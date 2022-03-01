@@ -26,7 +26,18 @@ try
     $f_id = $_POST["f_id"];
     mysqli_query($conn, "DELETE FROM `faculty` where faculty_id='$f_id'");
   }
+  else if (isset($_POST["csv"])){
+    $handle = fopen($_FILES['filename']['tmp_name'], "r");
+    fgetcsv($handle, 1000, ",");
+    while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) 
+    {
+      mysqli_query($conn, "insert into faculty values('$data[0]','$data[1]','$data[2]')");
+      mysqli_query($conn, "insert into login values('$data[0]','CMS@123','teacher','abc@gamil.com')");
+    }
+    fclose($handle);
 }
+}
+
 catch(Exception $except){
   $exception_occur=1;
   $exception_cause=$except;

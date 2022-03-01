@@ -73,6 +73,33 @@ try{
     $s_id = $_POST['s_id'];
     mysqli_query($conn, "DELETE FROM `assign` where course_id='$c_id' AND student_id='$s_id'");
   }
+  else if (isset($_POST["csv_add_course"])){
+    $handle = fopen($_FILES['filename']['tmp_name'], "r");
+    fgetcsv($handle, 1000, ",");
+    while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) 
+    {
+      mysqli_query($conn, "insert into depratment values('$data[0]','$data[1]')");
+    }
+    fclose($handle);
+}
+else if (isset($_POST["csv_add_faculty"])){
+  $handle = fopen($_FILES['filename']['tmp_name'], "r");
+  fgetcsv($handle, 1000, ",");
+  while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) 
+  {
+    mysqli_query($conn, "insert into depratment values('$data[0]','$data[1]')");
+  }
+  fclose($handle);
+}
+else if (isset($_POST["csv_add_student"])){
+  $handle = fopen($_FILES['filename']['tmp_name'], "r");
+  fgetcsv($handle, 1000, ",");
+  while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) 
+  {
+    mysqli_query($conn, "insert into depratment values('$data[0]','$data[1]')");
+  }
+  fclose($handle);
+}
 }
 catch(Exception $except){
   $exception_occur=1;
@@ -555,7 +582,7 @@ catch(Exception $except){
         file.required=true;
         file.accept=".csv";
         tmp[2].appendChild(file);
-        tmp[3].setAttribute("name","csv");
+        tmp[3].setAttribute("name","csv_add_course");
         
       }
       else{
@@ -579,7 +606,7 @@ catch(Exception $except){
         file.required=true;
         file.accept=".csv";
         tmp[2].appendChild(file);
-        tmp[3].setAttribute("name","csv");
+        tmp[3].setAttribute("name","csv_add_faculty");
         
       }
       else{
@@ -604,7 +631,7 @@ catch(Exception $except){
         file.required=true;
         file.accept=".csv";
         tmp[2].appendChild(file);
-        tmp[3].setAttribute("name","csv");
+        tmp[3].setAttribute("name","csv_add_student");
         
       }
       else{
