@@ -1,11 +1,14 @@
 <?php
+
+$delete_confirm = 0;
+
 include "../includes/config.php";
-$course =strtoupper($_GET["course"]);
+$course = strtoupper($_GET["course"]);
 $t = mysqli_query($conn, "SELECT `course_name` FROM `courses` where course_id='$course'");
 $t = mysqli_fetch_array($t);
 $subject = strtoupper($t["course_name"]);
 $flag = 0;
-$role =$_SESSION['type'];
+$role = $_SESSION['type'];
 if (isset($_POST["submit"])) {
   $f = $_POST['f'];
   $h = strtoupper($_POST["head"]);
@@ -35,13 +38,15 @@ if (isset($_POST["submit"])) {
   $up = mysqli_fetch_array($up);
   $flag = 1;
 } else if (isset($_POST["delete"])) {
+  $delete_confirm = 1;
   $no = $_POST['no'];
-  mysqli_query($conn, "DELETE FROM $course WHERE  `no`=$no");
 }
 ?>
+
 <html>
 
 <head>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.16/dist/sweetalert2.all.min.js"></script>
   <title>
     <?php echo $course; ?>
   </title>
@@ -52,6 +57,24 @@ if (isset($_POST["submit"])) {
 </head>
 
 <body>
+
+  <?php if ($delete_confirm == 1) : ?>
+    <script>
+      Swal.fire({
+        title: 'Do you want to save the changes?',
+        showCancelButton: true,
+        confirmButtonText: 'Confirm',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire('Deleted!', '', 'success')
+          <?php
+          mysqli_query($conn, "DELETE FROM $course WHERE  `no`=$no");
+          ?>
+        }
+      })
+    </script>
+  <?php endif; ?>
+
   <?php if ($role == "teacher") : ?>
     <div class="modal fade" id="modal1" role="dialog">
       <div class="modal-dialog">
@@ -131,9 +154,9 @@ if (isset($_POST["submit"])) {
           <?php endif;
         $c = $c + 1; ?>
           <div class="col-lg-4 mt-4 ">
-          <div  style="background-color:aqua" class="pb-1 pt-2 mb-1 border border-dark">
-                <h5 class="card-title text-center"><?php echo $res['header'] ?> </h5>
-        </div>
+            <div style="background-color:aqua" class="pb-1 pt-2 mb-1 border border-dark">
+              <h5 class="card-title text-center"><?php echo $res['header'] ?> </h5>
+            </div>
             <div class="card border border-dark">
               <div class="card-body" style="min-height:110px">
                 <?php if ($res['link'] != NULL) : ?>
@@ -151,15 +174,15 @@ if (isset($_POST["submit"])) {
                 <?php endif; ?>
               </div>
               <?php if ($role == "teacher") : ?>
-              <div class="mb-2">
-                <form role="form" action="<?php echo $course ?>.php?course=<?php echo $course ?>&course_name=<?php echo $subject ?>" method="POST">
-                  <tr>
-                    <td><input type="integer" name="no" value=<?php echo $res['no'] ?> hidden></td>
-                    <td><input type="submit" class="btn btn-danger  btn-sm mx-1 me-2" name="delete" value="Delete" style="float:right" /></td>
-                    <td><input type="submit" class="btn btn-info  btn-sm mx-1 me-2" name="update" value="Update" style="float:right" /></td>
-                  </tr>
-                </form>
-              </div>
+                <div class="mb-2">
+                  <form role="form" action="<?php echo $course ?>.php?course=<?php echo $course ?>&course_name=<?php echo $subject ?>" method="POST">
+                    <tr>
+                      <td><input type="integer" name="no" value=<?php echo $res['no'] ?> hidden></td>
+                      <td><input type="submit" class="btn btn-danger  btn-sm mx-1 me-2" name="delete" value="Delete" style="float:right" /></td>
+                      <td><input type="submit" class="btn btn-info  btn-sm mx-1 me-2" name="update" value="Update" style="float:right" /></td>
+                    </tr>
+                  </form>
+                </div>
             </div>
           </div>
         <?php endif;
