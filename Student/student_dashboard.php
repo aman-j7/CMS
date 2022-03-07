@@ -9,11 +9,11 @@ $res = mysqli_query($conn, "SELECT course_id FROM `teaches` WHERE faculty_id='f0
   </title>
   <?php include '../includes/cdn.php'; ?>
   <link rel="stylesheet" href="../css/admin.css">
-  <link rel="stylesheet" href="../css/header.css">
-  <script type="text/javascript" src="../js/header.js"></script>
+  <link rel="stylesheet" href="../CSS/sidebar.css">
 </head>
 <body>
-  <?php include '../includes/navbar.php'; ?>
+<?php include '../includes/admin_sidebar.php'; ?>
+<section class="home">
   <div class="container mt-2 ">
     <?php
     $c = 0;
@@ -41,5 +41,7 @@ $res = mysqli_query($conn, "SELECT course_id FROM `teaches` WHERE faculty_id='f0
       <?php endif;
     endwhile;?>
 </div>
+</section>
+  <script type="text/javascript" src="../js/sidebar.js"></script>
 </body>
 </html>

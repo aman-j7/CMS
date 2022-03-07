@@ -11,14 +11,13 @@ $id = $_SESSION['user_id'];
 
   <?php include '../includes/cdn.php'; ?>
   <link rel="stylesheet" href="../css/admin.css">
-  <link rel="stylesheet" href="../css/header.css">
-  <script type="text/javascript" src="../js/header.js"></script>
+  <link rel="stylesheet" href="../CSS/sidebar.css">
 
 </head>
 
 <body>
-
-  <?php include '../includes/navbar.php'; ?>
+<?php include '../includes/admin_sidebar.php'; ?>
+<section class="home">
 <div class="container mt-4 ">
 <h1 class="text-center pt-2 pb-2">
   DASHBOARD
@@ -98,6 +97,8 @@ $id = $_SESSION['user_id'];
 </div>
   </div>
   </div>
+</section>
+<script type="text/javascript" src="../js/sidebar.js"></script>
 </body>
 
 </html>

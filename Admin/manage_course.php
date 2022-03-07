@@ -118,8 +118,8 @@ catch(Exception $except){
 
   <?php include '../includes/cdn.php'; ?>
   <link rel="stylesheet" href="../css/admin.css">
-  <link rel="stylesheet" href="../css/header.css">
-  <script type="text/javascript" src="../js/header.js"></script>
+  <link rel="stylesheet" href="../CSS/sidebar.css">
+ 
 
 </head>
 
@@ -129,7 +129,6 @@ catch(Exception $except){
     alert("<?php echo $exception_cause->getMessage()?>");
   </script>
   <?php endif;
-  include '../includes/navbar.php'; 
   if ($flag) { ?>
     <script type='text/javascript'>
     $(document).ready(function(){
@@ -148,8 +147,9 @@ catch(Exception $except){
           $('#modal7').modal('show');
           });
           </script>
-  <?php  } ?>
-
+  <?php  } 
+  include '../includes/admin_sidebar.php'; ?>
+ <section class="home">
   <div class="modal fade" id="modal1" role="dialog">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -441,17 +441,6 @@ catch(Exception $except){
     </div>
   </div>
 
-
-
-
-
-
-
-
-
-
-
-
   <section id="gallery">
     <div class="container">
       <div class="row ">
@@ -568,6 +557,8 @@ catch(Exception $except){
   </section>
   </div>
   </div>
+      </section>
+      <script type="text/javascript" src="../js/sidebar.js"></script>
   <script>
     function csvInput1(checkBox){
       let tmp=document.querySelectorAll(".input1");
