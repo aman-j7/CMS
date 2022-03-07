@@ -19,7 +19,7 @@ $id = $_SESSION['user_id'];
 <?php include '../includes/admin_sidebar.php'; ?>
 <section class="home">
 <div class="container mt-4 ">
-<h1 class="text-center pt-2 pb-2">
+<h1 class="text-center pt-2 pb-2 text">
   DASHBOARD
 </h1>
 </div>

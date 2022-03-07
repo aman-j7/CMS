@@ -138,7 +138,7 @@ if (isset($_POST["submit"])) {
   <section class="home">
     <div class="container border border-3 mt-4 ">
 
-      <h1 class="text-center pt-3 pb-2">
+      <h1 class="text-center pt-3 pb-2 text ">
         <?php
         echo $subject . ' (' . $course . ')';
         ?>

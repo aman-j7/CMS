@@ -167,7 +167,7 @@ catch(Exception $except){
 
 
       <div class="row">
-        <div class="text-center">
+        <div class="text-center  text">
           <h1><strong>Student</strong></h1>
         </div>
         <div class="col-lg-4 mt-4">

@@ -444,7 +444,7 @@ catch(Exception $except){
   <section id="gallery">
     <div class="container">
       <div class="row ">
-        <div class="text-center">
+        <div class="text-center  text">
           <h1><strong>Courses</strong></h1>
         </div>
         <div class="col-lg-4 mb-4 mt-4 ">
@@ -481,7 +481,7 @@ catch(Exception $except){
 
 
     <div class="row">
-      <div class="text-center">
+      <div class="text-center  text">
         <h1><strong>Faculty</strong></h1>
       </div>
       <div class="col-lg-4 mt-4">
@@ -518,7 +518,7 @@ catch(Exception $except){
 
 
     <div class="row">
-      <div class="text-center">
+      <div class="text-center  text">
         <h1><strong>Student</strong></h1>
       </div>
       <div class="col-lg-4 mt-4">
