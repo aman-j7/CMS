@@ -41,9 +41,9 @@
      </li>
 
      <li class="">
-       <a href="#">
+       <a href="../discussion/index.php">
          <i class='bx bx-pie-chart-alt icon'></i>
-         <span class="text nav-text">Progress</span>
+         <span class="text nav-text">Discussion</span>
        </a>
      </li>
      <?php if($role=="teacher"):?>

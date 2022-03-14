@@ -14,6 +14,11 @@ $res = mysqli_query($conn, "SELECT course_id FROM `teaches` WHERE faculty_id='f0
 <body>
 <?php include '../includes/admin_sidebar.php'; ?>
 <section class="home">
+<div class="container mt-4 ">
+<h1 class="text-center pt-2 pb-2 text">
+  DASHBOARD
+</h1>
+</div>
   <div class="container mt-2 ">
     <?php
     $c = 0;

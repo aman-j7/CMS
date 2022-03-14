@@ -14,7 +14,7 @@ if (isset($_POST["submit"])) {
   if ($pass1 == $pass2) {
     if ($pass1 != "CMS@123") {
       mysqli_query($conn, "update `login` set password='$pass2' where reg_id='$id'");
-      $flag = 1;
+      $password_changed= 1;
     } else {
       $same_pass = 1;
     }
