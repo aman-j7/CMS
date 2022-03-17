@@ -3,6 +3,7 @@
 $delete_confirm = 0;
 
 include "../includes/config.php";
+$courseDiscussion=$_GET["course"];
 $course = strtoupper($_GET["course"]);
 $t = mysqli_query($conn, "SELECT `course_name` FROM `courses` where course_id='$course'");
 $t = mysqli_fetch_array($t);

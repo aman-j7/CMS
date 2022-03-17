@@ -1,11 +1,20 @@
 <?php
 include "../includes/config.php";	
+$courseDiscussion = $_GET["course"];
+$id = $_SESSION['user_id'];
+$role = $_SESSION['type'];
+$temp_id=$role."_id";
+$temp_name=$role."_name";
+$username=mysqli_query($conn,"SELECT $temp_name FROM $role WHERE $temp_id=$id");
+$username = mysqli_fetch_array($username);
+
+$courseDiscussion=$courseDiscussion."d";
 if (isset($_POST["save"])){
   $id = $_POST['id'];
   $name = $_POST['name'];
   $msg = $_POST['msg'];
   if($name != "" && $msg != ""){
-	  mysqli_query($conn,"INSERT INTO discussion (parent_comment, student, post) VALUES ('$id', '$name', '$msg')");
+	  mysqli_query($conn,"INSERT INTO $courseDiscussion (parent_comment, student, post) VALUES ('$id', '$name', '$msg')");
   }
 }
 else if (isset($_POST["btnreply"])){
@@ -13,21 +22,18 @@ else if (isset($_POST["btnreply"])){
   $name = $_POST['name'];
   $msg = $_POST['msg'];
   if($name != "" && $msg != ""){
-	  mysqli_query($conn,"INSERT INTO discussion (parent_comment, student, post) VALUES ('$id', '$name', '$msg')");
+	  mysqli_query($conn,"INSERT INTO $courseDiscussion (parent_comment, student, post) VALUES ('$id', '$name', '$msg')");
   }
 }
-$result =  mysqli_query($conn,"SELECT *  FROM `discussion` where parent_comment='0' ORDER BY id desc");
+$result =  mysqli_query($conn,"SELECT *  FROM $courseDiscussion where parent_comment='0' ORDER BY id desc");
 ?>
 <html>
 <head>
-<link rel="icon" href="./images/favicon.png" type="image/png" sizes="16x16">
-<title>forum</title>
+<title>Discussion</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-	<!-- <script src="main.js"></script> -->
+  <?php include '../includes/cdn.php'; ?>
+
 </head>
 
 <!-- Modal -->
@@ -42,10 +48,9 @@ $result =  mysqli_query($conn,"SELECT *  FROM `discussion` where parent_comment=
       </div>
       <div class="modal-body">
         <form name="frm1" method="post" action="index.php">
-            <input type="hidden" id="pid" name="pid">
+            <input type="number" id="pid" name="pid" hidden>
         	<div class="form-group">
-        	  <label for="usr">Write your name:</label>
-        	  <input type="text" class="form-control" name="name" required>
+        	  <input type="text" class="form-control" name="name" value="<?php echo $username;?>"hidden>
         	</div>
             <div class="form-group">
               <label for="comment">Write your reply:</label>
@@ -63,19 +68,18 @@ $result =  mysqli_query($conn,"SELECT *  FROM `discussion` where parent_comment=
 
 <div class="panel panel-default" style="margin-top:50px">
   <div class="panel-body">
-    <h3>Community forum</h3>
+    <h3>Discussion forum</h3>
     <hr>
     <form name="frm" method="post" action="index.php">
-        <input type="hidden" id="commentid" name="Pcommentid" value="0">
+     <input type="hidden" id="id" name="id" value="0">
 	<div class="form-group">
-	  <label for="usr">Write your name:</label>
-	  <input type="text" class="form-control" name="name" required>
+	  <input type="text" class="form-control" name="name" value="<?php echo $username;?>"hidden>
 	</div>
     <div class="form-group">
       <label for="comment">Write your question:</label>
       <textarea class="form-control" rows="5" name="msg" required></textarea>
     </div>
-	 <input type="submit" name="save" class="btn btn-primary" value="Send">
+	 <input type="submit" name="save" class="btn btn-primary mt-2" value="Send">
   </form>
   </div>
 </div>
@@ -84,43 +88,35 @@ $result =  mysqli_query($conn,"SELECT *  FROM `discussion` where parent_comment=
 <div class="panel panel-default">
   <div class="panel-body">
     <h4>Recent questions</h4>           
-	<table class="table" id="MyTable" style="background-color: #edfafa; border:0px;border-radius:10px">
+	<table class="table" id="MyTable" style="background-color: #edfafa; border-left:1px solid black;  border-right:1px solid black ">
 	  <tbody id="record">
     <?php
     while ($res = mysqli_fetch_array($result)):
       $pid=$res['id'];
     ?>
-
-        <tr><td><b><img src="avatar.jpg" width="30px" height="30px" /> <?php echo $res['student'];?> :<i> <?php echo $res['date'];?>:</i></b></br><p style="padding-left:80px"><?php echo $res['post'];?></br>
-        <button type="button" class="btn btn-primary 
-            btn-sm" data-toggle="modal" 
-            data-target="#ReplyModal"
-            id="submit">
+        <tr style="border:1px solid black">
+        <tr><td><b><img src="../images/avatar.jpg" width="30px" height="30px" /> <?php echo $res['student'];?> :<i> <?php echo $res['date'];?>:</i></b></br><p style="padding-left:80px"><?php echo $res['post'];?></br>
+        <button type="button" class="btn btn-link" data-toggle="modal" 
+            data-target="#ReplyModal" data-id=<?php echo $res['id'];?>
+            id="submit" onclick="func(this)">
             Reply
         </button></p></td></tr>
-        <script type="text/javascript">
-        $("#submit").click(function () {
-            var name = <?php echo $pid;?>
-            $("#pid").html(name);
-        });
-        var myRoomNumber;
-
-$('#rooms li a').click(function() {
-   myRoomNumber = $(this).attr('data-id'); 
-});
-
-$('#myModal').on('show.bs.modal', function (e) {
-    $(this).find('.roomNumber').text(myRoomNumber);
-});
-    </script>
     
         <?php
-          $result1 =  mysqli_query($conn,"SELECT *  FROM `discussion` where parent_comment=$pid ORDER BY id desc");
+          $result1 =  mysqli_query($conn,"SELECT *  FROM $courseDiscussion where parent_comment=$pid ORDER BY id desc");
           while ($res1 = mysqli_fetch_array($result1)):
         ?>               
-        <tr><td style="padding-left:80px"><b><img src="avatar.jpg" width="30px" height="30px" /><?php echo $res1['student'];?> :<i> <?php echo $res1['date'];?>:</i></b></br><p style="padding-left:40px"><?php echo $res1['post'];?></p></td></tr>
+        <tr><td style="padding-left:80px "><b><img src="../images/avatar.jpg" width="30px" height="30px" /><?php echo $res1['student'];?> :<i> <?php echo $res1['date'];?>:</i></b></br><p style="padding-left:40px"><?php echo $res1['post'];?></p></td></tr>
+          </tr>
         <?php endwhile;
         endwhile;?>
+           <script type="text/javascript">
+        function func(a) {
+            var str =$(a).attr("data-id");
+            console.log(str);
+            $(".modal-body #pid").val(str);
+        }
+    </script>
       
 
 	  </tbody>

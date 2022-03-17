@@ -41,12 +41,12 @@
      </li>
 
      <li class="">
-       <a href="../discussion/index.php">
+       <a href="../discussion/index.php?course=<?php echo $courseDiscussion;?>">
          <i class='bx bx-pie-chart-alt icon'></i>
          <span class="text nav-text">Discussion</span>
        </a>
      </li>
-     <?php if($role=="teacher"):?>
+      <?php if($role=="teacher"):?>
         <li class="">
         <a  data-bs-toggle="modal" data-bs-target="#modal1" href="#modal1">
             <i class='bx bx-plus-medical icon'></i>

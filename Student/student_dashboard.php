@@ -1,16 +1,21 @@
 <?php
 include "../includes/config.php";
-$res = mysqli_query($conn, "SELECT course_id FROM `teaches` WHERE faculty_id='f012'");
+$id=$_SESSION['user_id'];
+$res = mysqli_query($conn, "SELECT course_id FROM `assign` WHERE student_id=$id");
 ?>
 <html>
+
 <head>
   <title>
-    Student Dashboard
+    Teacher Dashboard
   </title>
+
   <?php include '../includes/cdn.php'; ?>
   <link rel="stylesheet" href="../css/admin.css">
   <link rel="stylesheet" href="../CSS/sidebar.css">
+  
 </head>
+
 <body>
 <?php include '../includes/admin_sidebar.php'; ?>
 <section class="home">
@@ -19,8 +24,9 @@ $res = mysqli_query($conn, "SELECT course_id FROM `teaches` WHERE faculty_id='f0
   DASHBOARD
 </h1>
 </div>
+<div class="container border border-3 d-grid gap-3 pb-4 px-4 mt-4">
   <div class="container mt-2 ">
-    <?php
+     <?php
     $c = 0;
     while ($row = mysqli_fetch_array($res)):
       if ($c % 3 == 0): ?>
@@ -32,7 +38,7 @@ $res = mysqli_query($conn, "SELECT course_id FROM `teaches` WHERE faculty_id='f0
         $t = mysqli_fetch_array($t);
         $t = $t["course_name"]; ?>
         <div class="col-lg-4 mb-4 mt-4 ">
-          <a href="../Courses/<?php echo $counter ?>.php?course=<?php echo $counter ?>&course_name=<?php echo $t ?>" style="color:black"> <!-- no need of course name -->
+          <a href="../Courses/template.php?course=<?php echo $counter ?>&course_name=<?php echo $t ?>" style="color:black"> <!-- no need of course name, should be changed -->
             <div class="card" >
               <img src="https://news.miami.edu/life/_assets/images/images-stories/2019/08/faculty-new-year-940x529.jpg" alt="" class="card-img-top">
               <div class="card-body">
@@ -45,8 +51,10 @@ $res = mysqli_query($conn, "SELECT course_id FROM `teaches` WHERE faculty_id='f0
         </div>
       <?php endif;
     endwhile;?>
-</div>
-</section>
+  </div>
+  </div>
+  </section>
   <script type="text/javascript" src="../js/sidebar.js"></script>
 </body>
+
 </html>

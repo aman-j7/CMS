@@ -37,7 +37,7 @@ $res = mysqli_query($conn, "SELECT course_id FROM `teaches` WHERE faculty_id='f0
         $t = mysqli_fetch_array($t);
         $t = $t["course_name"]; ?>
         <div class="col-lg-4 mb-4 mt-4 ">
-          <a href="../Courses/<?php echo $counter ?>.php?course=<?php echo $counter ?>&course_name=<?php echo $t ?>" style="color:black"> <!-- no need of course name, should be changed -->
+          <a href="../Courses/template.php?course=<?php echo $counter ?>&course_name=<?php echo $t ?>" style="color:black"> <!-- no need of course name, should be changed -->
             <div class="card" >
               <img src="https://news.miami.edu/life/_assets/images/images-stories/2019/08/faculty-new-year-940x529.jpg" alt="" class="card-img-top">
               <div class="card-body">

@@ -14,11 +14,16 @@ try{
     if ($f) {
       mysqli_query($conn, "update courses set course_name='$c_name' where course_id='$c_id'");
     } else {
+          $disc=$c_id."d";
       mysqli_query($conn, "insert into courses values('$c_id','$c_name')");
-      $myfile = fopen("../Courses/$c_id.php", "w");
-      fclose($myfile);
-      copy("../Courses/template.php", "../Courses/$c_id.php");
       mysqli_query($conn, "CREATE TABLE $c_id ( `no` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, `header` VARCHAR(100) NOT NULL , `link` VARCHAR(100)  , `notes` VARCHAR(100)  , `ref` VARCHAR(100)  , `assigment` VARCHAR(100), `upload` VARCHAR(100))");
+      mysqli_query($conn,"CREATE TABLE $disc (
+        `id` int(11) NOT NULL  AUTO_INCREMENT PRIMARY KEY,
+        `parent_comment` varchar(500) NOT NULL,
+        `student` varchar(1000) NOT NULL,
+        `post` varchar(1000) NOT NULL,
+        `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+      )");
     }
   } else if (isset($_POST["submit_update_course"])) {
     $c_id = $_POST["c_id"];
@@ -27,9 +32,10 @@ try{
     $flag = 1;
   } else if (isset($_POST["submit_drop_course"])) {
     $c_id = $_POST["c_id"];
+    $disc=$c_id."d";
     mysqli_query($conn, "DELETE FROM `courses` where course_id='$c_id'");
     mysqli_query($conn, "DROP TABLE $c_id");
-    unlink("$c_id.php");
+    mysqli_query($conn, "DROP TABLE $disc");
   } else if (isset($_POST["submit_add_faculty"])) {
     $f = $_GET["f"];
     $c_id = $_POST["c_id"];

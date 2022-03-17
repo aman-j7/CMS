@@ -200,7 +200,29 @@ catch(Exception $except){
     </div>
     </div>
     </div>
-    </div>
+            </div>
+
+    <?php  $data = mysqli_query($conn, "Select student_id,student_name,dept_id from student");?>
+    <div class="row">
+    <table border="2px" class="text-center mt-4 ">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Department</th>
+            </tr>
+            <?php
+                while($row = mysqli_fetch_array($data)):
+            ?>
+            <tr>
+                <td><?php echo $row['student_id']?></td>
+                <td><?php echo $row['student_name']?></td>
+                <td><?php echo $row['dept_id']?></td>
+           
+            </tr>
+            <?php
+                endwhile;
+            ?>
+        </table>
     </div>
   </section>
   </div>
