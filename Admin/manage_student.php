@@ -12,26 +12,26 @@ try
     $s_name = $_POST["s_name"];
     $d_id = $_POST["d_id"];
     if ($f) {
-      mysqli_query($conn, "update student set student_name='$s_name',dept_id='$d_id' where student_id='$s_id'");
+      mysqli_query($conn, "update student set name='$s_name',dept_id='$d_id' where id='$s_id'");
     } else {
-      mysqli_query($conn, "insert into student values('$s_id','$s_name','$d_id')");
+      mysqli_query($conn, "insert into student (`id`, `name`, `dept_id`) values('$s_id','$s_name','$d_id')");
       mysqli_query($conn, "insert into login values('$s_id','CMS@123','student','abcd@gmail.com')");
     }
   } else if (isset($_POST["submit_update_student"])) {
     $s_id = $_POST["s_id"];
-    $res = mysqli_query($conn, "Select student_id,student_name,dept_id from student where student_id='$s_id'");
+    $res = mysqli_query($conn, "Select id,name,dept_id from student where id='$s_id'");
     $row = mysqli_fetch_array($res);
     $flag = 1;
   } else if (isset($_POST["submit_drop_student"])) {
     $s_id = $_POST["s_id"];
-    mysqli_query($conn, "DELETE FROM `student` where student_id='$s_id'");
+    mysqli_query($conn, "DELETE FROM `student` where id='$s_id'");
   }
   else if (isset($_POST["csv"])){
     $handle = fopen($_FILES['filename']['tmp_name'], "r");
     fgetcsv($handle, 1000, ",");
     while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) 
     {
-      mysqli_query($conn, "insert into student values('$data[0]','$data[1]','$data[2]')");
+      mysqli_query($conn, "insert into student (`id`, `name`, `dept_id`) values('$data[0]','$data[1]','$data[2]')");
       mysqli_query($conn, "insert into login values('$data[0]','CMS@123','student','abc@gamil.com')");
     }
     fclose($handle);
@@ -83,12 +83,12 @@ catch(Exception $except){
           <form role="form" action="manage_student.php?f=<?php echo $flag ?>" method="POST" autocomplete="off">
             <div class="form-group">
               <label>Student Id</label>
-              <input type="text" class="form-control input1" name="s_id" placeholder="Enter Student id" value="<?php if ($flag) echo $row['student_id'];
+              <input type="text" class="form-control input1" name="s_id" placeholder="Enter Student id" value="<?php if ($flag) echo $row['id'];
                                                                                                         else echo ""; ?>" required>
             </div>
             <div class="form-group">
               <label>Student Name</label>
-              <input type="text" class="form-control input1" placeholder="Enter Student name" name="s_name" value="<?php if ($flag) echo $row['student_name'];
+              <input type="text" class="form-control input1" placeholder="Enter Student name" name="s_name" value="<?php if ($flag) echo $row['name'];
                                                                                                             else echo ""; ?>" required>
             </div>
             <div class="form-group">
@@ -202,7 +202,7 @@ catch(Exception $except){
     </div>
             </div>
 
-    <?php  $data = mysqli_query($conn, "Select student_id,student_name,dept_id from student");?>
+    <?php  $data = mysqli_query($conn, "Select id,name,dept_id from student");?>
     <div class="row">
     <table border="2px" class="text-center mt-4 ">
             <tr>
@@ -214,8 +214,8 @@ catch(Exception $except){
                 while($row = mysqli_fetch_array($data)):
             ?>
             <tr>
-                <td><?php echo $row['student_id']?></td>
-                <td><?php echo $row['student_name']?></td>
+                <td><?php echo $row['id']?></td>
+                <td><?php echo $row['name']?></td>
                 <td><?php echo $row['dept_id']?></td>
            
             </tr>

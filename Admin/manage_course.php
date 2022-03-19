@@ -1,7 +1,7 @@
 <?php
 include "../includes/config.php";
 include "../includes/random_color.php";
-$faculty = 0;
+$teacher = 0;
 $flag = 0;
 $student = 0;
 $exception_occur=0;
@@ -36,27 +36,27 @@ try{
     mysqli_query($conn, "DELETE FROM `courses` where course_id='$c_id'");
     mysqli_query($conn, "DROP TABLE $c_id");
     mysqli_query($conn, "DROP TABLE $disc");
-  } else if (isset($_POST["submit_add_faculty"])) {
+  } else if (isset($_POST["submit_add_teacher"])) {
     $f = $_GET["f"];
     $c_id = $_POST["c_id"];
     $f_id = $_POST["f_id"];
     if ($f) {
       $oldf_id = $_POST['of_id'];
       $oldc_id = $_POST['oc_id'];
-      mysqli_query($conn, "UPDATE `teaches` SET `course_id`='$c_id',`faculty_id`='$f_id' WHERE `course_id` = '$oldc_id' AND `faculty_id`='$oldf_id'");
+      mysqli_query($conn, "UPDATE `teaches` SET `course_id`='$c_id',`teacher_id`='$f_id' WHERE `course_id` = '$oldc_id' AND `teacher_id`='$oldf_id'");
     } else {
-      mysqli_query($conn, "INSERT INTO `teaches`(`course_id`, `faculty_id`) VALUES ('$c_id','$f_id')");
+      mysqli_query($conn, "INSERT INTO `teaches`(`course_id`, `teacher_id`) VALUES ('$c_id','$f_id')");
     }
-  } else if (isset($_POST["submit_update_faculty"])) {
+  } else if (isset($_POST["submit_update_teacher"])) {
     $c_id = $_POST["c_id"];
     $f_id = $_POST['f_id'];
-    $res = mysqli_query($conn, "SELECT `course_id`, `faculty_id` FROM `teaches` WHERE `course_id`='$c_id' AND `faculty_id`='$f_id'");
+    $res = mysqli_query($conn, "SELECT `course_id`, `teacher_id` FROM `teaches` WHERE `course_id`='$c_id' AND `teacher_id`='$f_id'");
     $row = mysqli_fetch_array($res);
-    $faculty = 1;
-  } else if (isset($_POST["submit_drop_faculty"])) {
+    $teacher = 1;
+  } else if (isset($_POST["submit_drop_teacher"])) {
     $c_id = $_POST["c_id"];
     $f_id = $_POST['f_id'];
-    mysqli_query($conn, "DELETE FROM `teaches` where course_id='$c_id' AND faculty_id='$f_id'");
+    mysqli_query($conn, "DELETE FROM `teaches` where course_id='$c_id' AND teacher_id='$f_id'");
   } else if (isset($_POST["submit_add_student"])) {
     $f = $_GET["f"];
     $c_id = $_POST["c_id"];
@@ -88,7 +88,7 @@ try{
     }
     fclose($handle);
 }
-else if (isset($_POST["csv_add_faculty"])){
+else if (isset($_POST["csv_add_teacher"])){
   $handle = fopen($_FILES['filename']['tmp_name'], "r");
   fgetcsv($handle, 1000, ",");
   while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) 
@@ -141,7 +141,7 @@ catch(Exception $except){
       $('#modal1').modal('show');
       });
       </script>
-  <?php } else if ($faculty){?> 
+  <?php } else if ($teacher){?> 
     <script type='text/javascript'>
       $(document).ready(function(){
         $('#modal4').modal('show');
@@ -250,22 +250,22 @@ catch(Exception $except){
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel"><?php if ($faculty) echo "Update Faculty Course";
-                                                                                else echo "Add Faculty Course"; ?></h5>
+          <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel"><?php if ($teacher) echo "Update teacher Course";
+                                                                                else echo "Add teacher Course"; ?></h5>
         </div>
         <div class="modal-body">
-          <form role="form" action="manage_course.php?f=<?php echo $faculty ?>" method="POST" autocomplete="off">
+          <form role="form" action="manage_course.php?f=<?php echo $teacher ?>" method="POST" autocomplete="off">
             <div class="form-group">
               <label>Course Id</label>
-              <input type="text" class="form-control input2" name="c_id" placeholder="Enter Course id" value="<?php if ($faculty) echo $row['course_id'];
+              <input type="text" class="form-control input2" name="c_id" placeholder="Enter Course id" value="<?php if ($teacher) echo $row['course_id'];
                                                                                                         else echo ""; ?>" required>
             </div>
             <div class="form-group">
-              <label>Faculty Id</label>
-              <input type="text" class="form-control input2" placeholder="Enter Faculty id" name="f_id" value="<?php if ($faculty) echo $row['faculty_id'];
+              <label>teacher Id</label>
+              <input type="text" class="form-control input2" placeholder="Enter teacher id" name="f_id" value="<?php if ($teacher) echo $row['teacher_id'];
                                                                                                         else echo ""; ?>" required>
             </div>
-            <?php if(!$faculty):?>
+            <?php if(!$teacher):?>
             <div class="form-group">
               <input type="checkbox" id="check" name="check" onclick="csvInput2(this)">
               <label>Update Using CSV File</label>
@@ -275,13 +275,13 @@ catch(Exception $except){
             <?php endif;?>
         </div>
         <?php
-        if ($faculty) {
+        if ($teacher) {
           echo "<input type='text' name='oc_id' value=$c_id hidden> ";
           echo "<input type='text' name='of_id' value=$f_id hidden>\n";
         }
         ?>
         <div class="modal-footer">
-          <input type="submit" class="btn btn-default btn-success input2" name="submit_add_faculty" value="<?php if ($faculty) echo "Update";
+          <input type="submit" class="btn btn-default btn-success input2" name="submit_add_teacher" value="<?php if ($teacher) echo "Update";
                                                                                                     else echo "Add"; ?>" />
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
@@ -295,7 +295,7 @@ catch(Exception $except){
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Update Faculty Course</h5>
+          <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Update teacher Course</h5>
         </div>
         <div class="modal-body">
           <form role="form" action="manage_course.php" method="POST" autocomplete="off">
@@ -304,12 +304,12 @@ catch(Exception $except){
               <input type="text" class="form-control" name="c_id" placeholder="Enter Course id" required>
             </div>
             <div class="form-group">
-              <label>Faculty Id</label>
-              <input type="text" class="form-control" name="f_id" placeholder="Enter Faculty id" required>
+              <label>teacher Id</label>
+              <input type="text" class="form-control" name="f_id" placeholder="Enter teacher id" required>
             </div>
         </div>
         <div class="modal-footer">
-          <input type="submit" class="btn btn-default btn-success" name="submit_update_faculty" value="Proceed" />
+          <input type="submit" class="btn btn-default btn-success" name="submit_update_teacher" value="Proceed" />
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
         </form>
@@ -323,7 +323,7 @@ catch(Exception $except){
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Drop Faculty Course</h5>
+          <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Drop teacher Course</h5>
         </div>
         <div class="modal-body">
           <form role="form" action="manage_course.php" method="POST" autocomplete="off">
@@ -332,8 +332,8 @@ catch(Exception $except){
               <input type="text" class="form-control" name="c_id" placeholder="Enter Course id" required>
             </div>
             <div class="form-group">
-              <label>Faculty Id</label>
-              <input type="text" class="form-control" name="f_id" placeholder="Enter Faculty id" required>
+              <label>teacher Id</label>
+              <input type="text" class="form-control" name="f_id" placeholder="Enter teacher id" required>
             </div>
         </div>
         <div class="modal-footer">
@@ -488,14 +488,14 @@ catch(Exception $except){
 
     <div class="row">
       <div class="text-center  text">
-        <h1><strong>Faculty</strong></h1>
+        <h1><strong>teacher</strong></h1>
       </div>
       <div class="col-lg-4 mt-4">
         <a href="#" data-bs-toggle="modal" data-bs-target="#modal4" style="color:black">
           <div class="card">
           <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex();?>">
             <div class="card-body">
-              <h5 class="card-title text-center">Add Faculty Course</h5>
+              <h5 class="card-title text-center">Add teacher Course</h5>
         </a>
       </div>
     </div>
@@ -505,7 +505,7 @@ catch(Exception $except){
         <div class="card">
         <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex();?>">
           <div class="card-body">
-            <h5 class="card-title text-center">Update Faculty Course</h5>
+            <h5 class="card-title text-center">Update teacher Course</h5>
       </a>
     </div>
     </div>
@@ -515,7 +515,7 @@ catch(Exception $except){
         <div class="card">
         <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex();?>">
           <div class="card-body">
-            <h5 class="card-title text-center">Drop Faculty Course</h5>
+            <h5 class="card-title text-center">Drop teacher Course</h5>
       </a>
     </div>
     </div>
@@ -603,7 +603,7 @@ catch(Exception $except){
         file.required=true;
         file.accept=".csv";
         tmp[2].appendChild(file);
-        tmp[3].setAttribute("name","csv_add_faculty");
+        tmp[3].setAttribute("name","csv_add_teacher");
         
       }
       else{
@@ -611,7 +611,7 @@ catch(Exception $except){
         tmp[1].disabled=false;
         let file = document.getElementById("file");
         tmp[2].removeChild(file);
-        tmp[3].setAttribute("name","submit_add_faculty");
+        tmp[3].setAttribute("name","submit_add_teacher");
     }
   }
     

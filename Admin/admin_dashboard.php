@@ -29,11 +29,11 @@ $id = $_SESSION['user_id'];
     <div class="container">
       <div class="row ">
         <div class="col-lg-4 mb-4 mt-4 ">
-          <a href="manage_faculty.php" style="color:black">
+          <a href="manage_teacher.php" style="color:black">
             <div class="card">
               <img src="https://news.miami.edu/life/_assets/images/images-stories/2019/08/faculty-new-year-940x529.jpg" alt="" class="card-img-top">
               <div class="card-body">
-                <h5 class="card-title text-center">Manage Faculty</h5>
+                <h5 class="card-title text-center">Manage teacher</h5>
           </a>
         </div>
       </div>

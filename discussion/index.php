@@ -1,6 +1,7 @@
 <?php
 include "../includes/config.php";	
-$courseDiscussion = $_GET["course"];
+$course=$_GET["course"];
+$courseDiscussion = $course;
 $id = $_SESSION['user_id'];
 $role = $_SESSION['type'];
 $temp_id=$role."_id";
@@ -47,7 +48,7 @@ $result =  mysqli_query($conn,"SELECT *  FROM $courseDiscussion where parent_com
         <h4 class="modal-title">Reply Question</h4>
       </div>
       <div class="modal-body">
-        <form name="frm1" method="post" action="index.php">
+        <form name="frm1" method="post" action="index.php?course=<?php echo $course;?>">
             <input type="number" id="pid" name="pid" hidden>
         	<div class="form-group">
         	  <input type="text" class="form-control" name="name" value="<?php echo $username;?>"hidden>
@@ -70,10 +71,11 @@ $result =  mysqli_query($conn,"SELECT *  FROM $courseDiscussion where parent_com
   <div class="panel-body">
     <h3>Discussion forum</h3>
     <hr>
-    <form name="frm" method="post" action="index.php">
+    <form name="frm" method="post" action="index.php?course=<?php echo $course;?>">
      <input type="hidden" id="id" name="id" value="0">
 	<div class="form-group">
 	  <input type="text" class="form-control" name="name" value="<?php echo $username;?>"hidden>
+    <!-- kux to karna hai -->
 	</div>
     <div class="form-group">
       <label for="comment">Write your question:</label>
