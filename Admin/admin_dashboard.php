@@ -16,36 +16,36 @@ $id = $_SESSION['user_id'];
 </head>
 
 <body>
-<?php include '../includes/admin_sidebar.php'; ?>
-<section class="home">
-<div class="container mt-4 ">
-<h1 class="text-center pt-2 pb-2 text">
-  DASHBOARD
-</h1>
-</div>
+  <?php include '../includes/admin_sidebar.php'; ?>
+  <section class="home">
+    <div class="container mt-4 ">
+      <h1 class="text-center pt-2 pb-2 text">
+        DASHBOARD
+      </h1>
+    </div>
 
 
-  <div class="container border border-3 d-grid gap-3 pb-4 px-4 mt-4">
-    <div class="container">
-      <div class="row ">
-        <div class="col-lg-4 mb-4 mt-4 ">
-          <a href="manage_teacher.php" style="color:black">
-            <div class="card">
-              <img src="https://news.miami.edu/life/_assets/images/images-stories/2019/08/faculty-new-year-940x529.jpg" alt="" class="card-img-top">
-              <div class="card-body">
-                <h5 class="card-title text-center">Manage teacher</h5>
-          </a>
+    <div class="container border border-3 d-grid gap-3 pb-4 px-4 mt-4">
+      <div class="container">
+        <div class="row ">
+          <div class="col-lg-4 mb-4 mt-4 ">
+            <a href="manage_teacher.php" style="color:black">
+              <div class="card">
+                <img src="https://news.miami.edu/life/_assets/images/images-stories/2019/08/faculty-new-year-940x529.jpg" alt="" class="card-img-top">
+                <div class="card-body">
+                  <h5 class="card-title text-center">Manage teacher</h5>
+            </a>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col-lg-4 mb-4 mt-4">
-      <a href="manage_student.php" style="color:black">
-        <div class="card">
-          <img src="https://www.designmantic.com/blog/wp-content/uploads/2020/07/Graphic-Design-Courses-718x300.jpg" alt="" class="card-img-top">
-          <div class="card-body">
-            <h5 class="card-title text-center">Manage Student</h5>
-      </a>
-    </div>
+      <div class="col-lg-4 mb-4 mt-4">
+        <a href="manage_student.php" style="color:black">
+          <div class="card">
+            <img src="https://www.designmantic.com/blog/wp-content/uploads/2020/07/Graphic-Design-Courses-718x300.jpg" alt="" class="card-img-top">
+            <div class="card-body">
+              <h5 class="card-title text-center">Manage Student</h5>
+        </a>
+      </div>
     </div>
     </div>
     <div class="col-lg-4 mb-4 mt-4">
@@ -94,11 +94,11 @@ $id = $_SESSION['user_id'];
     </div>
     </div>
     </div>
-</div>
-  </div>
-  </div>
-</section>
-<script type="text/javascript" src="../js/sidebar.js"></script>
+    </div>
+    </div>
+    </div>
+  </section>
+  <script type="text/javascript" src="../js/sidebar.js"></script>
 </body>
 
 </html>

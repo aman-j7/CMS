@@ -4,9 +4,9 @@ include "../includes/random_color.php";
 $teacher = 0;
 $flag = 0;
 $student = 0;
-$exception_occur=0;
-$exception_cause=new Exception();
-try{
+$exception_occur = 0;
+$exception_cause = new Exception();
+try {
   if (isset($_POST["submit_add_course"])) {
     $f = $_GET["f"];
     $c_id = $_POST["c_id"];
@@ -14,10 +14,10 @@ try{
     if ($f) {
       mysqli_query($conn, "update courses set course_name='$c_name' where course_id='$c_id'");
     } else {
-          $disc=$c_id."d";
+      $disc = $c_id . "d";
       mysqli_query($conn, "insert into courses values('$c_id','$c_name')");
       mysqli_query($conn, "CREATE TABLE $c_id ( `no` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, `header` VARCHAR(100) NOT NULL , `link` VARCHAR(100)  , `notes` VARCHAR(100)  , `ref` VARCHAR(100)  , `assigment` VARCHAR(100), `upload` VARCHAR(100))");
-      mysqli_query($conn,"CREATE TABLE $disc (
+      mysqli_query($conn, "CREATE TABLE $disc (
         `id` int(11) NOT NULL  AUTO_INCREMENT PRIMARY KEY,
         `parent_comment` varchar(500) NOT NULL,
         `student` varchar(1000) NOT NULL,
@@ -32,7 +32,7 @@ try{
     $flag = 1;
   } else if (isset($_POST["submit_drop_course"])) {
     $c_id = $_POST["c_id"];
-    $disc=$c_id."d";
+    $disc = $c_id . "d";
     mysqli_query($conn, "DELETE FROM `courses` where course_id='$c_id'");
     mysqli_query($conn, "DROP TABLE $c_id");
     mysqli_query($conn, "DROP TABLE $disc");
@@ -78,39 +78,31 @@ try{
     $c_id = $_POST["c_id"];
     $s_id = $_POST['s_id'];
     mysqli_query($conn, "DELETE FROM `assign` where course_id='$c_id' AND student_id='$s_id'");
-  }
-  else if (isset($_POST["csv_add_course"])){
+  } else if (isset($_POST["csv_add_course"])) {
     $handle = fopen($_FILES['filename']['tmp_name'], "r");
     fgetcsv($handle, 1000, ",");
-    while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) 
-    {
+    while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
       mysqli_query($conn, "insert into depratment values('$data[0]','$data[1]')");
     }
     fclose($handle);
-}
-else if (isset($_POST["csv_add_teacher"])){
-  $handle = fopen($_FILES['filename']['tmp_name'], "r");
-  fgetcsv($handle, 1000, ",");
-  while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) 
-  {
-    mysqli_query($conn, "insert into depratment values('$data[0]','$data[1]')");
+  } else if (isset($_POST["csv_add_teacher"])) {
+    $handle = fopen($_FILES['filename']['tmp_name'], "r");
+    fgetcsv($handle, 1000, ",");
+    while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+      mysqli_query($conn, "insert into depratment values('$data[0]','$data[1]')");
+    }
+    fclose($handle);
+  } else if (isset($_POST["csv_add_student"])) {
+    $handle = fopen($_FILES['filename']['tmp_name'], "r");
+    fgetcsv($handle, 1000, ",");
+    while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+      mysqli_query($conn, "insert into depratment values('$data[0]','$data[1]')");
+    }
+    fclose($handle);
   }
-  fclose($handle);
-}
-else if (isset($_POST["csv_add_student"])){
-  $handle = fopen($_FILES['filename']['tmp_name'], "r");
-  fgetcsv($handle, 1000, ",");
-  while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) 
-  {
-    mysqli_query($conn, "insert into depratment values('$data[0]','$data[1]')");
-  }
-  fclose($handle);
-}
-}
-catch(Exception $except){
-  $exception_occur=1;
-  $exception_cause=$except;
-
+} catch (Exception $except) {
+  $exception_occur = 1;
+  $exception_cause = $except;
 }
 
 ?>
@@ -125,521 +117,523 @@ catch(Exception $except){
   <?php include '../includes/cdn.php'; ?>
   <link rel="stylesheet" href="../css/admin.css">
   <link rel="stylesheet" href="../CSS/sidebar.css">
- 
+
 
 </head>
 
 <body>
-<?php if($exception_occur):?>
+  <?php if ($exception_occur) : ?>
     <script>
-    alert("<?php echo $exception_cause->getMessage()?>");
-  </script>
+      alert("<?php echo $exception_cause->getMessage() ?>");
+    </script>
   <?php endif;
   if ($flag) { ?>
     <script type='text/javascript'>
-    $(document).ready(function(){
-      $('#modal1').modal('show');
+      $(document).ready(function() {
+        $('#modal1').modal('show');
       });
-      </script>
-  <?php } else if ($teacher){?> 
+    </script>
+  <?php } else if ($teacher) { ?>
     <script type='text/javascript'>
-      $(document).ready(function(){
+      $(document).ready(function() {
         $('#modal4').modal('show');
-        });
-        </script>
-  <?php } else if ($student){ ?> 
+      });
+    </script>
+  <?php } else if ($student) { ?>
     <script type='text/javascript'>
-        $(document).ready(function(){
-          $('#modal7').modal('show');
-          });
-          </script>
-  <?php  } 
+      $(document).ready(function() {
+        $('#modal7').modal('show');
+      });
+    </script>
+  <?php  }
   include '../includes/admin_sidebar.php'; ?>
- <section class="home">
-  <div class="modal fade" id="modal1" role="dialog">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel"><?php if ($flag) echo "Update Course";
-                                                                                else echo "Add Course"; ?></h5>
+  <section class="home">
+    <div class="modal fade" id="modal1" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel"><?php if ($flag) echo "Update Course";
+                                                                                  else echo "Add Course"; ?></h5>
+          </div>
+          <div class="modal-body">
+            <form role="form" action="manage_course.php?f=<?php echo $flag ?>" method="POST" autocomplete="off">
+              <div class="form-group">
+                <label>Course Id</label>
+                <input type="text" class="form-control input1" name="c_id" placeholder="Enter Course id" value="<?php if ($flag) echo $row['course_id'];
+                                                                                                                else echo ""; ?>" required>
+              </div>
+              <div class="form-group">
+                <label>Course Name</label>
+                <input type="text" class="form-control input1" placeholder="Enter Course name" name="c_name" value="<?php if ($flag) echo $row['course_name'];
+                                                                                                                    else echo ""; ?>" required>
+              </div>
+              <?php if (!$flag) : ?>
+                <div class="form-group">
+                  <input type="checkbox" id="check" name="check" onclick="csvInput1(this)">
+                  <label>Update Using CSV File</label>
+                </div>
+                <div class="form-group input1">
+                </div>
+              <?php endif; ?>
+          </div>
+          <div class="modal-footer">
+            <input type="submit" class="btn btn-default btn-success input1" name="submit_add_course" value="<?php if ($flag) echo "Update";
+                                                                                                            else echo "Add"; ?>" />
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+          </form>
         </div>
-        <div class="modal-body">
-          <form role="form" action="manage_course.php?f=<?php echo $flag ?>" method="POST" autocomplete="off">
-            <div class="form-group">
-              <label>Course Id</label>
-              <input type="text" class="form-control input1" name="c_id" placeholder="Enter Course id" value="<?php if ($flag) echo $row['course_id'];
-                                                                                                        else echo ""; ?>" required>
-            </div>
-            <div class="form-group">
-              <label>Course Name</label>
-              <input type="text" class="form-control input1" placeholder="Enter Course name" name="c_name" value="<?php if ($flag) echo $row['course_name'];
-                                                                                                            else echo ""; ?>" required>
-            </div>
-            <?php if(!$flag):?>
-            <div class="form-group">
-              <input type="checkbox" id="check" name="check" onclick="csvInput1(this)">
-              <label>Update Using CSV File</label>
-            </div>
-            <div class="form-group input1">
-            </div>
-            <?php endif;?>
-        </div>
-        <div class="modal-footer">
-          <input type="submit" class="btn btn-default btn-success input1" name="submit_add_course" value="<?php if ($flag) echo "Update";
-                                                                                                    else echo "Add"; ?>" />
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
-        </form>
       </div>
     </div>
-  </div>
 
 
-  <div class="modal fade" id="modal2" role="dialog">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Update Course</h5>
+    <div class="modal fade" id="modal2" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Update Course</h5>
+          </div>
+          <div class="modal-body">
+            <form role="form" action="manage_course.php" method="POST" autocomplete="off">
+              <div class="form-group">
+                <label>Course Id</label>
+                <input type="text" class="form-control" name="c_id" placeholder="Enter Course id" required>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <input type="submit" class="btn btn-default btn-success" name="submit_update_course" value="Proceed" />
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+          </form>
         </div>
-        <div class="modal-body">
-          <form role="form" action="manage_course.php" method="POST" autocomplete="off">
-            <div class="form-group">
-              <label>Course Id</label>
-              <input type="text" class="form-control" name="c_id" placeholder="Enter Course id" required>
-            </div>
-        </div>
-        <div class="modal-footer">
-          <input type="submit" class="btn btn-default btn-success" name="submit_update_course" value="Proceed" />
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
-        </form>
       </div>
     </div>
-  </div>
 
 
 
-  <div class="modal fade" id="modal3" role="dialog">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Drop Course</h5>
+    <div class="modal fade" id="modal3" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Drop Course</h5>
+          </div>
+          <div class="modal-body">
+            <form role="form" action="manage_course.php" method="POST" autocomplete="off">
+              <div class="form-group">
+                <label>Course Id</label>
+                <input type="text" class="form-control" name="c_id" placeholder="Enter Course id" required>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <input type="submit" class="btn btn-default btn-success" name="submit_drop_course" value="Delete" />
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+          </form>
         </div>
-        <div class="modal-body">
-          <form role="form" action="manage_course.php" method="POST" autocomplete="off">
-            <div class="form-group">
-              <label>Course Id</label>
-              <input type="text" class="form-control" name="c_id" placeholder="Enter Course id" required>
-            </div>
-        </div>
-        <div class="modal-footer">
-          <input type="submit" class="btn btn-default btn-success" name="submit_drop_course" value="Delete" />
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
-        </form>
       </div>
     </div>
-  </div>
 
 
 
 
 
 
-  <div class="modal fade" id="modal4" role="dialog">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel"><?php if ($teacher) echo "Update teacher Course";
-                                                                                else echo "Add teacher Course"; ?></h5>
+    <div class="modal fade" id="modal4" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel"><?php if ($teacher) echo "Update teacher Course";
+                                                                                  else echo "Add teacher Course"; ?></h5>
+          </div>
+          <div class="modal-body">
+            <form role="form" action="manage_course.php?f=<?php echo $teacher ?>" method="POST" autocomplete="off">
+              <div class="form-group">
+                <label>Course Id</label>
+                <input type="text" class="form-control input2" name="c_id" placeholder="Enter Course id" value="<?php if ($teacher) echo $row['course_id'];
+                                                                                                                else echo ""; ?>" required>
+              </div>
+              <div class="form-group">
+                <label>teacher Id</label>
+                <input type="text" class="form-control input2" placeholder="Enter teacher id" name="f_id" value="<?php if ($teacher) echo $row['teacher_id'];
+                                                                                                                  else echo ""; ?>" required>
+              </div>
+              <?php if (!$teacher) : ?>
+                <div class="form-group">
+                  <input type="checkbox" id="check" name="check" onclick="csvInput2(this)">
+                  <label>Update Using CSV File</label>
+                </div>
+                <div class="form-group input2">
+                </div>
+              <?php endif; ?>
+          </div>
+          <?php
+          if ($teacher) {
+            echo "<input type='text' name='oc_id' value=$c_id hidden> ";
+            echo "<input type='text' name='of_id' value=$f_id hidden>\n";
+          }
+          ?>
+          <div class="modal-footer">
+            <input type="submit" class="btn btn-default btn-success input2" name="submit_add_teacher" value="<?php if ($teacher) echo "Update";
+                                                                                                              else echo "Add"; ?>" />
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+          </form>
         </div>
-        <div class="modal-body">
-          <form role="form" action="manage_course.php?f=<?php echo $teacher ?>" method="POST" autocomplete="off">
-            <div class="form-group">
-              <label>Course Id</label>
-              <input type="text" class="form-control input2" name="c_id" placeholder="Enter Course id" value="<?php if ($teacher) echo $row['course_id'];
-                                                                                                        else echo ""; ?>" required>
-            </div>
-            <div class="form-group">
-              <label>teacher Id</label>
-              <input type="text" class="form-control input2" placeholder="Enter teacher id" name="f_id" value="<?php if ($teacher) echo $row['teacher_id'];
-                                                                                                        else echo ""; ?>" required>
-            </div>
-            <?php if(!$teacher):?>
-            <div class="form-group">
-              <input type="checkbox" id="check" name="check" onclick="csvInput2(this)">
-              <label>Update Using CSV File</label>
-            </div>
-            <div class="form-group input2">
-            </div>
-            <?php endif;?>
-        </div>
-        <?php
-        if ($teacher) {
-          echo "<input type='text' name='oc_id' value=$c_id hidden> ";
-          echo "<input type='text' name='of_id' value=$f_id hidden>\n";
-        }
-        ?>
-        <div class="modal-footer">
-          <input type="submit" class="btn btn-default btn-success input2" name="submit_add_teacher" value="<?php if ($teacher) echo "Update";
-                                                                                                    else echo "Add"; ?>" />
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
-        </form>
       </div>
     </div>
-  </div>
 
 
-  <div class="modal fade" id="modal5" role="dialog">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Update teacher Course</h5>
+    <div class="modal fade" id="modal5" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Update teacher Course</h5>
+          </div>
+          <div class="modal-body">
+            <form role="form" action="manage_course.php" method="POST" autocomplete="off">
+              <div class="form-group">
+                <label>Course Id</label>
+                <input type="text" class="form-control" name="c_id" placeholder="Enter Course id" required>
+              </div>
+              <div class="form-group">
+                <label>teacher Id</label>
+                <input type="text" class="form-control" name="f_id" placeholder="Enter teacher id" required>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <input type="submit" class="btn btn-default btn-success" name="submit_update_teacher" value="Proceed" />
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+          </form>
         </div>
-        <div class="modal-body">
-          <form role="form" action="manage_course.php" method="POST" autocomplete="off">
-            <div class="form-group">
-              <label>Course Id</label>
-              <input type="text" class="form-control" name="c_id" placeholder="Enter Course id" required>
-            </div>
-            <div class="form-group">
-              <label>teacher Id</label>
-              <input type="text" class="form-control" name="f_id" placeholder="Enter teacher id" required>
-            </div>
-        </div>
-        <div class="modal-footer">
-          <input type="submit" class="btn btn-default btn-success" name="submit_update_teacher" value="Proceed" />
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
-        </form>
       </div>
     </div>
-  </div>
 
 
 
-  <div class="modal fade" id="modal6" role="dialog">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Drop teacher Course</h5>
+    <div class="modal fade" id="modal6" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Drop teacher Course</h5>
+          </div>
+          <div class="modal-body">
+            <form role="form" action="manage_course.php" method="POST" autocomplete="off">
+              <div class="form-group">
+                <label>Course Id</label>
+                <input type="text" class="form-control" name="c_id" placeholder="Enter Course id" required>
+              </div>
+              <div class="form-group">
+                <label>teacher Id</label>
+                <input type="text" class="form-control" name="f_id" placeholder="Enter teacher id" required>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <input type="submit" class="btn btn-default btn-success" name="submit_drop_course" value="Delete" />
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+          </form>
         </div>
-        <div class="modal-body">
-          <form role="form" action="manage_course.php" method="POST" autocomplete="off">
-            <div class="form-group">
-              <label>Course Id</label>
-              <input type="text" class="form-control" name="c_id" placeholder="Enter Course id" required>
-            </div>
-            <div class="form-group">
-              <label>teacher Id</label>
-              <input type="text" class="form-control" name="f_id" placeholder="Enter teacher id" required>
-            </div>
-        </div>
-        <div class="modal-footer">
-          <input type="submit" class="btn btn-default btn-success" name="submit_drop_course" value="Delete" />
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
-        </form>
       </div>
     </div>
-  </div>
 
 
 
 
-  <div class="modal fade" id="modal7" role="dialog">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel"><?php if ($student) echo "Update Student Course";
-                                                                                else echo "Add Student Course"; ?></h5>
+    <div class="modal fade" id="modal7" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel"><?php if ($student) echo "Update Student Course";
+                                                                                  else echo "Add Student Course"; ?></h5>
+          </div>
+          <div class="modal-body">
+            <form role="form" action="manage_course.php?f=<?php echo $student ?>" method="POST" autocomplete="off">
+              <div class="form-group">
+                <label>Course Id</label>
+                <input type="text" class="form-control input3" name="c_id" placeholder="Enter Course id" value="<?php if ($student) echo $row['course_id'];
+                                                                                                                else echo ""; ?>" required>
+              </div>
+              <div class="form-group">
+                <label>Student Id</label>
+                <input type="text" class="form-control input3" placeholder="Enter Student id" name="s_id" value="<?php if ($student) echo $row['student_id'];
+                                                                                                                  else echo ""; ?>" required>
+              </div>
+              <?php if (!$student) : ?>
+                <div class="form-group">
+                  <input type="checkbox" id="check" name="check" onclick="csvInput3(this)">
+                  <label>Update Using CSV File</label>
+                </div>
+                <div class="form-group input3">
+                </div>
+              <?php endif; ?>
+          </div>
+          <?php
+          if ($student) {
+            echo "<input type='text' name='oc_id' value=$c_id hidden> ";
+            echo "<input type='text' name='os_id' value=$s_id hidden>\n";
+          }
+          ?>
+          <div class="modal-footer">
+            <input type="submit" class="btn btn-default btn-success input3" name="submit_add_student" value="<?php if ($student) echo "Update";
+                                                                                                              else echo "Add"; ?>" />
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+          </form>
         </div>
-        <div class="modal-body">
-          <form role="form" action="manage_course.php?f=<?php echo $student ?>" method="POST" autocomplete="off">
-            <div class="form-group">
-              <label>Course Id</label>
-              <input type="text" class="form-control input3" name="c_id" placeholder="Enter Course id" value="<?php if ($student) echo $row['course_id'];
-                                                                                                        else echo ""; ?>" required>
-            </div>
-            <div class="form-group">
-              <label>Student Id</label>
-              <input type="text" class="form-control input3" placeholder="Enter Student id" name="s_id" value="<?php if ($student) echo $row['student_id'];
-                                                                                                        else echo ""; ?>" required>
-            </div>
-            <?php if(!$student):?>
-            <div class="form-group">
-              <input type="checkbox" id="check" name="check" onclick="csvInput3(this)">
-              <label>Update Using CSV File</label>
-            </div>
-            <div class="form-group input3">
-            </div>
-            <?php endif;?>
-        </div>
-        <?php
-        if ($student) {
-          echo "<input type='text' name='oc_id' value=$c_id hidden> ";
-          echo "<input type='text' name='os_id' value=$s_id hidden>\n";
-        }
-        ?>
-        <div class="modal-footer">
-          <input type="submit" class="btn btn-default btn-success input3" name="submit_add_student" value="<?php if ($student) echo "Update";
-                                                                                                    else echo "Add"; ?>" />
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
-        </form>
       </div>
     </div>
-  </div>
 
 
-  <div class="modal fade" id="modal8" role="dialog">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Update Student Course</h5>
+    <div class="modal fade" id="modal8" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Update Student Course</h5>
+          </div>
+          <div class="modal-body">
+            <form role="form" action="manage_course.php" method="POST" autocomplete="off">
+              <div class="form-group">
+                <label>Course Id</label>
+                <input type="text" class="form-control" name="c_id" placeholder="Enter Course id" required>
+              </div>
+              <div class="form-group">
+                <label>Student Id</label>
+                <input type="text" class="form-control" name="s_id" placeholder="Enter Student id" required>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <input type="submit" class="btn btn-default btn-success" name="submit_update_student" value="Proceed" />
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+          </form>
         </div>
-        <div class="modal-body">
-          <form role="form" action="manage_course.php" method="POST" autocomplete="off">
-            <div class="form-group">
-              <label>Course Id</label>
-              <input type="text" class="form-control" name="c_id" placeholder="Enter Course id" required>
-            </div>
-            <div class="form-group">
-              <label>Student Id</label>
-              <input type="text" class="form-control" name="s_id" placeholder="Enter Student id" required>
-            </div>
-        </div>
-        <div class="modal-footer">
-          <input type="submit" class="btn btn-default btn-success" name="submit_update_student" value="Proceed" />
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
-        </form>
       </div>
     </div>
-  </div>
 
 
 
-  <div class="modal fade" id="modal9" role="dialog">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Drop Student Course</h5>
+    <div class="modal fade" id="modal9" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Drop Student Course</h5>
+          </div>
+          <div class="modal-body">
+            <form role="form" action="manage_course.php" method="POST" autocomplete="off">
+              <div class="form-group">
+                <label>Course Id</label>
+                <input type="text" class="form-control" name="c_id" placeholder="Enter Course id" required>
+              </div>
+              <div class="form-group">
+                <label>Student Id</label>
+                <input type="text" class="form-control" name="s_id" placeholder="Enter Student id" required>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <input type="submit" class="btn btn-default btn-success" name="submit_drop_student" value="Delete" />
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+          </form>
         </div>
-        <div class="modal-body">
-          <form role="form" action="manage_course.php" method="POST" autocomplete="off">
-            <div class="form-group">
-              <label>Course Id</label>
-              <input type="text" class="form-control" name="c_id" placeholder="Enter Course id" required>
-            </div>
-            <div class="form-group">
-              <label>Student Id</label>
-              <input type="text" class="form-control" name="s_id" placeholder="Enter Student id" required>
-            </div>
-        </div>
-        <div class="modal-footer">
-          <input type="submit" class="btn btn-default btn-success" name="submit_drop_student" value="Delete" />
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
-        </form>
       </div>
     </div>
-  </div>
 
-  <section id="gallery">
-    <div class="container">
-      <div class="row ">
-        <div class="text-center  text">
-          <h1><strong>Courses</strong></h1>
+    <section id="gallery">
+      <div class="container mt-4 ">
+        <h1 class="text-center pt-2 pb-2 text">
+          Courses
+        </h1>
+      </div>
+      <div class="container">
+        <div class="row ">
+          <div class="col-lg-4 mb-4 mt-4 ">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#modal1" style="color:black">
+              <div class="card">
+                <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
+                <div class="card-body">
+                  <h5 class="card-title text-center">Add Courses</h5>
+            </a>
+          </div>
         </div>
-        <div class="col-lg-4 mb-4 mt-4 ">
-          <a href="#" data-bs-toggle="modal" data-bs-target="#modal1" style="color:black">
+      </div>
+      <div class="col-lg-4 mb-4 mt-4">
+        <a href="#" data-bs-toggle="modal" data-bs-target="#modal2" style="color:black">
+          <div class="card">
+            <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
+            <div class="card-body">
+              <h5 class="card-title text-center">Update Courses</h5>
+        </a>
+      </div>
+      </div>
+      </div>
+      <div class="col-lg-4 mb-4 mt-4">
+        <a href="#" data-bs-toggle="modal" data-bs-target="#modal3" style="color:black">
+          <div class="card">
+            <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
+            <div class="card-body">
+              <h5 class="card-title text-center">Drop Courses</h5>
+        </a>
+      </div>
+      </div>
+      </div>
+      </div>
+
+      <div class="container mt-4 ">
+        <h1 class="text-center pt-2 pb-2 text">
+          Teacher
+        </h1>
+      </div>
+      <div class="row">
+        <div class="col-lg-4 mt-4">
+          <a href="#" data-bs-toggle="modal" data-bs-target="#modal4" style="color:black">
             <div class="card">
-            <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex();?>">
+              <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
               <div class="card-body">
-                <h5 class="card-title text-center">Add Courses</h5>
+                <h5 class="card-title text-center">Add teacher Course</h5>
           </a>
         </div>
       </div>
-    </div>
-    <div class="col-lg-4 mb-4 mt-4">
-      <a href="#" data-bs-toggle="modal" data-bs-target="#modal2" style="color:black">
-        <div class="card">
-        <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex();?>">
-          <div class="card-body">
-            <h5 class="card-title text-center">Update Courses</h5>
-      </a>
-    </div>
-    </div>
-    </div>
-    <div class="col-lg-4 mb-4 mt-4">
-      <a href="#" data-bs-toggle="modal" data-bs-target="#modal3" style="color:black">
-        <div class="card">
-        <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex();?>">
-          <div class="card-body">
-            <h5 class="card-title text-center">Drop Courses</h5>
-      </a>
-    </div>
-    </div>
-    </div>
-    </div>
-
-
-    <div class="row">
-      <div class="text-center  text">
-        <h1><strong>teacher</strong></h1>
       </div>
       <div class="col-lg-4 mt-4">
-        <a href="#" data-bs-toggle="modal" data-bs-target="#modal4" style="color:black">
+        <a href="#" data-bs-toggle="modal" data-bs-target="#modal5" style="color:black">
           <div class="card">
-          <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex();?>">
+            <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
             <div class="card-body">
-              <h5 class="card-title text-center">Add teacher Course</h5>
+              <h5 class="card-title text-center">Update teacher Course</h5>
         </a>
       </div>
-    </div>
-    </div>
-    <div class="col-lg-4 mt-4">
-      <a href="#" data-bs-toggle="modal" data-bs-target="#modal5" style="color:black">
-        <div class="card">
-        <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex();?>">
-          <div class="card-body">
-            <h5 class="card-title text-center">Update teacher Course</h5>
-      </a>
-    </div>
-    </div>
-    </div>
-    <div class="col-lg-4 mt-4">
-      <a href="#" data-bs-toggle="modal" data-bs-target="#modal6" style="color:black">
-        <div class="card">
-        <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex();?>">
-          <div class="card-body">
-            <h5 class="card-title text-center">Drop teacher Course</h5>
-      </a>
-    </div>
-    </div>
-    </div>
-    </div>
-
-
-    <div class="row">
-      <div class="text-center  text">
-        <h1><strong>Student</strong></h1>
+      </div>
       </div>
       <div class="col-lg-4 mt-4">
-        <a href="#" data-bs-toggle="modal" data-bs-target="#modal7" style="color:black">
+        <a href="#" data-bs-toggle="modal" data-bs-target="#modal6" style="color:black">
           <div class="card">
-          <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex();?>">
+            <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
             <div class="card-body">
-              <h5 class="card-title text-center">Add Student Course</h5>
+              <h5 class="card-title text-center">Drop teacher Course</h5>
         </a>
       </div>
-    </div>
-    </div>
-    <div class="col-lg-4 mt-4">
-      <a href="#" data-bs-toggle="modal" data-bs-target="#modal8" style="color:black">
-        <div class="card">
-        <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex();?>">
-          <div class="card-body">
-            <h5 class="card-title text-center">Update Student Course</h5>
-      </a>
-    </div>
-    </div>
-    </div>
-    <div class="col-lg-4 mt-4">
-      <a href="#" data-bs-toggle="modal" data-bs-target="#modal9" style="color:black">
-        <div class="card">
-        <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex();?>">
-          <div class="card-body">
-            <h5 class="card-title text-center">Drop Student Course</h5>
-      </a>
-    </div>
-    </div>
-    </div>
-    </div>
+      </div>
+      </div>
+      </div>
 
+      <div class="container mt-4 ">
+        <h1 class="text-center pt-2 pb-2 text">
+          Student
+        </h1>
+      </div>
+      <div class="row">
+        <div class="col-lg-4 mt-4">
+          <a href="#" data-bs-toggle="modal" data-bs-target="#modal7" style="color:black">
+            <div class="card">
+              <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
+              <div class="card-body">
+                <h5 class="card-title text-center">Add Student Course</h5>
+          </a>
+        </div>
+      </div>
+      </div>
+      <div class="col-lg-4 mt-4">
+        <a href="#" data-bs-toggle="modal" data-bs-target="#modal8" style="color:black">
+          <div class="card">
+            <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
+            <div class="card-body">
+              <h5 class="card-title text-center">Update Student Course</h5>
+        </a>
+      </div>
+      </div>
+      </div>
+      <div class="col-lg-4 mt-4">
+        <a href="#" data-bs-toggle="modal" data-bs-target="#modal9" style="color:black">
+          <div class="card">
+            <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
+            <div class="card-body">
+              <h5 class="card-title text-center">Drop Student Course</h5>
+        </a>
+      </div>
+      </div>
+      </div>
+      </div>
+
+      </div>
+    </section>
+    </div>
     </div>
   </section>
-  </div>
-  </div>
-      </section>
-      <script type="text/javascript" src="../js/sidebar.js"></script>
+  <script type="text/javascript" src="../js/sidebar.js"></script>
   <script>
-    function csvInput1(checkBox){
-      let tmp=document.querySelectorAll(".input1");
-      if(checkBox.checked){
-        tmp[0].disabled=true;
-        tmp[1].disabled=true;
-        let file=document.createElement("input");
-        file.size="50";
-        file.type="file";
-        file.name="filename";
-        file.id="file";
-        file.required=true;
-        file.accept=".csv";
+    function csvInput1(checkBox) {
+      let tmp = document.querySelectorAll(".input1");
+      if (checkBox.checked) {
+        tmp[0].disabled = true;
+        tmp[1].disabled = true;
+        let file = document.createElement("input");
+        file.size = "50";
+        file.type = "file";
+        file.name = "filename";
+        file.id = "file";
+        file.required = true;
+        file.accept = ".csv";
         tmp[2].appendChild(file);
-        tmp[3].setAttribute("name","csv_add_course");
-        
-      }
-      else{
-        tmp[0].disabled=false;
-        tmp[1].disabled=false;
+        tmp[3].setAttribute("name", "csv_add_course");
+
+      } else {
+        tmp[0].disabled = false;
+        tmp[1].disabled = false;
         let file = document.getElementById("file");
         tmp[2].removeChild(file);
-        tmp[3].setAttribute("name","submit_add_course");
-    }
-  }
-  function csvInput2(checkBox){
-      let tmp=document.querySelectorAll(".input2");
-      if(checkBox.checked){
-        tmp[0].disabled=true;
-        tmp[1].disabled=true;
-        let file=document.createElement("input");
-        file.size="50";
-        file.type="file";
-        file.name="filename";
-        file.id="file";
-        file.required=true;
-        file.accept=".csv";
-        tmp[2].appendChild(file);
-        tmp[3].setAttribute("name","csv_add_teacher");
-        
+        tmp[3].setAttribute("name", "submit_add_course");
       }
-      else{
-        tmp[0].disabled=false;
-        tmp[1].disabled=false;
+    }
+
+    function csvInput2(checkBox) {
+      let tmp = document.querySelectorAll(".input2");
+      if (checkBox.checked) {
+        tmp[0].disabled = true;
+        tmp[1].disabled = true;
+        let file = document.createElement("input");
+        file.size = "50";
+        file.type = "file";
+        file.name = "filename";
+        file.id = "file";
+        file.required = true;
+        file.accept = ".csv";
+        tmp[2].appendChild(file);
+        tmp[3].setAttribute("name", "csv_add_teacher");
+
+      } else {
+        tmp[0].disabled = false;
+        tmp[1].disabled = false;
         let file = document.getElementById("file");
         tmp[2].removeChild(file);
-        tmp[3].setAttribute("name","submit_add_teacher");
-    }
-  }
-    
-  function csvInput3(checkBox){
-      let tmp=document.querySelectorAll(".input3");
-      if(checkBox.checked){
-        tmp[0].disabled=true;
-        tmp[1].disabled=true;
-        let file=document.createElement("input");
-        file.size="50";
-        file.type="file";
-        file.name="filename";
-        file.id="file";
-        file.required=true;
-        file.accept=".csv";
-        tmp[2].appendChild(file);
-        tmp[3].setAttribute("name","csv_add_student");
-        
+        tmp[3].setAttribute("name", "submit_add_teacher");
       }
-      else{
-        tmp[0].disabled=false;
-        tmp[1].disabled=false;
+    }
+
+    function csvInput3(checkBox) {
+      let tmp = document.querySelectorAll(".input3");
+      if (checkBox.checked) {
+        tmp[0].disabled = true;
+        tmp[1].disabled = true;
+        let file = document.createElement("input");
+        file.size = "50";
+        file.type = "file";
+        file.name = "filename";
+        file.id = "file";
+        file.required = true;
+        file.accept = ".csv";
+        tmp[2].appendChild(file);
+        tmp[3].setAttribute("name", "csv_add_student");
+
+      } else {
+        tmp[0].disabled = false;
+        tmp[1].disabled = false;
         let file = document.getElementById("file");
         tmp[2].removeChild(file);
-        tmp[3].setAttribute("name","submit_add_student");
+        tmp[3].setAttribute("name", "submit_add_student");
+      }
     }
-  }  
-</script>
+  </script>
 </body>
 
 </html>
