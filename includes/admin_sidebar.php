@@ -20,7 +20,7 @@
  <div class="menu-bar">
    <div class="menu">
      <li class="">
-       <a href="#">
+       <a href="../includes/profile.php">
          <i class='bx bx-home-alt icon'></i>
          <span class="text nav-text">Home</span>
        </a>

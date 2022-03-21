@@ -5,6 +5,7 @@ $same_pass = 0;
 $wrong_pass = 0;
 $password_changed = 0;
 $exception_occur=0;
+$check_profile=0;
 $exception_cause=new Exception();
 try
 {
@@ -13,6 +14,11 @@ if (isset($_POST["submit"])) {
   $pass2 = $_POST['pass2'];
   if ($pass1 == $pass2) {
     if ($pass1 != "CMS@123") {
+      $cur_pass=mysqli_query($conn,"SELECT  `password` FROM `login` WHERE `reg_id`='$id'");
+      $cur_pass=mysqli_fetch_array($cur_pass);
+      if($cur_pass['password']=="CMS@123"){
+        $check_profile=1;
+      }
       mysqli_query($conn, "update `login` set password='$pass2' where reg_id='$id'");
       $password_changed= 1;
     } else {
@@ -51,7 +57,11 @@ catch(Exception $except){
     alert("<?php echo $exception_cause->getMessage()?>");
   </script>
   <?php endif;
-  if ($password_changed): ?>
+  if ($password_changed && $check_profile): ?>
+    <script>
+       window.location = '../includes/profile.php';
+    </script>
+    <?php elseif ($password_changed):?>
     <script>
     Swal.fire({
       icon: 'success',

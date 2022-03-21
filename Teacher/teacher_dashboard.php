@@ -1,6 +1,7 @@
 <?php
 include "../includes/config.php";
-$res = mysqli_query($conn, "SELECT course_id FROM `teaches` WHERE faculty_id='f012'");
+$id=$_SESSION['user_id'];
+$res = mysqli_query($conn, "SELECT course_id FROM `teaches` WHERE teacher_id='$id'");
 ?>
 <html>
 
