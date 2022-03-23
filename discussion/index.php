@@ -106,8 +106,8 @@ $result =  mysqli_query($conn, "SELECT *  FROM $courseDiscussion where parent_co
 
 
   <div class="panel panel-default">
-    <div class="panel-body">
-      <h4>Recent questions</h4>
+    <h3>Recent Questions</h3>
+    <div class="panel-body" style="height: 500px; overflow:auto">
       <table class="table" id="MyTable" style="background-color: #edfafa; border-left:1px solid black; border-right:1px solid black">
         <tbody id="record">
           <?php
@@ -129,15 +129,16 @@ $result =  mysqli_query($conn, "SELECT *  FROM $courseDiscussion where parent_co
             $result1 =  mysqli_query($conn, "SELECT *  FROM $courseDiscussion where parent_comment=$pid ORDER BY id desc");
             while ($res1 = mysqli_fetch_array($result1)) :
             ?>
-              <tr >
+              <tr>
                 <td style="padding-left:80px "><b><img src="../images/avatar.jpg" width="30px" height="30px" /><?php echo $res1['student']; ?> :<i> <?php echo $res1['date']; ?>:</i></b></br>
                   <p style="padding-left:40px"><?php echo $res1['post']; ?></p>
                 </td>
               </tr>
-          <?php endwhile;?>
-          </tr>
+            <?php endwhile; ?>
+            </tr>
           <?php endwhile; ?>
-          <hr ></hr>
+          <hr>
+          </hr>
           <script type="text/javascript">
             function func(a) {
               var str = $(a).attr("data-id");
