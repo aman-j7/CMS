@@ -122,7 +122,7 @@ try {
             <form role="form" action="manage_student.php" method="POST" autocomplete="off">
               <div class="form-group">
                 <label>Student Id</label>
-                <input type="text" class="form-control" name="s_id" placeholder="Enter Student id" required>
+                <input type="text" class="form-control" name="s_id" id="s_id"placeholder="Enter Student id" required>
               </div>
           </div>
           <div class="modal-footer">
@@ -146,7 +146,7 @@ try {
             <form role="form" action="manage_student.php" method="POST" autocomplete="off">
               <div class="form-group">
                 <label>Student Id</label>
-                <input type="text" class="form-control" name="s_id" placeholder="Enter Student id" required>
+                <input type="text" class="form-control" name="s_id" id="s_id" placeholder="Enter Student id" required>
               </div>
           </div>
           <div class="modal-footer">
@@ -197,15 +197,21 @@ try {
       </div>
       </div>
       </div>
+      <div class="form-outline mb-4 mt-5 form-check form-switch">
+      <label><h6>View Data</h6></label>
+      <input class="form-check-input" type="checkbox" id="view_data" onclick="view_toggle()">
+      </div>
 
       <?php $data = mysqli_query($conn, "Select id,name,dept_id from student"); ?>
-      <div class="row mt-4" style="height: 400px; overflow:auto">
+      <div class="row mt-4" id="table" style="height: 400px; overflow:auto" hidden>
         <table class="text-center table table-light" style="height: 10px;">
           <thead style="position: sticky; top:0;">
             <tr>
               <th>ID</th>
               <th>Name</th>
               <th>Department</th>
+              <th></th>
+              <th></th>
             </tr>
           </thead>
           <?php
@@ -215,6 +221,8 @@ try {
               <td><?php echo $row['id'] ?></td>
               <td><?php echo $row['name'] ?></td>
               <td><?php echo $row['dept_id'] ?></td>
+              <td> <button type="button" class="btn btn-secondary" data-id="<?php echo $row['id'];?>" onclick="update_data(this)">Update</button></td>
+              <td><button type="button" class="btn btn-secondary" data-id="<?php echo $row['id'];?>" onclick="delete_data(this)">Delete</button></td>
 
             </tr>
           <?php
@@ -253,6 +261,27 @@ try {
         tmp[4].setAttribute("name", "submit_add_student");
       }
     }
+  function view_toggle(a) {
+  var a = document.getElementById("view_data");
+  var x = document.getElementById("table");
+  if(a.checked==true)
+    x.hidden=false;
+  else
+    x.hidden=true;
+    
+}
+function update_data(a) {
+              var str = $(a).attr("data-id");
+              console.log(str);
+              $(".modal-body #s_id").val(str);
+              $('#modal2').modal('show');
+            }
+            function delete_data(a) {
+              var str = $(a).attr("data-id");
+              console.log(str);
+              $(".modal-body #s_id").val(str);
+              $('#modal3').modal('show');
+            }
   </script>
 </body>
 
