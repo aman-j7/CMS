@@ -5,6 +5,7 @@ $flag = 0;
 $exception_occur = 0;
 $exception_cause = new Exception();
 try {
+  $department=mysqli_query($conn,"SELECT * FROM `department`"); 
   if (isset($_POST["submit_add_teacher"])) {
     $f = $_GET["f"];
     $f_id = $_POST["f_id"];
@@ -91,8 +92,18 @@ try {
               </div>
               <div class="form-group">
                 <label>Department Id</label>
-                <input type="text" class="form-control input1" name="d_id" placeholder="Enter Department id" value="<?php if ($flag) echo $row['dept_id'];
-                                                                                                                    else echo ""; ?>" required>
+                <select type="text" class="form-control input1" name="d_id" required>
+                  <?php if(!$flag):?>
+                  <option hidden disabled selected></option>
+                  <?php endif;?>
+                  <?php while($departments= mysqli_fetch_array($department) ):?>
+                    <option value="<?php echo $departments['dept_id']?>"
+                    <?php
+                    if($flag && $departments['dept_id']==$row['dept_id'])
+                      echo "selected";
+                     ?> ><?php echo $departments['dept_name']?></option>
+                  <?php endwhile;?>
+                </select>
               </div>
               <?php if (!$flag) : ?>
                 <div class="form-group">
@@ -106,7 +117,7 @@ try {
           <div class="modal-footer">
             <input type="submit" class="btn btn-default btn-success input1" name="submit_add_teacher" value="<?php if ($flag) echo "Update";
                                                                                                               else echo "Add"; ?>" />
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           </div>
           </form>
         </div>
@@ -124,7 +135,7 @@ try {
             <form role="form" action="manage_teacher.php" method="POST" autocomplete="off">
               <div class="form-group">
                 <label>teacher Id</label>
-                <input type="text" class="form-control" name="f_id" placeholder="Enter teacher id" required>
+                <input type="text" class="form-control" id="t_id" name="f_id" placeholder="Enter teacher id" required>
               </div>
           </div>
           <div class="modal-footer">
@@ -148,7 +159,7 @@ try {
             <form role="form" action="manage_teacher.php" method="POST" autocomplete="off">
               <div class="form-group">
                 <label>teacher Id</label>
-                <input type="text" class="form-control" name="f_id" placeholder="Enter teacher id" required>
+                <input type="text" class="form-control" id="t_id" name="f_id" placeholder="Enter teacher id" required>
               </div>
           </div>
           <div class="modal-footer">
@@ -203,6 +214,39 @@ try {
       </div>
       </div>
       </div>
+      <div class="form-outline mb-4 mt-5 form-check form-switch">
+      <label><h6>View Data</h6></label>
+      <input class="form-check-input" type="checkbox" id="view_data" onclick="view_toggle()">
+      </div>
+
+      <?php $data = mysqli_query($conn, "Select id,name,dept_id from teacher"); ?>
+      <div class="row mt-4" id="table" style="height: 400px; overflow:auto" hidden>
+        <table class="text-center table table-light" style="height: 10px;">
+          <thead style="position: sticky; top:0;">
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Department</th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <?php
+          while ($row = mysqli_fetch_array($data)) :
+          ?>
+            <tr>
+              <td><?php echo $row['id'] ?></td>
+              <td><?php echo $row['name'] ?></td>
+              <td><?php echo $row['dept_id'] ?></td>
+              <td> <button type="button" class="btn btn-secondary" data-id="<?php echo $row['id'];?>" onclick="update_data(this)">Update</button></td>
+              <td><button type="button" class="btn btn-secondary" data-id="<?php echo $row['id'];?>" onclick="delete_data(this)">Delete</button></td>
+
+            </tr>
+          <?php
+          endwhile;
+          ?>
+        </table>
+      </div>
     </section>
     </div>
     </div>
@@ -234,6 +278,27 @@ try {
         tmp[4].setAttribute("name", "submit_add_teacher");
       }
     }
+    function view_toggle(a) {
+      var a = document.getElementById("view_data");
+      var x = document.getElementById("table");
+      if(a.checked==true)
+        x.hidden=false;
+      else
+        x.hidden=true;
+        
+    }
+  function update_data(a) {
+              var str = $(a).attr("data-id");
+              console.log(str);
+              $(".modal-body #t_id").val(str);
+              $('#modal2').modal('show');
+            }
+            function delete_data(a) {
+              var str = $(a).attr("data-id");
+              console.log(str);
+              $(".modal-body #t_id").val(str);
+              $('#modal3').modal('show');
+            }
   </script>
 </body>
 

@@ -98,7 +98,7 @@ catch(Exception $except){
         <div class="modal-footer">
           <input type="submit" class="btn btn-default btn-success input1" name="submit_add_department" value="<?php if ($flag) echo "Update";
                                                                                                         else echo "Add"; ?>" />
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
         </form>
       </div>
