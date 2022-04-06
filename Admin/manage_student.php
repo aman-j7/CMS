@@ -5,6 +5,7 @@ $flag = 0;
 $exception_occur = 0;
 $exception_cause = new Exception();
 try {
+  $department=mysqli_query($conn,"SELECT * FROM `department`"); 
   if (isset($_POST["submit_add_student"])) {
     $f = $_GET["f"];
     $s_id = $_POST["s_id"];
@@ -49,7 +50,6 @@ try {
   <link rel="stylesheet" href="../css/admin.css">
   <link rel="stylesheet" href="../CSS/sidebar.css">
   </script>
-
 </head>
 
 <body>
@@ -89,8 +89,18 @@ try {
               </div>
               <div class="form-group">
                 <label>Department Id</label>
-                <input type="text" class="form-control input1" name="d_id" placeholder="Enter Department id" value="<?php if ($flag) echo $row['dept_id'];
-                                                                                                                    else echo ""; ?>" required>
+                <select type="text" class="form-control input1" name="d_id" required>
+                  <?php if(!$flag):?>
+                  <option hidden disabled selected></option>
+                  <?php endif;?>
+                  <?php while($departments= mysqli_fetch_array($department) ):?>
+                    <option value="<?php echo $departments['dept_id']?>"
+                    <?php
+                    if($flag && $departments['dept_id']==$row['dept_id'])
+                      echo "selected";
+                     ?> ><?php echo $departments['dept_name']?></option>
+                  <?php endwhile;?>
+                </select>
               </div>
               <?php if (!$flag) : ?>
                 <div class="form-group">
@@ -104,7 +114,7 @@ try {
           <div class="modal-footer">
             <input type="submit" class="btn btn-default btn-success input1" name="submit_add_student" value="<?php if ($flag) echo "Update";
                                                                                                               else echo "Add"; ?>" />
-            <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           </div>
           </form>
         </div>
@@ -127,7 +137,7 @@ try {
           </div>
           <div class="modal-footer">
             <input type="submit" class="btn btn-default btn-success" name="submit_update_student" value="Proceed" />
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           </div>
           </form>
         </div>
@@ -151,7 +161,7 @@ try {
           </div>
           <div class="modal-footer">
             <input type="submit" class="btn btn-default btn-success" name="submit_drop_student" value="Delete" />
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           </div>
           </form>
         </div>
@@ -211,7 +221,6 @@ try {
               <th>Name</th>
               <th>Department</th>
               <th></th>
-              <th></th>
             </tr>
           </thead>
           <?php
@@ -221,8 +230,9 @@ try {
               <td><?php echo $row['id'] ?></td>
               <td><?php echo $row['name'] ?></td>
               <td><?php echo $row['dept_id'] ?></td>
-              <td> <button type="button" class="btn btn-secondary" data-id="<?php echo $row['id'];?>" onclick="update_data(this)">Update</button></td>
-              <td><button type="button" class="btn btn-secondary" data-id="<?php echo $row['id'];?>" onclick="delete_data(this)">Delete</button></td>
+              <td ><button class="btn btn-secondary" title="Update"><i class="bx bxs-edit-alt icon " data-id="<?php echo $row['id'];?>" onclick="update_data(this)"></i></button>
+              <button class="btn btn-danger" title="Delete"><i class="bx bx-trash-alt icon " data-id="<?php echo $row['id'];?>" onclick="delete_data(this)"></i></button></td>
+      
 
             </tr>
           <?php
@@ -283,6 +293,8 @@ function update_data(a) {
               $('#modal3').modal('show');
             }
   </script>
+  <!-- <script src="https://cdn.lordicon.com/lusqsztk.js"></script> -->
+
 </body>
 
 </html>

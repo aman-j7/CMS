@@ -52,7 +52,7 @@ if (isset($_POST["submit"])) {
     <?php echo $course; ?>
   </title>
   <?php include '../includes/cdn.php'; ?>
-
+  <link rel="stylesheet" href="../CSS/discussion.css">
   <link rel="stylesheet" href="../CSS/sidebar.css">
 
 </head>
@@ -121,7 +121,7 @@ if (isset($_POST["submit"])) {
           <div class="modal-footer">
             <input type="submit" class="btn btn-default btn-success" name="submit" value="<?php if ($flag) echo 'Update';
                                                                                           else echo "Submit"; ?>" />
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           </div>
           </form>
         </div>

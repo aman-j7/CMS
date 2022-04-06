@@ -202,7 +202,7 @@ try {
           </div>
           <div class="modal-footer">
             <input type="submit" class="btn btn-default btn-success" name="submit_update_course" value="Proceed" />
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           </div>
           </form>
         </div>
@@ -226,7 +226,7 @@ try {
           </div>
           <div class="modal-footer">
             <input type="submit" class="btn btn-default btn-success" name="submit_drop_course" value="Delete" />
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           </div>
           </form>
         </div>
@@ -293,16 +293,16 @@ try {
             <form role="form" action="manage_course.php" method="POST" autocomplete="off">
               <div class="form-group">
                 <label>Course Id</label>
-                <input type="text" class="form-control" name="c_id" placeholder="Enter Course id" required>
+                <input type="text" class="form-control" name="c_id" id="t_id" placeholder="Enter Course id" required>
               </div>
               <div class="form-group">
                 <label>teacher Id</label>
-                <input type="text" class="form-control" name="f_id" placeholder="Enter teacher id" required>
+                <input type="text" class="form-control" name="f_id" id="t_id1" placeholder="Enter teacher id" required>
               </div>
           </div>
           <div class="modal-footer">
             <input type="submit" class="btn btn-default btn-success" name="submit_update_teacher" value="Proceed" />
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           </div>
           </form>
         </div>
@@ -321,16 +321,16 @@ try {
             <form role="form" action="manage_course.php" method="POST" autocomplete="off">
               <div class="form-group">
                 <label>Course Id</label>
-                <input type="text" class="form-control" name="c_id" placeholder="Enter Course id" required>
+                <input type="text" class="form-control" name="c_id" id="t_id" placeholder="Enter Course id" required>
               </div>
               <div class="form-group">
                 <label>teacher Id</label>
-                <input type="text" class="form-control" name="f_id" placeholder="Enter teacher id" required>
+                <input type="text" class="form-control" name="f_id" id="t_id1" placeholder="Enter teacher id" required>
               </div>
           </div>
           <div class="modal-footer">
             <input type="submit" class="btn btn-default btn-success" name="submit_drop_course" value="Delete" />
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           </div>
           </form>
         </div>
@@ -395,16 +395,16 @@ try {
             <form role="form" action="manage_course.php" method="POST" autocomplete="off">
               <div class="form-group">
                 <label>Course Id</label>
-                <input type="text" class="form-control" name="c_id" placeholder="Enter Course id" required>
+                <input type="text" class="form-control" name="c_id" id="t_id" placeholder="Enter Course id" required>
               </div>
               <div class="form-group">
                 <label>Student Id</label>
-                <input type="text" class="form-control" name="s_id" placeholder="Enter Student id" required>
+                <input type="text" class="form-control" name="s_id" id="t_id1" placeholder="Enter Student id" required>
               </div>
           </div>
           <div class="modal-footer">
             <input type="submit" class="btn btn-default btn-success" name="submit_update_student" value="Proceed" />
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           </div>
           </form>
         </div>
@@ -423,16 +423,16 @@ try {
             <form role="form" action="manage_course.php" method="POST" autocomplete="off">
               <div class="form-group">
                 <label>Course Id</label>
-                <input type="text" class="form-control" name="c_id" placeholder="Enter Course id" required>
+                <input type="text" class="form-control" name="c_id" id="t_id" placeholder="Enter Course id" required>
               </div>
               <div class="form-group">
                 <label>Student Id</label>
-                <input type="text" class="form-control" name="s_id" placeholder="Enter Student id" required>
+                <input type="text" class="form-control" name="s_id" id="t_id1" placeholder="Enter Student id" required>
               </div>
           </div>
           <div class="modal-footer">
             <input type="submit" class="btn btn-default btn-success" name="submit_drop_student" value="Delete" />
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           </div>
           </form>
         </div>
@@ -477,7 +477,41 @@ try {
       </div>
       </div>
       </div>
+      </div> <div class="form-outline mb-4 mt-5 form-check form-switch">
+        <label>
+          <h6>View Data</h6>
+        </label>
+        <input class="form-check-input" type="checkbox" id="view_data" onclick="view_toggle()">
       </div>
+
+      <?php $data = mysqli_query($conn, "Select * from courses"); ?>
+      <div class="row mt-4" id="table" style="height: 400px; overflow:auto" hidden>
+        <table class="text-center table table-light" style="height: 10px;">
+          <thead style="position: sticky; top:0;">
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th></th>
+            </tr>
+          </thead>
+          <?php
+          while ($row = mysqli_fetch_array($data)) :
+          ?>
+            <tr>
+              <td><?php echo $row['course_id'] ?></td>
+              <td><?php echo $row['course_name'] ?></td>
+              <td><button class="btn btn-secondary" title="Update"><i class="bx bxs-edit-alt icon " data-id="<?php echo $row['course_id']; ?>" onclick="update_data(this)"></i></button>
+                <button class="btn btn-danger" title="Delete"><i class="bx bx-trash-alt icon " data-id="<?php echo $row['course_id']; ?>" onclick="delete_data(this)"></i></button>
+              </td>
+
+
+            </tr>
+          <?php
+          endwhile;
+          ?>
+        </table>
+      </div>
+
 
       <div class="container mt-4 ">
         <h1 class="text-center pt-2 pb-2 text">
@@ -514,7 +548,40 @@ try {
         </a>
       </div>
       </div>
+        </div>
+        </div> <div class="form-outline mb-4 mt-5 form-check form-switch">
+        <label>
+          <h6>View Data</h6>
+        </label>
+        <input class="form-check-input" type="checkbox" id="view_data1" onclick="view_toggle1()">
       </div>
+
+      <?php $data = mysqli_query($conn, "Select *from teaches"); ?>
+      <div class="row mt-4" id="table1" style="height: 400px; overflow:auto" hidden>
+        <table class="text-center table table-light" style="height: 10px;">
+          <thead style="position: sticky; top:0;">
+            <tr>
+              <th>Course ID</th>
+              <th>Teacher ID</th>
+              <th></th>
+            </tr>
+          </thead>
+          <?php
+          while ($row = mysqli_fetch_array($data)) :
+          ?>
+            <tr>
+              <td><?php echo $row['course_id'] ?></td>
+              <td><?php echo $row['teacher_id'] ?></td>
+              <td><button class="btn btn-secondary" title="Update"><i class="bx bxs-edit-alt icon " data-id="<?php echo $row['course_id']; ?>"  data-id1="<?php echo $row['teacher_id']; ?>" onclick="update_data1(this)"></i></button>
+                <button class="btn btn-danger" title="Delete"><i class="bx bx-trash-alt icon " data-id="<?php echo $row['course_id']; ?>"  data-id1="<?php echo $row['teacher_id']; ?>" onclick="delete_data1(this)"></i></button>
+              </td>
+
+
+            </tr>
+          <?php
+          endwhile;
+          ?>
+        </table>
       </div>
 
       <div class="container mt-4 ">
@@ -543,6 +610,7 @@ try {
       </div>
       </div>
       </div>
+
       <div class="col-lg-4 mt-4">
         <a href="#" data-bs-toggle="modal" data-bs-target="#modal9" style="color:black">
           <div class="card">
@@ -554,7 +622,40 @@ try {
       </div>
       </div>
       </div>
+      <div class="form-outline mb-4 mt-5 form-check form-switch">
+        <label>
+          <h6>View Data</h6>
+        </label>
+        <input class="form-check-input" type="checkbox" id="view_data2" onclick="view_toggle2()">
+      </div>
 
+      <?php $data = mysqli_query($conn, "Select * from assign"); ?>
+      <div class="row mt-4" id="table2" style="height: 400px; overflow:auto" hidden>
+        <table class="text-center table table-light" style="height: 10px;">
+          <thead style="position: sticky; top:0;">
+            <tr>
+              <th>Course ID</th>
+              <th>Student ID</th>
+              <th></th>
+            </tr>
+          </thead>
+          <?php
+          while ($row = mysqli_fetch_array($data)) :
+          ?>
+            <tr>
+              <td><?php echo $row['course_id'] ?></td>
+              <td><?php echo $row['student_id'] ?></td>
+      
+              <td><button class="btn btn-secondary" title="Update"><i class="bx bxs-edit-alt icon " data-id="<?php echo $row['course_id']; ?>"  data-id1="<?php echo $row['student_id']; ?>"  onclick="update_data2(this)"></i></button>
+                <button class="btn btn-danger" title="Delete"><i class="bx bx-trash-alt icon " data-id="<?php echo $row['course_id']; ?>"  data-id1="<?php echo $row['student_id']; ?>"  onclick="delete_data2(this)"></i></button>
+              </td>
+
+
+            </tr>
+          <?php
+          endwhile;
+          ?>
+        </table>
       </div>
     </section>
     </div>
@@ -632,6 +733,77 @@ try {
         tmp[2].removeChild(file);
         tmp[3].setAttribute("name", "submit_add_student");
       }
+    }
+    function view_toggle(a) {
+      var a = document.getElementById("view_data");
+      var x = document.getElementById("table");
+      if (a.checked == true)
+        x.hidden = false;
+      else
+        x.hidden = true;
+
+    }
+
+    function update_data(a) {
+      var str = $(a).attr("data-id");
+      $(".modal-body #t_id").val(str);
+      $('#modal2').modal('show');
+    }
+
+    function delete_data(a) {
+      var str = $(a).attr("data-id");
+      $(".modal-body #t_id").val(str);
+      $('#modal3').modal('show');
+    }
+    function view_toggle1(a) {
+      var a = document.getElementById("view_data1");
+      var x = document.getElementById("table1");
+      if (a.checked == true)
+        x.hidden = false;
+      else
+        x.hidden = true;
+
+    }
+
+    function update_data1(a) {
+      var str = $(a).attr("data-id");
+      var str1 = $(a).attr("data-id1");
+      $(".modal-body #t_id").val(str);
+      $(".modal-body #t_id1").val(str1);
+      $('#modal5').modal('show');
+    }
+
+    function delete_data1(a) {
+      var str = $(a).attr("data-id");
+      var str1 = $(a).attr("data-id1");
+      $(".modal-body #t_id").val(str);
+      $(".modal-body #t_id1").val(str1);
+      $('#modal6').modal('show');
+    }
+    function view_toggle2(a) {
+      var a = document.getElementById("view_data2");
+      var x = document.getElementById("table2");
+      if (a.checked == true)
+        x.hidden = false;
+      else
+        x.hidden = true;
+
+    }
+
+    function update_data2(a) {
+      var str = $(a).attr("data-id");
+      var str1 = $(a).attr("data-id1");
+      $(".modal-body #t_id1").val(str1);
+      $(".modal-body #t_id").val(str);
+      $('#modal8').modal('show');
+    }
+
+    function delete_data2(a) {
+      var str = $(a).attr("data-id");
+      var str1 = $(a).attr("data-id1");
+      $(".modal-body #t_id").val(str);
+      $(".modal-body #t_id1").val(str1);
+      $('#modal9').modal('show');
     }
   </script>
 </body>

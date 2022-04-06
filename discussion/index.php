@@ -33,33 +33,17 @@ $result =  mysqli_query($conn, "SELECT *  FROM $courseDiscussion where parent_co
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <?php include '../includes/cdn.php'; ?>
-  <style>
-    .modal-dialog {
-      min-height: calc(100vh - 60px);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      overflow: auto;
-
-    }
-
-    .modal-header,
-    .close {
-      background-color: orange;
-      color: white !important;
-      text-align: center;
-      font-size: 50px;
-    }
-
-    .modal-footer {
-      background-color: #f9f9f9;
-    }
-  </style>
+  <link rel="stylesheet" href="../CSS/discussion.css">
+  <link rel="stylesheet" href="../CSS/sidebar.css">
+ 
 </head>
-<div id="ReplyModal" class="modal fade" role="dialog">
+<body>
+<?php include '../includes/admin_sidebar.php'; ?>
+<section class="home">
+  <div id="ReplyModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header" id="header">
         <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Reply</h5>
       </div>
       <div class="modal-body">
@@ -81,9 +65,6 @@ $result =  mysqli_query($conn, "SELECT *  FROM $courseDiscussion where parent_co
     </div>
   </div>
 </div>
-
-
-
 <div class="container">
 
   <div class="panel panel-default" style="margin-top:50px">
@@ -155,7 +136,8 @@ $result =  mysqli_query($conn, "SELECT *  FROM $courseDiscussion where parent_co
   </div>
 
 </div>
-
+</section>
+<script type="text/javascript" src="../js/sidebar.js"></script>
 </body>
 
 </html>

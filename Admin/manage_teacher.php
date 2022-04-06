@@ -5,7 +5,7 @@ $flag = 0;
 $exception_occur = 0;
 $exception_cause = new Exception();
 try {
-  $department=mysqli_query($conn,"SELECT * FROM `department`"); 
+  $department = mysqli_query($conn, "SELECT * FROM `department`");
   if (isset($_POST["submit_add_teacher"])) {
     $f = $_GET["f"];
     $f_id = $_POST["f_id"];
@@ -93,16 +93,15 @@ try {
               <div class="form-group">
                 <label>Department Id</label>
                 <select type="text" class="form-control input1" name="d_id" required>
-                  <?php if(!$flag):?>
-                  <option hidden disabled selected></option>
-                  <?php endif;?>
-                  <?php while($departments= mysqli_fetch_array($department) ):?>
-                    <option value="<?php echo $departments['dept_id']?>"
-                    <?php
-                    if($flag && $departments['dept_id']==$row['dept_id'])
-                      echo "selected";
-                     ?> ><?php echo $departments['dept_name']?></option>
-                  <?php endwhile;?>
+                  <?php if (!$flag) : ?>
+                    <option hidden disabled selected></option>
+                  <?php endif; ?>
+                  <?php while ($departments = mysqli_fetch_array($department)) : ?>
+                    <option value="<?php echo $departments['dept_id'] ?>" <?php
+                                                                          if ($flag && $departments['dept_id'] == $row['dept_id'])
+                                                                            echo "selected";
+                                                                          ?>><?php echo $departments['dept_name'] ?></option>
+                  <?php endwhile; ?>
                 </select>
               </div>
               <?php if (!$flag) : ?>
@@ -140,7 +139,7 @@ try {
           </div>
           <div class="modal-footer">
             <input type="submit" class="btn btn-default btn-success" name="submit_update_teacher" value="Proceed" />
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           </div>
           </form>
         </div>
@@ -164,7 +163,7 @@ try {
           </div>
           <div class="modal-footer">
             <input type="submit" class="btn btn-default btn-success" name="submit_drop_teacher" value="Delete" />
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           </div>
           </form>
         </div>
@@ -178,27 +177,25 @@ try {
         </h1>
       </div>
       <div class="container">
-
-        <div class="container border border-3 d-grid gap-3 pb-4 px-4 mt-4">
-          <div class="row">
-            <div class="col-lg-4 mt-4">
-              <a href="#" data-bs-toggle="modal" data-bs-target="#modal1" style="color:black">
-                <div class="card">
-                  <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
-                  <div class="card-body">
-                    <h5 class="card-title text-center">Add teacher </h5>
-              </a>
-            </div>
+        <div class="row">
+          <div class="col-lg-4 mt-4">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#modal1" style="color:black">
+              <div class="card">
+                <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
+                <div class="card-body">
+                  <h5 class="card-title text-center">Add teacher </h5>
+            </a>
           </div>
         </div>
-        <div class="col-lg-4 mt-4">
-          <a href="#" data-bs-toggle="modal" data-bs-target="#modal2" style="color:black">
-            <div class="card">
-              <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
-              <div class="card-body">
-                <h5 class="card-title text-center">Update teacher</h5>
-          </a>
-        </div>
+      </div>
+      <div class="col-lg-4 mt-4">
+        <a href="#" data-bs-toggle="modal" data-bs-target="#modal2" style="color:black">
+          <div class="card">
+            <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
+            <div class="card-body">
+              <h5 class="card-title text-center">Update teacher</h5>
+        </a>
+      </div>
       </div>
       </div>
       <div class="col-lg-4 mt-4">
@@ -212,11 +209,12 @@ try {
       </div>
       </div>
       </div>
-      </div>
-      </div>
+      
       <div class="form-outline mb-4 mt-5 form-check form-switch">
-      <label><h6>View Data</h6></label>
-      <input class="form-check-input" type="checkbox" id="view_data" onclick="view_toggle()">
+        <label>
+          <h6>View Data</h6>
+        </label>
+        <input class="form-check-input" type="checkbox" id="view_data" onclick="view_toggle()">
       </div>
 
       <?php $data = mysqli_query($conn, "Select id,name,dept_id from teacher"); ?>
@@ -228,7 +226,6 @@ try {
               <th>Name</th>
               <th>Department</th>
               <th></th>
-              <th></th>
             </tr>
           </thead>
           <?php
@@ -238,8 +235,10 @@ try {
               <td><?php echo $row['id'] ?></td>
               <td><?php echo $row['name'] ?></td>
               <td><?php echo $row['dept_id'] ?></td>
-              <td> <button type="button" class="btn btn-secondary" data-id="<?php echo $row['id'];?>" onclick="update_data(this)">Update</button></td>
-              <td><button type="button" class="btn btn-secondary" data-id="<?php echo $row['id'];?>" onclick="delete_data(this)">Delete</button></td>
+              <td><button class="btn btn-secondary" title="Update"><i class="bx bxs-edit-alt icon " data-id="<?php echo $row['id']; ?>" onclick="update_data(this)"></i></button>
+                <button class="btn btn-danger" title="Delete"><i class="bx bx-trash-alt icon " data-id="<?php echo $row['id']; ?>" onclick="delete_data(this)"></i></button>
+              </td>
+
 
             </tr>
           <?php
@@ -278,27 +277,30 @@ try {
         tmp[4].setAttribute("name", "submit_add_teacher");
       }
     }
+
     function view_toggle(a) {
       var a = document.getElementById("view_data");
       var x = document.getElementById("table");
-      if(a.checked==true)
-        x.hidden=false;
+      if (a.checked == true)
+        x.hidden = false;
       else
-        x.hidden=true;
-        
+        x.hidden = true;
+
     }
-  function update_data(a) {
-              var str = $(a).attr("data-id");
-              console.log(str);
-              $(".modal-body #t_id").val(str);
-              $('#modal2').modal('show');
-            }
-            function delete_data(a) {
-              var str = $(a).attr("data-id");
-              console.log(str);
-              $(".modal-body #t_id").val(str);
-              $('#modal3').modal('show');
-            }
+
+    function update_data(a) {
+      var str = $(a).attr("data-id");
+      console.log(str);
+      $(".modal-body #t_id").val(str);
+      $('#modal2').modal('show');
+    }
+
+    function delete_data(a) {
+      var str = $(a).attr("data-id");
+      console.log(str);
+      $(".modal-body #t_id").val(str);
+      $('#modal3').modal('show');
+    }
   </script>
 </body>
 
