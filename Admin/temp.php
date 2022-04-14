@@ -2,18 +2,20 @@
 include "../includes/config.php";
 $uid=$_SESSION['user_id'];
 $time=time();
-$row=mysqli_query($conn,"Select islogin,reg_id from login");
+$row1=mysqli_query($conn,"select student.name from student inner JOIN login on login.reg_id=student.id  where login.islogin > $time");
+$row2=mysqli_query($conn,"select teacher.name from teacher inner JOIN login on login.reg_id=teacher.id  where login.islogin > $time");
+
 ?>
 <html>
   <head> <?php include '../includes/cdn.php'; ?></head>
   <body>
     <?php
-     while($res = mysqli_fetch_array($row)){
-       if($res['islogin']>$time)
-       {
-         echo $res['reg_id'].'</br>';
-       }
-      }?>
+     while($res = mysqli_fetch_array($row1)){
+         echo $res['name'].'</br>';
+      }
+      while($res = mysqli_fetch_array($row2)){
+        echo $res['name'].'</br>';}
+        ?>
     <script>function updateUserStatus(){
   jQuery.ajax({
     url:'temp.php',

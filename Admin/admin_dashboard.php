@@ -18,7 +18,6 @@ $id = $_SESSION['user_id'];
 
 <body>
   <?php include '../includes/admin_sidebar.php'; ?>
-  <!-- <?php if($_COOKIE["mode"])?> -->
   <section class="home">
     <div class="container mt-4 ">
       <h1 class="text-center pt-2 pb-2 text">
