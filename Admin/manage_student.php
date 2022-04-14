@@ -15,7 +15,7 @@ try {
       mysqli_query($conn, "update student set name='$s_name',dept_id='$d_id' where id='$s_id'");
     } else {
       mysqli_query($conn, "insert into student (`id`, `name`, `dept_id`) values('$s_id','$s_name','$d_id')");
-      mysqli_query($conn, "insert into login values('$s_id','CMS@123','student','abcd@gmail.com')");
+      mysqli_query($conn, "insert into login values('$s_id','CMS@123','student','abcd@gmail.com',0)");//email change krna hai or moodle mai email ka option dena
     }
   } else if (isset($_POST["submit_update_student"])) {
     $s_id = $_POST["s_id"];
@@ -30,7 +30,7 @@ try {
     fgetcsv($handle, 1000, ",");
     while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
       mysqli_query($conn, "insert into student (`id`, `name`, `dept_id`) values('$data[0]','$data[1]','$data[2]')");
-      mysqli_query($conn, "insert into login values('$data[0]','CMS@123','student','abc@gamil.com')");
+      mysqli_query($conn, "insert into login values('$data[0]','CMS@123','student','abc@gamil.com',0)");
     }
     fclose($handle);
   }

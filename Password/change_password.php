@@ -68,7 +68,7 @@ catch(Exception $except){
       title: 'Password Changed Successfully!',
       timer: 10000
     }).then(function() {
-        window.location = '../login.php';
+        window.location = '../includes/logout.php';//swal wali dikat
     });
       </script>
     <?php endif;?>

@@ -19,3 +19,17 @@ modeSwitch.addEventListener("click", () => {
 
   }
 });
+
+function updateUserStatus(){
+  jQuery.ajax({
+    url:'../includes/update_user_status.php',
+    success:function(){
+        console.log("ok");
+    }
+  });
+
+}
+ setInterval(function(){
+   updateUserStatus();
+  
+ },5000);

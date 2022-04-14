@@ -8,11 +8,16 @@ try{
   if (isset($_POST["submit"])) {
   $registration_Id = $_POST["id"];
   $password = $_POST["password"];
+  $remember=$_POST["remember"];
   $res = mysqli_query($conn, "select role from login where reg_id='$registration_Id' and password='$password'");
   $row = mysqli_fetch_array($res);
   if ($row) {
     $_SESSION['user_id'] = $registration_Id;
     $_SESSION['type'] = $row['role'];
+    if($remember&&!isset($_COOKIE["username"])){
+      setcookie('username',$registration_Id,time()+(86400*7));
+      setcookie('password',$password,time()+(86400*7));
+    }
     if ($password == "CMS@123") {
       $default_pass = 1;
     } elseif ($row['role'] == "teacher")
@@ -79,16 +84,18 @@ catch(Exception $except){
                     <p><strong>Please login to your account</strong></p>
 
                     <div class="form-outline mb-4">
-                      <input type="integer" name="id" required class="form-control" placeholder="Registration Number" />
+                      <input type="integer" name="id" required class="form-control" placeholder="Registration Number" value="<?php if(isset($_COOKIE['username']))echo $_COOKIE['username'];?>"/>
                     </div>
 
                     <div class="form-outline mb-4">
-                      <input type="password" name="password" required class="form-control pass_toggle" placeholder="Password" />
+                      <input type="password" name="password" required class="form-control pass_toggle" placeholder="Password"  value="<?php if(isset($_COOKIE['password']))echo $_COOKIE['password'];?>" />
                       <p id="error_pass"></p>
                     </div>
                     <div class="form-outline mb-4 form-check form-switch">
                       <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault " onclick="pass_toggle()">
                       <h6>Show password</h6>
+                      <input class="form-check-input" type="checkbox" name="remember">
+                      <h6>Remember me</h6>
                     </div>
                     <div class="text-center pt-1 mb-5 pb-1">
                       <input class="btn btn-primary btn-sm gradient-custom-2 mb-3" type="submit" name="submit" value="Log In" />

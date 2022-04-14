@@ -15,7 +15,7 @@ try {
       mysqli_query($conn, "update teacher set name='$f_name',dept_id='$d_id' where id='$f_id'");
     } else {
       mysqli_query($conn, "insert into teacher (`id`, `name`, `dept_id`)values('$f_id','$f_name','$d_id')");
-      mysqli_query($conn, "insert into login values('$f_id','CMS@123','teacher','teacher@gmail.com')");
+      mysqli_query($conn, "insert into login values('$f_id','CMS@123','teacher','teacher@gmail.com',0)");
     }
   } else if (isset($_POST["submit_update_teacher"])) {
     $f_id = $_POST["f_id"];
@@ -30,7 +30,7 @@ try {
     fgetcsv($handle, 1000, ",");
     while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
       mysqli_query($conn, "insert into teacher (`id`, `name`, `dept_id`) values('$data[0]','$data[1]','$data[2]')");
-      mysqli_query($conn, "insert into login values('$data[0]','CMS@123','teacher','abc@gamil.com')");
+      mysqli_query($conn, "insert into login values('$data[0]','CMS@123','teacher','abc@gamil.com',0)");
     }
     fclose($handle);
   }

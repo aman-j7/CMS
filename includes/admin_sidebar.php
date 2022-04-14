@@ -26,13 +26,21 @@
        </a>
      </li>
    </div>
+   <div class="menu">
+     <li class="">
+       <a href="../admin/temp.php">
+         <i class='bx bx-home-alt icon'></i>
+         <span class="text nav-text">update</span>
+       </a>
+     </li>
+   </div>
 
    <div class="bottom-content">
      <li class="">
-       <a href="../login.php">
+       <a href="../includes/logout.php">
          <i class='bx bx-log-out icon'></i>
          <span class="text nav-text">Logout</span>
-       </a>
+</a>
      </li>
 
      <li class="mode">
