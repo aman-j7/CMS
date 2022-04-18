@@ -1,8 +1,4 @@
-<?php
-$time=time();
-$row1=mysqli_query($conn,"select student.name from student inner JOIN login on login.reg_id=student.id  where login.islogin > $time");
-$row2=mysqli_query($conn,"select teacher.name from teacher inner JOIN login on login.reg_id=teacher.id  where login.islogin > $time");
-?>
+<?php?>
 
 <style>
   .modal_user {
@@ -23,14 +19,7 @@ $row2=mysqli_query($conn,"select teacher.name from teacher inner JOIN login on l
           <h5 class="modal-title" style="margin:0 auto; text-align: left;" id="exampleModalLabel">Online Users</h5>
           <button type="button" class="btn-close btn-sm btn-close-white" aria-label="Close" data-bs-dismiss="modal"></button>
         </div>
-        <div class="modal-body">
-        <?php
-        while($res = mysqli_fetch_array($row1)){
-          echo $res['name'].'</br>';
-        }
-        while($res = mysqli_fetch_array($row2)){
-          echo $res['name'].'</br>';}
-        ?>
+        <div class="modal-body" id = "userData">
       </div>
     </div>
   </div>

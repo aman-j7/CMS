@@ -29,6 +29,22 @@ function updateUserStatus(){
   });
 
 }
+
+function getUserData(){
+  jQuery.ajax({
+    url:'../includes/getUserData.php',
+    success:function(result){
+        jQuery("#userData").html(result)
+    }
+  });
+
+}
+
+setInterval(function(){
+  getUserData();
+ 
+},5000);
+
  setInterval(function(){
    updateUserStatus();
   
