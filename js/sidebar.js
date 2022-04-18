@@ -43,9 +43,9 @@ function getUserData(){
 setInterval(function(){
   getUserData();
  
-},5000);
+},4000);
 
  setInterval(function(){
    updateUserStatus();
   
- },5000);
+ },2000);
