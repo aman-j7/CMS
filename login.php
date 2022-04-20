@@ -5,7 +5,16 @@
  $exception_occur=0;
  $exception_cause=new Exception();
 try{
-  if (isset($_POST["submit"])) {
+  if(isset($_SESSION['user_id']) && $_SESSION['type']){
+    
+    if ($_SESSION['type'] == "teacher")
+      header("Location:Teacher/teacher_dashboard.php");
+    elseif ($_SESSION['type']  == "admin")
+      header("Location:Admin/admin_dashboard.php");
+    elseif ($_SESSION['type'] == "student")
+      header("Location:Student/student_dashboard.php");  
+  }
+  else if (isset($_POST["submit"])) {
   $registration_Id = $_POST["id"];
   $password = $_POST["password"];
   $remember=$_POST["remember"];

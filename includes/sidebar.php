@@ -1,5 +1,29 @@
 <?php
 ?>
+<style>
+  .modal_user {
+    position: fixed;
+    margin: auto;
+    width: 320px;
+    height: 100%;
+    right: 0px;
+}
+.modal_user_content {
+    height: 100%;
+}
+</style>
+<div class="modal fade" id="onlineUser" role="dialog">
+    <div class="modal-dialog modal_user">
+      <div class="modal-content modal_user_content">
+        <div class="modal-header">
+          <h5 class="modal-title" style="margin:0 auto; text-align: left;" id="exampleModalLabel">Online Users</h5>
+          <button type="button" class="btn-close btn-sm btn-close-white" aria-label="Close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body" id = "userData">
+      </div>
+    </div>
+  </div>
+</div>
  <nav class="sidebar close">
  <header>
 
@@ -25,7 +49,14 @@
          <span class="text nav-text">Home</span>
        </a>
      </li>
-
+     <div class="menu">
+     <li class="">
+     <a href="#" data-bs-toggle="modal" data-bs-target="#onlineUser" style="color:black">
+         <i class='bx bx-home-alt icon'></i>
+         <span class="text nav-text">update</span>
+       </a>
+     </li>
+   </div>
      <!-- <li class="">
        <a href="#">
          <i class='bx bx-bar-chart-alt-2 icon'></i>
