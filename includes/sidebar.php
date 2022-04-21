@@ -11,12 +11,15 @@
 .modal_user_content {
     height: 100%;
 }
+#user{
+  font: sans-serif;
+}
 </style>
 <div class="modal fade" id="onlineUser" role="dialog">
     <div class="modal-dialog modal_user">
       <div class="modal-content modal_user_content">
         <div class="modal-header">
-          <h5 class="modal-title" style="margin:0 auto; text-align: left;" id="exampleModalLabel">Online Users</h5>
+          <h5 id ="user" class="modal-title" style="margin:0 auto; text-align: left;" id="exampleModalLabel"><b>Online Users</b></h5>
           <button type="button" class="btn-close btn-sm btn-close-white" aria-label="Close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body" id = "userData">

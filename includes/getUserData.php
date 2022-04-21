@@ -17,9 +17,9 @@ while($res = mysqli_fetch_array($row1)){
     else{
       $color="blue";
     }
-    $html.= '<div style=" color:'.$color.'"><svg height="30" width="100%">
-    <circle cx="10" cy="10" r="5"  fill="green" /><bold><text x="30" y="15">'.$res['name'].'</text></bold>
-  </svg></div>';
+    $html.= '<div style=" color:'.$color.'"><b><svg height="30" width="100%">
+    <circle cx="10" cy="10" r="5"  fill="green" /><text x="30" y="15">'.$res['name'].'</text>
+  </svg></b></div>';
   }
    while($res = mysqli_fetch_array($row2)){
     if($res['reg_id'] == $uid){
@@ -28,9 +28,9 @@ while($res = mysqli_fetch_array($row1)){
     else{
       $color="blue";
     }
-     $html.= '<div   color:'.$color.'"><svg height="30" width="100%">
-     <circle cx="10" cy="10" r="5"  fill="green" /><blod><text x="30" y="15">'.$res['name'].'</text></blod>
-   </svg></div>';
+     $html.= '<div   color:'.$color.'"><b><svg height="30" width="100%">
+     <circle cx="10" cy="10" r="5"  fill="green" /><text x="30" y="15">'.$res['name'].'</text>
+   </svg></b></div>';
  }
 
 echo $html;

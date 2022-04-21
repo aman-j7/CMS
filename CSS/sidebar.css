@@ -300,3 +300,6 @@ body.dark .home .text {
   color: var(--text-color);
 }
 
+.bolded {
+  font: bold sans-serif;
+}

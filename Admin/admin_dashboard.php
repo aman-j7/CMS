@@ -11,6 +11,7 @@ $id = $_SESSION['user_id'];
 
   <?php include '../includes/cdn.php'; ?>
   <link rel="stylesheet" href="../css/admin.css">
+  <link rel="stylesheet" href="../css/userdata.css">;
   <link rel="stylesheet" href="../CSS/sidebar.css">
   <link rel="stylesheet" href="../CSS/footer.css">
 
