@@ -11,15 +11,16 @@ try {
     $f_id = $_POST["f_id"];
     $f_name = $_POST["f_name"];
     $d_id = $_POST["d_id"];
+    $f_email=$_POST["f_email"];
     if ($f) {
       mysqli_query($conn, "update teacher set name='$f_name',dept_id='$d_id' where id='$f_id'");
     } else {
-      mysqli_query($conn, "insert into teacher (`id`, `name`, `dept_id`)values('$f_id','$f_name','$d_id')");
-      mysqli_query($conn, "insert into login values('$f_id','CMS@123','teacher','teacher@gmail.com',0)");
+      mysqli_query($conn, "insert into teacher (`id`, `name`, `dept_id`,`email`)values('$f_id','$f_name','$d_id','$f_email')");
+      mysqli_query($conn, "insert into login values('$f_id','CMS@123','teacher','$f_email',0)");
     }
   } else if (isset($_POST["submit_update_teacher"])) {
     $f_id = $_POST["f_id"];
-    $res = mysqli_query($conn, "Select id,name,dept_id from teacher where id='$f_id'");
+    $res = mysqli_query($conn, "Select id,name,dept_id,email from teacher where id='$f_id'");
     $row = mysqli_fetch_array($res);
     $flag = 1;
   } else if (isset($_POST["submit_drop_teacher"])) {
@@ -90,6 +91,12 @@ try {
                 <input type="text" class="form-control input1" placeholder="Enter teacher name" name="f_name" value="<?php if ($flag) echo $row['name'];
                                                                                                                       else echo ""; ?>" required>
               </div>
+              <div class="form-group">
+                <label> Email</label>
+                <input type="email" class="form-control input1" placeholder="Enter teacher email" name="f_email" value="<?php if ($flag) echo $row['email'];
+                                                                                                                      else echo ""; ?>" required>
+              </div>
+              
               <div class="form-group">
                 <label>Department Id</label>
                 <select type="text" class="form-control input1" name="d_id" required>
