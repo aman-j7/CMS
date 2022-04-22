@@ -112,7 +112,33 @@ if (isset($_POST["submit"])) {
         $('#modal1').modal('show');
       });
     </script>
-  <?php endif; ?>
+  <?php endif;
+   if($role=='student'):?>
+  <div class="modal fade" id="assignments" role="dialog">
+      <div class="modal-dialog modal_user">
+         <div class="modal-content modal_user_content">
+           <div class="modal-header">
+             <h5  class="modal-title" style="margin:0 auto; text-align: left;" id="exampleModalLabel"><b>assignments</b></h5>
+          </div>
+          <div class="modal-body">
+            <?php 
+             $row = mysqli_query($conn, "SELECT `header`, `assigment`,`upload` FROM $course");
+            while ($res = mysqli_fetch_array($row) ) :
+             if($res['assigment']!=NULL):?>
+             <?php
+                   echo $res['header']?></br>
+                   <a href="<?php echo $res['assigment']?>">Assignment<a></br>';
+                  <a href="<?php echo$res['upload']?>">Submission<a></br>';
+
+                <?php endif;
+              endwhile;
+             ?>
+         </div>
+       </div>
+     </div>
+   </div>
+   <?php endif;?>
+
   <?php include '../includes/sidebar.php'; ?>
   <section class="home">
     <div class="container border border-3 mt-4 ">
