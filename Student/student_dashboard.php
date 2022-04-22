@@ -2,6 +2,10 @@
 include "../includes/config.php";
 $id=$_SESSION['user_id'];
 $res = mysqli_query($conn, "SELECT course_id FROM `assign` WHERE student_id='$id'");
+
+$role = $_SESSION['type'];
+
+$pageName = basename($_SERVER['PHP_SELF']);
 ?>
 <html>
 
@@ -17,7 +21,7 @@ $res = mysqli_query($conn, "SELECT course_id FROM `assign` WHERE student_id='$id
 </head>
 
 <body>
-<?php include '../includes/admin_sidebar.php'; ?>
+<?php include '../includes/sidebar.php'; ?>
 <section class="home">
 <div class="container mt-4 ">
 <h1 class="text-center pt-2 pb-2 text">

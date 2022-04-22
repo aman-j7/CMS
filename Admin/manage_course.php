@@ -21,6 +21,7 @@ try {
         `id` int(11) NOT NULL  AUTO_INCREMENT PRIMARY KEY,
         `parent_comment` varchar(500) NOT NULL,
         `student` varchar(1000) NOT NULL,
+        `role` varchar(100) NOT NULL,
         `post` varchar(1000) NOT NULL,
         `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
       )");

@@ -1,5 +1,8 @@
 <?php
 include "../includes/config.php";
+
+$pageName = basename($_SERVER['PHP_SELF']);
+
 $course = $_GET["course"];
 $courseDiscussion = $course;
 $id = $_SESSION['user_id'];
@@ -14,14 +17,14 @@ if (isset($_POST["save"])) {
   $name = $_POST['name'];
   $msg = $_POST['msg'];
   if ($name != "" && $msg != "") {
-    mysqli_query($conn, "INSERT INTO $courseDiscussion (parent_comment, student, post) VALUES ('$id', '$name', '$msg')");
+    mysqli_query($conn, "INSERT INTO $courseDiscussion (parent_comment, student, `role`, post) VALUES ('$id', '$name', '$role', '$msg')");
   }
 } else if (isset($_POST["btnreply"])) {
   $id = $_POST['pid'];
   $name = $_POST['name'];
   $msg = $_POST['msg'];
   if ($name != "" && $msg != "") {
-    mysqli_query($conn, "INSERT INTO $courseDiscussion (parent_comment, student, post) VALUES ('$id', '$name', '$msg')");
+    mysqli_query($conn, "INSERT INTO $courseDiscussion (parent_comment, student, `role`, post) VALUES ('$id', '$name', '$role', '$msg')");
   }
 }
 $result =  mysqli_query($conn, "SELECT *  FROM $courseDiscussion where parent_comment='0' ORDER BY id desc");
@@ -38,7 +41,7 @@ $result =  mysqli_query($conn, "SELECT *  FROM $courseDiscussion where parent_co
  
 </head>
 <body>
-<?php include '../includes/admin_sidebar.php'; ?>
+<?php include '../includes/sidebar.php'; ?>
 <section class="home">
   <div id="ReplyModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
@@ -97,7 +100,12 @@ $result =  mysqli_query($conn, "SELECT *  FROM $courseDiscussion where parent_co
           ?>
             <tr style="border-top:1px solid black; border-bottom:1px solid black">
             <tr>
-              <td><b><img src="../images/avatar.jpg" width="30px" height="30px" /> <?php echo $res['student']; ?> :<i> <?php echo $res['date']; ?>:</i></b></br>
+              <?php
+                $colour = "blue";
+                if($res['role'] == 'teacher')
+                  $colour = "red"; 
+              ?>
+              <td ><b><img src="../images/avatar.jpg" width="30px" height="30px" /><span style="color: <?php echo $colour; ?>"> <?php echo $res['student']; ?> </span> :<i> <?php echo $res['date']; ?>:</i></b></br>
                 <p style="padding-left:80px"><?php echo $res['post']; ?></br>
                   <button type="button" class="btn btn-link" data-toggle="modal" data-target="#ReplyModal" data-id=<?php echo $res['id']; ?> id="submit" onclick="func(this)">
                     Reply
@@ -111,7 +119,12 @@ $result =  mysqli_query($conn, "SELECT *  FROM $courseDiscussion where parent_co
             while ($res1 = mysqli_fetch_array($result1)) :
             ?>
               <tr>
-                <td style="padding-left:80px "><b><img src="../images/avatar.jpg" width="30px" height="30px" /><?php echo $res1['student']; ?> :<i> <?php echo $res1['date']; ?>:</i></b></br>
+              <?php
+                $colour = "blue";
+                if($res1['role'] == 'teacher')
+                  $colour = "red"; 
+              ?>
+                <td style="padding-left:80px "><b><img src="../images/avatar.jpg" width="30px" height="30px" /><span style="color: <?php echo $colour; ?>"> <?php echo $res1['student']; ?> </span> :<i> <?php echo $res1['date']; ?>:</i></b></br>
                   <p style="padding-left:40px"><?php echo $res1['post']; ?></p>
                 </td>
               </tr>

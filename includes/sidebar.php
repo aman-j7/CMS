@@ -47,26 +47,24 @@
  <div class="menu-bar">
    <div class="menu">
      <li class="">
-       <a href="#">
+       <a href="<?php if($role == 'teacher') echo "../teacher/teacher_dashboard.php"; else echo "../student/student_dashboard.php"?>"> 
          <i class='bx bx-home-alt icon'></i>
          <span class="text nav-text">Home</span>
        </a>
      </li>
-     <div class="menu">
      <li class="">
-     <a href="#" data-bs-toggle="modal" data-bs-target="#onlineUser" style="color:black">
-         <i class='bx bx-home-alt icon'></i>
-         <span class="text nav-text">update</span>
+       <a href="../includes/profile.php">
+         <i class='bx bx-user icon'></i>
+         <span class="text nav-text">Profile</span>
        </a>
      </li>
-   </div>
-     <!-- <li class="">
-       <a href="#">
-         <i class='bx bx-bar-chart-alt-2 icon'></i>
-         <span class="text nav-text">Status</span>
+     <li class="">
+     <a href="#" data-bs-toggle="modal" data-bs-target="#onlineUser" style="color:black">
+         <i class='bx bx-group icon'></i>
+         <span class="text nav-text">Users</span>
        </a>
-     </li> -->
-
+     </li>
+     <?php if($pageName == 'template.php'):?>
      <li class="">
        <a href="#">
          <i class='bx bx-bell icon'></i>
@@ -88,11 +86,12 @@
         </a>
         </li>
      <?php endif;?>
+     <?php endif;?>
    </div>
 
    <div class="bottom-content">
      <li class="">
-       <a href="../login.php">
+       <a href="../includes/logout.php">
          <i class='bx bx-log-out icon'></i>
          <span class="text nav-text">Logout</span>
        </a>

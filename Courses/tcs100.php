@@ -1,7 +1,5 @@
 <?php
 
-$delete_confirm = 0;
-
 include "../includes/config.php";
 $courseDiscussion=$_GET["course"];
 $course = strtoupper($_GET["course"]);
@@ -39,8 +37,8 @@ if (isset($_POST["submit"])) {
   $up = mysqli_fetch_array($up);
   $flag = 1;
 } else if (isset($_POST["delete"])) {
-  $delete_confirm = 1;
   $no = $_POST['no'];
+  mysqli_query($conn, "DELETE FROM $course WHERE  `no`=$no");
 }
 ?>
 
@@ -58,23 +56,6 @@ if (isset($_POST["submit"])) {
 </head>
 
 <body>
-
-  <?php if ($delete_confirm == 1) : ?>
-    <script>
-      Swal.fire({
-        title: 'Do you want to save the changes?',
-        showCancelButton: true,
-        confirmButtonText: 'Confirm',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          Swal.fire('Deleted!', '', 'success')
-          <?php
-          mysqli_query($conn, "DELETE FROM $course WHERE  `no`=$no");
-          ?>
-        }
-      })
-    </script>
-  <?php endif; ?>
 
   <?php if ($role == "teacher") : ?>
     <div class="modal fade" id="modal1" role="dialog">

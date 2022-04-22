@@ -1,8 +1,9 @@
 <?php
 
-$delete_confirm = 0;
-
 include "../includes/config.php";
+
+$pageName = basename($_SERVER['PHP_SELF']);
+
 $courseDiscussion=$_GET["course"];
 $course = strtoupper($_GET["course"]);
 $t = mysqli_query($conn, "SELECT `course_name` FROM `courses` where course_id='$course'");
@@ -39,15 +40,14 @@ if (isset($_POST["submit"])) {
   $up = mysqli_fetch_array($up);
   $flag = 1;
 } else if (isset($_POST["delete"])) {
-  $delete_confirm = 1;
   $no = $_POST['no'];
+  mysqli_query($conn, "DELETE FROM $course WHERE  `no`=$no");
 }
 ?>
 
 <html>
 
 <head>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.16/dist/sweetalert2.all.min.js"></script>
   <title>
     <?php echo $course; ?>
   </title>
@@ -59,22 +59,6 @@ if (isset($_POST["submit"])) {
 
 <body>
 
-  <?php if ($delete_confirm == 1) : ?>
-    <script>
-      Swal.fire({
-        title: 'Do you want to save the changes?',
-        showCancelButton: true,
-        confirmButtonText: 'Confirm',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          Swal.fire('Deleted!', '', 'success')
-          <?php
-          mysqli_query($conn, "DELETE FROM $course WHERE  `no`=$no");
-          ?>
-        }
-      })
-    </script>
-  <?php endif; ?>
 
   <?php if ($role == "teacher") : ?>
     <div class="modal fade" id="modal1" role="dialog">
@@ -84,7 +68,7 @@ if (isset($_POST["submit"])) {
             <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Update Student</h5>
           </div>
           <div class="modal-body">
-            <form role="form" action="<?php echo $course ?>.php?course=<?php echo $course ?>& course_name=<?php echo $subject ?> " method="POST" autocomplete="off">
+            <form role="form" action="template.php?course=<?php echo $course ?>& course_name=<?php echo $subject ?> " method="POST" autocomplete="off">
               <div class="form-group">
                 <label>Header</label>
                 <input type="text" class="form-control" name="head" placeholder="topic" value="<?php if ($flag) echo $up['header'];
@@ -176,7 +160,7 @@ if (isset($_POST["submit"])) {
               </div>
               <?php if ($role == "teacher") : ?>
                 <div class="mb-2">
-                  <form role="form" action="<?php echo $course ?>.php?course=<?php echo $course ?>&course_name=<?php echo $subject ?>" method="POST">
+                  <form role="form" action="template.php?course=<?php echo $course ?>&course_name=<?php echo $subject ?>" method="POST">
                     <tr>
                       <td><input type="integer" name="no" value=<?php echo $res['no'] ?> hidden></td>
                       <td><input type="submit" class="btn btn-danger  btn-sm mx-1 me-2" name="delete" value="Delete" style="float:right" /></td>

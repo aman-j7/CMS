@@ -47,17 +47,21 @@
  <div class="menu-bar">
    <div class="menu">
      <li class="">
-       <a href="../includes/profile.php">
+       <a href="../admin/admin_dashboard.php">
          <i class='bx bx-home-alt icon'></i>
          <span class="text nav-text">Home</span>
        </a>
      </li>
-   </div>
-   <div class="menu">
+     <li class="">
+       <a href="../includes/profile.php">
+         <i class='bx bx-user icon'></i>
+         <span class="text nav-text">Profile</span>
+       </a>
+     </li>
      <li class="">
      <a href="#" data-bs-toggle="modal" data-bs-target="#onlineUser" style="color:black">
-         <i class='bx bx-home-alt icon'></i>
-         <span class="text nav-text">update</span>
+         <i class='bx bx-group icon'></i>
+         <span class="text nav-text">Users</span>
        </a>
      </li>
    </div>
