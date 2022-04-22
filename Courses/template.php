@@ -1,9 +1,7 @@
 <?php
 
 include "../includes/config.php";
-
 $pageName = basename($_SERVER['PHP_SELF']);
-
 $courseDiscussion=$_GET["course"];
 $course = strtoupper($_GET["course"]);
 $t = mysqli_query($conn, "SELECT `course_name` FROM `courses` where course_id='$course'");
@@ -54,12 +52,8 @@ if (isset($_POST["submit"])) {
   <?php include '../includes/cdn.php'; ?>
   <link rel="stylesheet" href="../CSS/discussion.css">
   <link rel="stylesheet" href="../CSS/sidebar.css">
-
 </head>
-
 <body>
-
-
   <?php if ($role == "teacher") : ?>
     <div class="modal fade" id="modal1" role="dialog">
       <div class="modal-dialog">
@@ -133,7 +127,7 @@ if (isset($_POST["submit"])) {
       <?php
       $row = mysqli_query($conn, "SELECT `no`, `header`, `link`, `notes`, `ref`, `assigment`,`upload` FROM $course");
       $c = 0;
-      while ($res = mysqli_fetch_array($row)) :
+      while ($row &&  $res = mysqli_fetch_array($row)) :
         if ($c % 3 == 0) : ?>
           <div class="row ">
           <?php endif;
