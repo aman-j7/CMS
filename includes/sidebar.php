@@ -26,6 +26,31 @@
     </div>
   </div>
 </div>
+<?php if($pageName == 'template.php' && $role=='student'):?>
+  <div class="modal fade" id="assignments" role="dialog">
+      <div class="modal-dialog modal_user">
+        <div class="modal-content modal_user_content">
+          <div class="modal-header">
+            <h5 id ="user" class="modal-title" style="margin:0 auto; text-align: left;" id="exampleModalLabel"><b>assignments</b></h5>
+          </div>
+          <div class="modal-body">
+            <?php 
+             $row = mysqli_query($conn, "SELECT `header`, `assigment`,`upload` FROM $course");
+              while ($res = mysqli_fetch_array($row) ) :
+                if($res['assigment']!=NULL):
+                  echo '<div>';
+                  echo $res['header'].'</br>';
+                  echo '<a href="'.$res['assigment'].'">Assignment<a></br>';
+                  echo '<a href="'.$res['upload'].'">Submission<a></br>';
+                  echo'</div>';
+                endif;
+              endwhile;
+            ?>
+        </div>
+      </div>
+    </div>
+  </div>
+<?php endif;?>
  <nav class="sidebar close">
  <header>
 
@@ -67,7 +92,7 @@
 
       <?php if($role == 'student'):?>
      <li class="">
-       <a href="#">
+       <a href="#" data-bs-toggle="modal" data-bs-target="#assignments" style="color:black">
          <i class='bx bx-bell icon'></i>
          <span class="text nav-text">Assigment</span>
        </a>
