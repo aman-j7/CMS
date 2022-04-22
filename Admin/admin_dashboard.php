@@ -10,8 +10,8 @@ $id = $_SESSION['user_id'];
   </title>
 
   <?php include '../includes/cdn.php'; ?>
-  <link rel="stylesheet" href="../css/admin.css">
-  <link rel="stylesheet" href="../css/userdata.css">;
+  <link rel="stylesheet" href="../CSS/admin.css">
+  <link rel="stylesheet" href="../CSS/userdata.css">;
   <link rel="stylesheet" href="../CSS/sidebar.css">
   <link rel="stylesheet" href="../CSS/footer.css">
 

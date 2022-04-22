@@ -51,7 +51,7 @@ try {
   </title>
 
   <?php include '../includes/cdn.php'; ?>
-  <link rel="stylesheet" href="../css/admin.css">
+  <link rel="stylesheet" href="../CSS/admin.css">
   <link rel="stylesheet" href="../CSS/sidebar.css">
 
 </head>
