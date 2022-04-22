@@ -20,7 +20,6 @@
       <div class="modal-content modal_user_content">
         <div class="modal-header">
           <h5 id ="user" class="modal-title" style="margin:0 auto; text-align: left;" id="exampleModalLabel"><b>Online Users</b></h5>
-          <button type="button" class="btn-close btn-sm btn-close-white" aria-label="Close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body" id = "userData">
       </div>
@@ -65,12 +64,15 @@
        </a>
      </li>
      <?php if($pageName == 'template.php'):?>
+
+      <?php if($role == 'student'):?>
      <li class="">
        <a href="#">
          <i class='bx bx-bell icon'></i>
          <span class="text nav-text">Assigment</span>
        </a>
      </li>
+     <?php endif;?>
 
      <li class="">
        <a href="../discussion/index.php?course=<?php echo $courseDiscussion;?>">

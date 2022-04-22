@@ -17,13 +17,13 @@ try{
   else if (isset($_POST["submit"])) {
   $registration_Id = $_POST["id"];
   $password = $_POST["password"];
-  $remember=$_POST["remember"];
   $res = mysqli_query($conn, "select role from login where reg_id='$registration_Id' and password='$password'");
   $row = mysqli_fetch_array($res);
   if ($row) {
+    $remember=$_POST["remember"];
     $_SESSION['user_id'] = $registration_Id;
     $_SESSION['type'] = $row['role'];
-    if($remember&&!isset($_COOKIE["username"])){
+    if($remember){
       setcookie('username',$registration_Id,time()+(86400*7));
       setcookie('password',$password,time()+(86400*7));
     }

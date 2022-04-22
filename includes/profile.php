@@ -1,5 +1,8 @@
 <?php
 include "../includes/config.php";
+
+$pageName = basename($_SERVER['PHP_SELF']);
+
 $id=$_SESSION['user_id'];	
 $role=$_SESSION['type'];
 if($role=="admin"){
@@ -32,8 +35,36 @@ $address_arr=explode("#",$row['address']);
 <head>
 	   <link rel="stylesheet" href="../CSS/profile_css.css">
        <?php include '../includes/cdn.php'; ?> 
+	   <link rel="stylesheet" href="../CSS/sidebar.css">
+
+	   <style>
+		   .outer {
+  display: table;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.middle {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.inner {
+  margin-left: auto;
+  margin-right: auto;
+}
+</style>
 </head>
 <body>
+
+<?php include '../includes/sidebar.php'; ?>
+<section class="home">
+<div class ="outer">
+	<div class = "middle">
+	<div class = "inner">
 <form action="profile.php" method="POST">
 <div class="container">
 <div class="row gutters">
@@ -146,6 +177,11 @@ $address_arr=explode("#",$row['address']);
 </div>
 </div>
 </form>
+</div>
+</div>
+</div>
+</section>
+  <script type="text/javascript" src="../js/sidebar.js"></script>
 <script>
 	function editProfile(){
 		let tmp=document.getElementsByTagName("input");
