@@ -1,6 +1,8 @@
 <?php
 include "../includes/config.php";
+$pageName = basename($_SERVER['PHP_SELF']);
 $id = $_SESSION['user_id'];
+$role=$_SESSION['type'];
 ?>
 <html>
 

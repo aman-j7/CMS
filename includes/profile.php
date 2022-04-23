@@ -2,11 +2,11 @@
 include "../includes/config.php";
 
 $pageName = basename($_SERVER['PHP_SELF']);
-
 $id=$_SESSION['user_id'];	
 $role=$_SESSION['type'];
+$table=$role;
 if($role=="admin"){
-	$role="teacher";
+	$table="teacher";
 }
 if (isset($_POST["submit"])) {
 	$name=$_POST['name'];
@@ -18,11 +18,11 @@ if (isset($_POST["submit"])) {
 	$state=$_POST['state'];
 	$code=$_POST['zip'];
 	$address=$street.'#'.$city.'#'.$state.'#'.$code;
-	$res = mysqli_query($conn, "UPDATE `$role` SET `name`='$name',`phone`='$phone',`DOB`='$dob',`email`='$email',`address`='$address' WHERE `id`='$id'");
+	$res = mysqli_query($conn, "UPDATE `$table` SET `name`='$name',`phone`='$phone',`DOB`='$dob',`email`='$email',`address`='$address' WHERE `id`='$id'");
 }
 
 $address_arr=[];
-$res = mysqli_query($conn, "SELECT `id`, `name`, `dept_id`, `phone`, `DOB`, `email`, `address` FROM `$role` where `id`='$id'");
+$res = mysqli_query($conn, "SELECT `id`, `name`, `dept_id`, `phone`, `DOB`, `email`, `address` FROM `$table` where `id`='$id'");
 $row = mysqli_fetch_array($res);
 $dept_id=$row['dept_id'];
 $dept_name = mysqli_query($conn, "SELECT `dept_name` FROM `department` WHERE `dept_id`='$dept_id'");

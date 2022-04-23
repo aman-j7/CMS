@@ -1,50 +1,43 @@
 <?php
- include "includes/config.php";
- $wrong_pass = 0;
- $default_pass = 0;
- $exception_occur=0;
- $exception_cause=new Exception();
-try{
-  if(isset($_SESSION['user_id']) && $_SESSION['type']){
-    
-    if ($_SESSION['type'] == "teacher")
-      header("Location:Teacher/teacher_dashboard.php");
+include "includes/config.php";
+$wrong_pass = 0;
+$default_pass = 0;
+$exception_occur = 0;
+$exception_cause = new Exception();
+try {
+  if (isset($_SESSION['user_id']) && $_SESSION['type']) {
+
+    if ($_SESSION['type'] == "teacher" || $row['role'] == "student")
+      header("Location:NonAdmin/dashboard.php");
     elseif ($_SESSION['type']  == "admin")
       header("Location:Admin/admin_dashboard.php");
-    elseif ($_SESSION['type'] == "student")
-      header("Location:Student/student_dashboard.php");  
-  }
-  else if (isset($_POST["submit"])) {
-  $registration_Id = $_POST["id"];
-  $password = $_POST["password"];
-  $res = mysqli_query($conn, "select role from login where reg_id='$registration_Id' and password='$password'");
-  $row = mysqli_fetch_array($res);
-  if ($row) {
-    $remember=$_POST["remember"];
-    $_SESSION['user_id'] = $registration_Id;
-    $_SESSION['type'] = $row['role'];
-    if($remember){
-      setcookie('username',$registration_Id,time()+(86400*7));
-      setcookie('password',$password,time()+(86400*7));
+  } else if (isset($_POST["submit"])) {
+    
+    $registration_Id = $_POST["id"];
+    $password = $_POST["password"];
+    $res = mysqli_query($conn, "select role from login where reg_id='$registration_Id' and password='$password'");
+    $row = mysqli_fetch_array($res);
+    if ($row) {
+      $remember = $_POST["remember"];
+      $_SESSION['user_id'] = $registration_Id;
+      $_SESSION['type'] = $row['role'];
+      if ($remember) {
+        setcookie('username', $registration_Id, time() + (86400 * 7));
+        setcookie('password', $password, time() + (86400 * 7));
+      }
+      if ($password == "CMS@123") {
+        $default_pass = 1;
+      } elseif ($row['role'] == "teacher" || $row['role'] == "student")
+        header("Location:NonAdmin/dashboard.php");
+      elseif ($row['role'] == "admin")
+        header("Location:Admin/admin_dashboard.php");
+    } else {
+      $wrong_pass = 1;
     }
-    if ($password == "CMS@123") {
-      $default_pass = 1;
-    } elseif ($row['role'] == "teacher")
-      header("Location:Teacher/teacher_dashboard.php");
-    elseif ($row['role'] == "admin")
-      header("Location:Admin/admin_dashboard.php");
-    elseif ($row['role'] == "student")
-      header("Location:Student/student_dashboard.php");
-  } else {
-
-    $wrong_pass = 1;
   }
-}
-}
-catch(Exception $except){
-  $exception_occur=1;
-  $exception_cause=$except;
-
+} catch (Exception $except) {
+  $exception_occur = 1;
+  $exception_cause = $except;
 }
 ?>
 
@@ -57,26 +50,27 @@ catch(Exception $except){
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.16/dist/sweetalert2.all.min.js"></script>
   <script type="text/javascript" src="js/login.js"></script>
   <title>Next Gen Learning</title>
-  <link rel = "icon" href = "images/favicon.ico" type = "image/x-icon">
+  <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 </head>
 
 <body>
-<?php if($exception_occur):?>
+  <?php if ($exception_occur) : ?>
     <script>
-    alert("<?php echo $exception_cause->getMessage()?>");
-  </script>
+      alert("<?php echo $exception_cause->getMessage() ?>");
+    </script>
   <?php endif;
-  if($default_pass):?>
+  if ($default_pass) : ?>
     <script>
-    Swal.fire({
-      icon: 'warning',
-      title: 'Login Successfull!',
-      text: 'Update your default password',
-      timer: 10000
-    }).then(function() {
-    window.location = 'Password/change_password.php';});
-  </script>
-  <?php endif;?>
+      Swal.fire({
+        icon: 'warning',
+        title: 'Login Successfull!',
+        text: 'Update your default password',
+        timer: 10000
+      }).then(function() {
+        window.location = 'Password/change_password.php';
+      });
+    </script>
+  <?php endif; ?>
   <section class="h-100 gradient-form">
     <div class="container h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">
@@ -93,11 +87,11 @@ catch(Exception $except){
                     <p><strong>Please login to your account</strong></p>
 
                     <div class="form-outline mb-4">
-                      <input type="integer" name="id" required class="form-control" placeholder="Registration Number" value="<?php if(isset($_COOKIE['username']))echo $_COOKIE['username'];?>"/>
+                      <input type="integer" name="id" required class="form-control" placeholder="Registration Number" value="<?php if (isset($_COOKIE['username'])) echo $_COOKIE['username']; ?>" />
                     </div>
 
                     <div class="form-outline mb-4">
-                      <input type="password" name="password" required class="form-control pass_toggle" placeholder="Password"  value="<?php if(isset($_COOKIE['password']))echo $_COOKIE['password'];?>" />
+                      <input type="password" name="password" required class="form-control pass_toggle" placeholder="Password" value="<?php if (isset($_COOKIE['password'])) echo $_COOKIE['password']; ?>" />
                       <p id="error_pass"></p>
                     </div>
                     <div class="form-outline mb-4 form-check form-switch">
@@ -141,14 +135,13 @@ catch(Exception $except){
     var slideIndex = 0;
     showSlides();
   </script>
-  
-  <?php if ($wrong_pass == 1): ?>
-  <script>
-   document.getElementById("error").innerHTML +=
-    '<div class="alert alert-danger" role="alert">Invalid login, please try again</div>';
 
-  </script>
-  <?php endif;?>
+  <?php if ($wrong_pass == 1) : ?>
+    <script>
+      document.getElementById("error").innerHTML +=
+        '<div class="alert alert-danger" role="alert">Invalid login, please try again</div>';
+    </script>
+  <?php endif; ?>
 </body>
 
 </html>

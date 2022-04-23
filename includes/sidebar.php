@@ -24,18 +24,6 @@
         <h5 id="user" class="modal-title" style="margin:0 auto; text-align: left;" id="exampleModalLabel"><b>Online Users</b></h5>
       </div>
       <div class="modal-body" id="userData">
-      <?php 
-             $row = mysqli_query($conn, "SELECT `header`, `assigment`,`upload` FROM $course");
-            while ($res = mysqli_fetch_array($row) ) :
-             if($res['assigment']!=NULL):?>
-             <?php
-                   echo $res['header']?></br>
-                   <a href="<?php echo $res['assigment']?>">Assignment<a></br>';
-                  <a href="<?php echo$res['upload']?>">Submission<a></br>';
-
-                <?php endif;
-              endwhile;
-             ?>
       </div>
     </div>
   </div>
@@ -60,8 +48,11 @@
   <div class="menu-bar">
     <div class="menu">
       <li class="">
-        <a href="<?php if ($role == 'teacher') echo "../teacher/teacher_dashboard.php";
-                  else echo "../student/student_dashboard.php" ?>">
+      <?php if($role=="admin"):?>
+        <a href="../admin/admin_dashboard.php">
+        <?php else :?>
+        <a href="../NonAdmin/dashboard.php">
+        <?php endif; ?>
           <i class='bx bx-home-alt icon'></i>
           <span class="text nav-text">Home</span>
         </a>

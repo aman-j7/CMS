@@ -5,6 +5,8 @@ $teacher = 0;
 $flag = 0;
 $student = 0;
 $exception_occur = 0;
+$pageName = basename($_SERVER['PHP_SELF']);
+$role=$_SESSION['type'];
 $exception_cause = new Exception();
 try {
   if (isset($_POST["submit_add_course"])) {

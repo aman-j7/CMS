@@ -3,6 +3,8 @@ include "../includes/config.php";
 include "../includes/random_color.php";
 $flag = 0;
 $exception_occur = 0;
+$role=$_SESSION['type'];
+$pageName = basename($_SERVER['PHP_SELF']);
 $exception_cause = new Exception();
 try {
   $department = mysqli_query($conn, "SELECT * FROM `department`");
