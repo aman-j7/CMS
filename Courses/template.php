@@ -151,7 +151,7 @@ if (isset($_POST["submit"])) {
     </div>
     <div class="container border border-3 d-grid gap-3 pb-4 px-4 mt-4">
       <?php
-      $row = mysqli_query($conn, "SELECT `no`, `header`, `link`, `notes`, `ref`, `assigment`,`upload` FROM $course");
+      $row = mysqli_query($conn, "SELECT `no`, `header`, `link`, `notes`, `ref`, `assigment`,`upload`,`checked` FROM $course");
       $c = 0;
       while ($row &&  $res = mysqli_fetch_array($row)) :
         if ($c % 3 == 0) : ?>
@@ -190,7 +190,7 @@ if (isset($_POST["submit"])) {
                 </div>
         <?php else : ?>
           <!-- checkbox for progress , isko apne hisaab se set kr lena  -->
-          <input type="checkbox" no="<?php echo $res['no'];?>" course="<?php echo $course;?>" onclick="progressCheck(this)">
+          <input type="checkbox" no="<?php echo $res['no'];?>" course="<?php echo $course;?>" onclick="progressCheck(this)" <?php if($res['checked']) echo "checked"?>>
         <?php endif; ?>
         </div>
         </div>
