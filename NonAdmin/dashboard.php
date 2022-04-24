@@ -68,10 +68,12 @@ if($role=='student'){
             <div class="card" >
               <img src="https://news.miami.edu/life/_assets/images/images-stories/2019/08/faculty-new-year-940x529.jpg" alt="" class="card-img-top">
               <div class="card-body">
+                <!-- progress bar , apne hissab se set kr lena -->
                 <?php if($role=="student"):?>
                   <div class="progressBar" style="height: 15px;background-color: lightgray;border-radius: 30px;">
 			          	<div class="progressBarFill" style=" width: <?php echo $percentage?>%;height: 15px;background-color: green;border-radius: 30px;"></div></div>
-                <?php endif;?>
+                  <div style="height: 15px; text-align: center; margin-bottom:5px;"><?php echo $percentage.'%';?></div>
+                  <?php endif;?>
                 <h5 class="card-title text-center"><?php echo $counter ?></h5>
               </a>
             </div>
