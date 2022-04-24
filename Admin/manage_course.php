@@ -6,7 +6,7 @@ $flag = 0;
 $student = 0;
 $exception_occur = 0;
 $pageName = basename($_SERVER['PHP_SELF']);
-$role=$_SESSION['type'];
+$role = $_SESSION['type'];
 $exception_cause = new Exception();
 try {
   if (isset($_POST["submit_add_course"])) {
@@ -18,7 +18,15 @@ try {
     } else {
       $disc = $c_id . "d";
       mysqli_query($conn, "insert into courses values('$c_id','$c_name')");
-      mysqli_query($conn, "CREATE TABLE $c_id ( `no` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, `header` VARCHAR(100) NOT NULL , `link` VARCHAR(100)  , `notes` VARCHAR(100)  , `ref` VARCHAR(100)  , `assigment` VARCHAR(100), `upload` VARCHAR(100))");
+      mysqli_query($conn, "CREATE TABLE $c_id ( 
+        `no` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+        `header` VARCHAR(100) NOT NULL , 
+        `link` VARCHAR(100)  , 
+        `notes` VARCHAR(100)  , 
+        `ref` VARCHAR(100)  ,
+        `assigment` VARCHAR(100), 
+        `upload` VARCHAR(100),
+        `checked` BOOLEAN NOT NULL)");
       mysqli_query($conn, "CREATE TABLE $disc (
         `id` int(11) NOT NULL  AUTO_INCREMENT PRIMARY KEY,
         `parent_comment` varchar(500) NOT NULL,
@@ -480,7 +488,8 @@ try {
       </div>
       </div>
       </div>
-      </div> <div class="form-outline mb-4 mt-5 form-check form-switch">
+      </div>
+      <div class="form-outline mb-4 mt-5 form-check form-switch">
         <label>
           <h6>View Data</h6>
         </label>
@@ -551,8 +560,9 @@ try {
         </a>
       </div>
       </div>
-        </div>
-        </div> <div class="form-outline mb-4 mt-5 form-check form-switch">
+      </div>
+      </div>
+      <div class="form-outline mb-4 mt-5 form-check form-switch">
         <label>
           <h6>View Data</h6>
         </label>
@@ -575,8 +585,8 @@ try {
             <tr>
               <td><?php echo $row['course_id'] ?></td>
               <td><?php echo $row['teacher_id'] ?></td>
-              <td><button class="btn btn-secondary" title="Update"><i class="bx bxs-edit-alt icon " data-id="<?php echo $row['course_id']; ?>"  data-id1="<?php echo $row['teacher_id']; ?>" onclick="update_data1(this)"></i></button>
-                <button class="btn btn-danger" title="Delete"><i class="bx bx-trash-alt icon " data-id="<?php echo $row['course_id']; ?>"  data-id1="<?php echo $row['teacher_id']; ?>" onclick="delete_data1(this)"></i></button>
+              <td><button class="btn btn-secondary" title="Update"><i class="bx bxs-edit-alt icon " data-id="<?php echo $row['course_id']; ?>" data-id1="<?php echo $row['teacher_id']; ?>" onclick="update_data1(this)"></i></button>
+                <button class="btn btn-danger" title="Delete"><i class="bx bx-trash-alt icon " data-id="<?php echo $row['course_id']; ?>" data-id1="<?php echo $row['teacher_id']; ?>" onclick="delete_data1(this)"></i></button>
               </td>
 
 
@@ -648,9 +658,9 @@ try {
             <tr>
               <td><?php echo $row['course_id'] ?></td>
               <td><?php echo $row['student_id'] ?></td>
-      
-              <td><button class="btn btn-secondary" title="Update"><i class="bx bxs-edit-alt icon " data-id="<?php echo $row['course_id']; ?>"  data-id1="<?php echo $row['student_id']; ?>"  onclick="update_data2(this)"></i></button>
-                <button class="btn btn-danger" title="Delete"><i class="bx bx-trash-alt icon " data-id="<?php echo $row['course_id']; ?>"  data-id1="<?php echo $row['student_id']; ?>"  onclick="delete_data2(this)"></i></button>
+
+              <td><button class="btn btn-secondary" title="Update"><i class="bx bxs-edit-alt icon " data-id="<?php echo $row['course_id']; ?>" data-id1="<?php echo $row['student_id']; ?>" onclick="update_data2(this)"></i></button>
+                <button class="btn btn-danger" title="Delete"><i class="bx bx-trash-alt icon " data-id="<?php echo $row['course_id']; ?>" data-id1="<?php echo $row['student_id']; ?>" onclick="delete_data2(this)"></i></button>
               </td>
 
 
@@ -737,6 +747,7 @@ try {
         tmp[3].setAttribute("name", "submit_add_student");
       }
     }
+
     function view_toggle(a) {
       var a = document.getElementById("view_data");
       var x = document.getElementById("table");
@@ -758,6 +769,7 @@ try {
       $(".modal-body #t_id").val(str);
       $('#modal3').modal('show');
     }
+
     function view_toggle1(a) {
       var a = document.getElementById("view_data1");
       var x = document.getElementById("table1");
@@ -783,6 +795,7 @@ try {
       $(".modal-body #t_id1").val(str1);
       $('#modal6').modal('show');
     }
+
     function view_toggle2(a) {
       var a = document.getElementById("view_data2");
       var x = document.getElementById("table2");
@@ -810,5 +823,4 @@ try {
     }
   </script>
 </body>
-
 </html>

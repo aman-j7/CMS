@@ -136,7 +136,6 @@ $result =  mysqli_query($conn, "SELECT *  FROM $courseDiscussion where parent_co
           <script type="text/javascript">
             function func(a) {
               var str = $(a).attr("data-id");
-              console.log(str);
               $(".modal-body #pid").val(str);
               $('#ReplyModal').modal('show');
             }

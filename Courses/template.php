@@ -188,7 +188,10 @@ if (isset($_POST["submit"])) {
                     </tr>
                   </form>
                 </div>
-        <?php endif;?>
+        <?php else : ?>
+          <!-- checkbox for progress , isko apne hisaab se set kr lena  -->
+          <input type="checkbox" no="<?php echo $res['no'];?>" course="<?php echo $course;?>" onclick="progressCheck(this)">
+        <?php endif; ?>
         </div>
         </div>
               <?php if ($c % 3 == 0) : ?>
@@ -199,6 +202,23 @@ if (isset($_POST["submit"])) {
     </div>
   </section>
   <script type="text/javascript" src="../js/sidebar.js"></script>
+  <script>
+      function progressCheck(check){
+      let course=check.getAttribute('course'); 
+      let no=check.getAttribute('no'); 
+      let checked=0;
+      if(check.checked){
+        checked=1;
+      }       
+      jQuery.ajax({
+        url:'../includes/progressCheck.php',
+        type:"POST",
+        data:{"course":course,"no":no,"checked":checked},
+        success:function(){
+        }
+      });
+    }
+  </script>
 </body>
 
 </html>

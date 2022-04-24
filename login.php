@@ -6,8 +6,7 @@ $exception_occur = 0;
 $exception_cause = new Exception();
 try {
   if (isset($_SESSION['user_id']) && $_SESSION['type']) {
-
-    if ($_SESSION['type'] == "teacher" || $row['role'] == "student")
+    if ($_SESSION['type'] == "teacher" || $_SESSION['type'] == "student")
       header("Location:NonAdmin/dashboard.php");
     elseif ($_SESSION['type']  == "admin")
       header("Location:Admin/admin_dashboard.php");

@@ -45,12 +45,33 @@ if($role=='student'){
         $counter = $row['course_id'];
         $t = mysqli_query($conn, "SELECT `course_name` FROM `courses` where course_id='$counter'");
         $t = mysqli_fetch_array($t);
-        $t = $t["course_name"]; ?>
+        $t = $t["course_name"];
+        if($role=='student'){
+          $totalLectures=0;
+          $selectedLectures=0;
+          $progress = mysqli_query($conn, "SELECT `checked` FROM `$counter`");
+          while($checked = mysqli_fetch_array($progress) ){
+            $totalLectures++;
+            if($checked['checked']){
+              $selectedLectures++;
+            }
+          }
+          if($totalLectures==0){
+            $percentage=100;
+          }
+          else{
+            $percentage=round(($selectedLectures/$totalLectures)*100);
+          }
+        } ?>
         <div class="col-lg-4 mb-4 mt-4 ">
           <a href="../Courses/template.php?course=<?php echo $counter ?>&course_name=<?php echo $t ?>" style="color:black"> <!-- no need of course name, should be changed -->
             <div class="card" >
               <img src="https://news.miami.edu/life/_assets/images/images-stories/2019/08/faculty-new-year-940x529.jpg" alt="" class="card-img-top">
               <div class="card-body">
+                <?php if($role=="student"):?>
+                  <div class="progressBar" style="height: 15px;background-color: lightgray;border-radius: 30px;">
+			          	<div class="progressBarFill" style=" width: <?php echo $percentage?>%;height: 15px;background-color: green;border-radius: 30px;"></div></div>
+                <?php endif;?>
                 <h5 class="card-title text-center"><?php echo $counter ?></h5>
               </a>
             </div>
