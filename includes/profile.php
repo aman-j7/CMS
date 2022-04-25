@@ -18,7 +18,8 @@ if (isset($_POST["submit"])) {
 	$state=$_POST['state'];
 	$code=$_POST['zip'];
 	$address=$street.'#'.$city.'#'.$state.'#'.$code;
-	$res = mysqli_query($conn, "UPDATE `$table` SET `name`='$name',`phone`='$phone',`DOB`='$dob',`email`='$email',`address`='$address' WHERE `id`='$id'");
+	mysqli_query($conn, "UPDATE `$table` SET `name`='$name',`phone`='$phone',`DOB`='$dob',`email`='$email',`address`='$address' WHERE `id`='$id'");
+	mysqli_query($conn, "UPDATE `login` SET `email`='$email' WHERE `reg_id`='$id'");
 }
 
 $address_arr=[];
