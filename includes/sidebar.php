@@ -73,7 +73,7 @@
 
         <?php if ($role == 'student') : ?>
           <li class="">
-            <a href="#" data-bs-toggle="modal" data-bs-target="#assignments" style="color:black">
+            <a href="#" onclick="getAssignment(this)" course="<?php echo $course;?>" data-bs-toggle="modal" data-bs-target="#assignments" style="color:black">
               <i class='bx bx-bell icon'></i>
               <span class="text nav-text">Assigment</span>
             </a>

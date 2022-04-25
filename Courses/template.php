@@ -1,5 +1,4 @@
 <?php
-
 include "../includes/config.php";
 $pageName = basename($_SERVER['PHP_SELF']);
 $courseDiscussion=$_GET["course"];
@@ -118,21 +117,10 @@ if (isset($_POST["submit"])) {
       <div class="modal-dialog modal_user">
          <div class="modal-content modal_user_content">
            <div class="modal-header">
-             <h5  class="modal-title" style="margin:0 auto; text-align: left;" id="exampleModalLabel"><b>assignments</b></h5>
+             <h5  class="modal-title" style="margin:0 auto; text-align: left;" id="exampleModalLabel"><b>Assignments</b></h5>
           </div>
-          <div class="modal-body">
-            <?php 
-             $row = mysqli_query($conn, "SELECT `header`, `assigment`,`upload` FROM $course");
-            while ($res = mysqli_fetch_array($row) ) :
-             if($res['assigment']!=NULL):?>
-             <?php
-                   echo $res['header']?></br>
-                   <a href="<?php echo $res['assigment']?>">Assignment<a></br>';
-                  <a href="<?php echo$res['upload']?>">Submission<a></br>';
-
-                <?php endif;
-              endwhile;
-             ?>
+          <div class="modal-body" id="assignmentData" >
+            
          </div>
        </div>
      </div>
@@ -215,6 +203,17 @@ if (isset($_POST["submit"])) {
         type:"POST",
         data:{"course":course,"no":no,"checked":checked},
         success:function(){
+        }
+      });
+    }
+    function getAssignment(courseId){
+      let course=courseId.getAttribute('course');
+      jQuery.ajax({
+        url:'../includes/assignments.php',
+        type:"POST",
+        data:{"course":course},
+        success:function(result){
+          jQuery("#assignmentData").html(result);
         }
       });
     }
