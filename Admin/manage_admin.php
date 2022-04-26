@@ -102,11 +102,13 @@ try {
 
                             <div class="form-group">
                                 <label>Department Id</label>
-                                <input type="text" class="form-control input1" name="d_id" value="Administrative" disabled required>
+                                <select type="text" class="form-control input1" name="d_id" required>
+                                <option value="Administrative" selected >Administrative</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label> Full Access</label>
-                                <input type="checkbox" name="isAdmin" <?php if ($flag && $row['isAdmin']) echo "checked" ?>>
+                                <input type="checkbox" name="isAdmin" value="1"<?php if ($flag && $row['isAdmin']) echo "checked" ?>>
                             </div>
                             <?php if (!$flag) : ?>
                                 <div class="form-group">
