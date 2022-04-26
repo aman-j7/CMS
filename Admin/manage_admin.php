@@ -15,8 +15,10 @@ try {
         $d_id = $_POST["d_id"];
         $f_email = $_POST["f_email"];
         $isAdmin=$_POST['isAdmin'];
+        echo $isAdmin.' '.$d_id;
         if ($f) {
-            mysqli_query($conn, "update admin set name='$f_name',dept_id='$d_id',`isAdmin`='$isAdmin' where id='$f_id'");
+            mysqli_query($conn, "update admin set name='$f_name',dept_id='$d_id',`isAdmin`='$isAdmin',`email`='$f_email' where id='$f_id'");
+            mysqli_query($conn, "UPDATE `login` SET `email`='$f_email' WHERE `reg_id`='$f_id'");
         } else {
             mysqli_query($conn, "insert into admin (`id`, `name`, `dept_id`,`email`,`isAdmin`)values('$f_id','$f_name','$d_id','$f_email','$isAdmin')");
             mysqli_query($conn, "insert into login values('$f_id','CMS@123','admin','$f_email',0)");
@@ -85,26 +87,26 @@ try {
                         <form role="form" action="manage_admin.php?f=<?php echo $flag ?>" method="POST" autocomplete="off">
                             <div class="form-group">
                                 <label>Admin Id</label>
-                                <input type="text" class="form-control input1" name="f_id" placeholder="Enter teacher id" value="<?php if ($flag) echo $row['id'];
+                                <input type="text" class="form-control input1" name="f_id" placeholder="Enter Admin id" value="<?php if ($flag) echo $row['id'];
                                                                                                                                     else echo ""; ?>" required>
                             </div>
                             <div class="form-group">
                                 <label> Admin Name</label>
-                                <input type="text" class="form-control input1" placeholder="Enter teacher name" name="f_name" value="<?php if ($flag) echo $row['name'];
+                                <input type="text" class="form-control input1" placeholder="Enter Admin name" name="f_name" value="<?php if ($flag) echo $row['name'];
                                                                                                                                         else echo ""; ?>" required>
                             </div>
                             <div class="form-group">
                                 <label> Email</label>
-                                <input type="email" class="form-control input1" placeholder="Enter teacher email" name="f_email" value="<?php if ($flag) echo $row['email']; else echo ""; ?>" required>
+                                <input type="email" class="form-control input1" placeholder="Enter Admin email" name="f_email" value="<?php if ($flag) echo $row['email']; else echo ""; ?>" required>
                             </div>
 
                             <div class="form-group">
                                 <label>Department Id</label>
-                                <input type="email" class="form-control input1" name="d_id" value="Administrative" disabled required>
+                                <input type="text" class="form-control input1" name="d_id" value="Administrative" disabled required>
                             </div>
                             <div class="form-group">
                                 <label> Full Access</label>
-                                <input type="checkbox" class="form-control input1" name="isAdmin" <?php if ($flag && $row['isAdmin']) echo "checked" ?>>
+                                <input type="checkbox" name="isAdmin" <?php if ($flag && $row['isAdmin']) echo "checked" ?>>
                             </div>
                             <?php if (!$flag) : ?>
                                 <div class="form-group">
@@ -221,7 +223,7 @@ try {
 
             <?php 
             $id=$_SESSION['user_id'];
-            $data = mysqli_query($conn, "Select `id`,`name`,`dept`,`isAdmin` from `admin`where `id`!='$id'"); ?>
+            $data = mysqli_query($conn, "Select `id`,`name`,`dept_id`,`isAdmin` from `admin`where `id`!='$id'"); ?>
             <div class="row mt-4" id="table" style="height: 400px; overflow:auto" hidden>
                 <table class="text-center table table-light" style="height: 10px;">
                     <thead style="position: sticky; top:0;">
@@ -239,7 +241,7 @@ try {
                         <tr>
                             <td><?php echo $row['id'] ?></td>
                             <td><?php echo $row['name'] ?></td>
-                            <td><?php echo $row['dept'] ?></td>
+                            <td><?php echo $row['dept_id'] ?></td>
                             <td><?php if($row['isAdmin']) echo "Yes"; else echo "NO"; ?></td>
                             <td><button class="btn btn-secondary" title="Update"><i class="bx bxs-edit-alt icon " data-id="<?php echo $row['id']; ?>" onclick="update_data(this)"></i></button>
                                 <button class="btn btn-danger" title="Delete"><i class="bx bx-trash-alt icon " data-id="<?php echo $row['id']; ?>" onclick="delete_data(this)"></i></button>
@@ -295,14 +297,14 @@ try {
         function update_data(a) {
             var str = $(a).attr("data-id");
             console.log(str);
-            $(".modal-body #t_id").val(str);
+            $("#modal2 .modal-body #t_id").val(str);
             $('#modal2').modal('show');
         }
 
         function delete_data(a) {
             var str = $(a).attr("data-id");
             console.log(str);
-            $(".modal-body #t_id").val(str);
+            $("#modal3 .modal-body #t_id").val(str);
             $('#modal3').modal('show');
         }
     </script>
