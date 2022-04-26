@@ -49,10 +49,12 @@ if($role=='student'){
         if($role=='student'){
           $totalLectures=0;
           $selectedLectures=0;
-          $progress = mysqli_query($conn, "SELECT `checked` FROM `$counter`");
+          $progress_name=$counter.'p';
+          $colname=$id.'S';
+          $progress = mysqli_query($conn, "SELECT `$colname` FROM `$progress_name`");
           while($checked = mysqli_fetch_array($progress) ){
             $totalLectures++;
-            if($checked['checked']){
+            if($checked[$colname]){
               $selectedLectures++;
             }
           }

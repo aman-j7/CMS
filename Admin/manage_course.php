@@ -17,7 +17,8 @@ try {
       mysqli_query($conn, "update courses set course_name='$c_name' where course_id='$c_id'");
     } else {
       $disc = $c_id . "d";
-      mysqli_query($conn, "insert into courses values('$c_id','$c_name')");
+      $progress=$c_id."p";
+     mysqli_query ($conn, "insert into courses values('$c_id','$c_name')");
       mysqli_query($conn, "CREATE TABLE $c_id ( 
         `no` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
         `header` VARCHAR(100) NOT NULL , 
@@ -35,6 +36,8 @@ try {
         `post` varchar(1000) NOT NULL,
         `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
       )");
+       mysqli_query($conn, "CREATE TABLE $progress ( 
+        `header` VARCHAR(100) NOT NULL  PRIMARY KEY)");
     }
   } else if (isset($_POST["submit_update_course"])) {
     $c_id = $_POST["c_id"];
@@ -44,9 +47,11 @@ try {
   } else if (isset($_POST["submit_drop_course"])) {
     $c_id = $_POST["c_id"];
     $disc = $c_id . "d";
+    $progress=$c_id."p";
     mysqli_query($conn, "DELETE FROM `courses` where course_id='$c_id'");
     mysqli_query($conn, "DROP TABLE $c_id");
     mysqli_query($conn, "DROP TABLE $disc");
+    mysqli_query($conn, "DROP TABLE $progress");
   } else if (isset($_POST["submit_add_teacher"])) {
     $f = $_GET["f"];
     $c_id = $_POST["c_id"];
@@ -77,7 +82,11 @@ try {
       $oldc_id = $_POST['oc_id'];
       mysqli_query($conn, "UPDATE `assign` SET `course_id`='$c_id',`student_id`='$s_id' WHERE `course_id` = '$oldc_id' AND `student_id`='$olds_id'");
     } else {
+      $progress=$c_id."p";
+      $colname=$s_id.'S';
       mysqli_query($conn, "INSERT INTO `assign`(`course_id`, `student_id`) VALUES ('$c_id','$s_id')");
+      mysqli_query($conn, "ALTER TABLE $progress ADD $colname BOOL");
+
     }
   } else if (isset($_POST["submit_update_student"])) {
     $c_id = $_POST["c_id"];
@@ -88,7 +97,11 @@ try {
   } else if (isset($_POST["submit_drop_student"])) {
     $c_id = $_POST["c_id"];
     $s_id = $_POST['s_id'];
+    $progress=$c_id."p";
+    $colname=$s_id.'S' ;
     mysqli_query($conn, "DELETE FROM `assign` where course_id='$c_id' AND student_id='$s_id'");
+    mysqli_query($conn, "ALTER TABLE $progress DROP COLUMN $colname");
+
   } else if (isset($_POST["csv_add_course"])) {
     $handle = fopen($_FILES['filename']['tmp_name'], "r");
     fgetcsv($handle, 1000, ",");

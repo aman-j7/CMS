@@ -29,8 +29,11 @@ if (isset($_POST["submit"])) {
   if ($f) {
     $no = $_POST['no'];
     mysqli_query($conn, "UPDATE `$course` SET `header`='$h',`link`='$hl',`notes`='$ml',`ref`='$rl',`assigment`='$al',`upload`='$ul' WHERE `no`=$no ");
-  } else
+  } else{
+    $progress=$course.'p';
     mysqli_query($conn, "INSERT INTO `$course` ( `header`, `link`, `notes`, `ref`, `assigment`,`upload`) VALUES ('$h','$hl','$ml','$rl','$al','$ul')");
+    mysqli_query($conn, "INSERT INTO `$progress` ( `header`) VALUES ('$h')");
+  }
 } else if (isset($_POST["update"])) {
   $no = $_POST['no'];
   $up = mysqli_query($conn, "SELECT `no`, `header`, `link`, `notes`, `ref`, `assigment`,`upload` FROM $course WHERE `no`=$no");
@@ -38,7 +41,10 @@ if (isset($_POST["submit"])) {
   $flag = 1;
 } else if (isset($_POST["delete"])) {
   $no = $_POST['no'];
+  $progress=$course.'p';
+  $header=mysqli_query($conn, "SELECT `header` FROM $course WHERE  `no`=$no");
   mysqli_query($conn, "DELETE FROM $course WHERE  `no`=$no");
+  mysqli_query($conn, "DELETE FROM $progress WHERE  `header`=$header");
 }
 ?>
 
@@ -139,6 +145,8 @@ if (isset($_POST["submit"])) {
     </div>
     <div class="container border border-3 d-grid gap-3 pb-4 px-4 mt-4">
       <?php
+      $id=$_SESSION['user_id'].'S';
+      $progress_name=$course.'p';
       $row = mysqli_query($conn, "SELECT `no`, `header`, `link`, `notes`, `ref`, `assigment`,`upload`,`checked` FROM $course");
       $c = 0;
       while ($row &&  $res = mysqli_fetch_array($row)) :
@@ -148,7 +156,16 @@ if (isset($_POST["submit"])) {
         $c = $c + 1; ?>
           <div class="col-lg-4 mt-4 ">
             <div style="background-color:aqua" class="pb-1 pt-2 mb-1 border border-dark">
-              <h5 class="card-title text-center"><?php echo $res['header'] ?> </h5>
+              <h5 class="card-title text-center"><?php echo $res['header'] ?> 
+              <?php if($role=="student") : ?>
+          <input style="float:right; margin-right:10px; margin-top:3px;" class="form-check-input"type="checkbox" no="<?php echo $id;?>" hd="<?php echo $res['header'];?>" 
+          course="<?php echo $course;?>" onclick="progressCheck(this)"
+          <?php
+            $head=$res['header'];
+            $prog = mysqli_query($conn, "SELECT `$id` FROM $progress_name where `header`='$head'");
+            $prog=mysqli_fetch_array($prog);
+            if($prog[$id]) echo "checked"?>>
+        <?php endif; ?></h5>
             </div>
             <div class="card border border-dark">
               <div class="card-body" style="min-height:110px">
@@ -176,10 +193,8 @@ if (isset($_POST["submit"])) {
                     </tr>
                   </form>
                 </div>
-        <?php else : ?>
-          <!-- checkbox for progress , isko apne hisaab se set kr lena  -->
-          <input type="checkbox" no="<?php echo $res['no'];?>" course="<?php echo $course;?>" onclick="progressCheck(this)" <?php if($res['checked']) echo "checked"?>>
-        <?php endif; ?>
+          <?php endif; ?>
+  
         </div>
         </div>
               <?php if ($c % 3 == 0) : ?>
@@ -194,6 +209,7 @@ if (isset($_POST["submit"])) {
       function progressCheck(check){
       let course=check.getAttribute('course'); 
       let no=check.getAttribute('no'); 
+      let head=check.getAttribute('hd'); 
       let checked=0;
       if(check.checked){
         checked=1;
@@ -201,8 +217,12 @@ if (isset($_POST["submit"])) {
       jQuery.ajax({
         url:'../includes/progressCheck.php',
         type:"POST",
-        data:{"course":course,"no":no,"checked":checked},
+        data:{"course":course,"no":no,"checked":checked,"hd":head},
         success:function(){
+          console.log("ok");
+          console.log(course);
+          console.log(no);
+          console.log(head);
         }
       });
     }
