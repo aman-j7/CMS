@@ -2,7 +2,10 @@
 include "../includes/config.php";
 $pageName = basename($_SERVER['PHP_SELF']);
 $id = $_SESSION['user_id'];
-$role=$_SESSION['type'];
+$role = $_SESSION['type'];
+$isAdmin = mysqli_query($conn, "Select isAdmin from admin where id='$id'");
+$isAdmin=mysqli_fetch_array($isAdmin);
+$isAdmin=$isAdmin['isAdmin'];
 ?>
 <html>
 
@@ -76,16 +79,18 @@ $role=$_SESSION['type'];
       </div>
     </div>
     </div>
+    <?php if($isAdmin):?>
     <div class="col-lg-4 mt-4">
-      <a href="" style="color:black">
+      <a href="manage_admin.php" style="color:black">
         <div class="card">
           <img src="https://icon-library.com/images/result-icon/result-icon-26.jpg" alt="" class="card-img-top">
           <div class="card-body">
-            <h5 class="card-title text-center">Monitor Result</h5>
+            <h5 class="card-title text-center">Manage Admin</h5>
       </a>
     </div>
     </div>
     </div>
+    <?php endif;?>
     <div class="col-lg-4 mt-4">
       <a href="manage_department.php" style="color:black">
         <div class="card">

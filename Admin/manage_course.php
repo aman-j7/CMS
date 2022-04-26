@@ -26,8 +26,7 @@ try {
         `notes` VARCHAR(100)  , 
         `ref` VARCHAR(100)  ,
         `assigment` VARCHAR(100), 
-        `upload` VARCHAR(100),
-        `checked` BOOLEAN NOT NULL)");
+        `upload` VARCHAR(100))");
       mysqli_query($conn, "CREATE TABLE $disc (
         `id` int(11) NOT NULL  AUTO_INCREMENT PRIMARY KEY,
         `parent_comment` varchar(500) NOT NULL,
@@ -221,7 +220,7 @@ try {
             <form role="form" action="manage_course.php" method="POST" autocomplete="off">
               <div class="form-group">
                 <label>Course Id</label>
-                <input type="text" class="form-control" name="c_id" placeholder="Enter Course id" required>
+                <input type="text" class="form-control" id="t_id" name="c_id" placeholder="Enter Course id" required>
               </div>
           </div>
           <div class="modal-footer">
@@ -245,7 +244,7 @@ try {
             <form role="form" action="manage_course.php" method="POST" autocomplete="off">
               <div class="form-group">
                 <label>Course Id</label>
-                <input type="text" class="form-control" name="c_id" placeholder="Enter Course id" required>
+                <input type="text" class="form-control" id="t_id" name="c_id" placeholder="Enter Course id" required>
               </div>
           </div>
           <div class="modal-footer">
@@ -773,13 +772,13 @@ try {
 
     function update_data(a) {
       var str = $(a).attr("data-id");
-      $(".modal-body #t_id").val(str);
+      $("#modal2 .modal-body #t_id").val(str);
       $('#modal2').modal('show');
     }
 
     function delete_data(a) {
       var str = $(a).attr("data-id");
-      $(".modal-body #t_id").val(str);
+      $("#modal3 .modal-body #t_id").val(str);
       $('#modal3').modal('show');
     }
 
@@ -796,16 +795,16 @@ try {
     function update_data1(a) {
       var str = $(a).attr("data-id");
       var str1 = $(a).attr("data-id1");
-      $(".modal-body #t_id").val(str);
-      $(".modal-body #t_id1").val(str1);
+      $("#modal5 .modal-body #t_id").val(str);
+      $("#modal5 .modal-body #t_id1").val(str1);
       $('#modal5').modal('show');
     }
 
     function delete_data1(a) {
       var str = $(a).attr("data-id");
       var str1 = $(a).attr("data-id1");
-      $(".modal-body #t_id").val(str);
-      $(".modal-body #t_id1").val(str1);
+      $("#modal6 .modal-body #t_id").val(str);
+      $("#modal6 .modal-body #t_id1").val(str1);
       $('#modal6').modal('show');
     }
 
@@ -822,16 +821,16 @@ try {
     function update_data2(a) {
       var str = $(a).attr("data-id");
       var str1 = $(a).attr("data-id1");
-      $(".modal-body #t_id1").val(str1);
-      $(".modal-body #t_id").val(str);
+      $("#modal8 .modal-body #t_id1").val(str1);
+      $("#modal8 .modal-body #t_id").val(str);
       $('#modal8').modal('show');
     }
 
     function delete_data2(a) {
       var str = $(a).attr("data-id");
       var str1 = $(a).attr("data-id1");
-      $(".modal-body #t_id").val(str);
-      $(".modal-body #t_id1").val(str1);
+      $("#modal9 .modal-body #t_id").val(str);
+      $("#modal9 .modal-body #t_id1").val(str1);
       $('#modal9').modal('show');
     }
   </script>
