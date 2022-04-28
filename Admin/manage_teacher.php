@@ -3,7 +3,7 @@ include "../includes/config.php";
 include "../includes/random_color.php";
 $flag = 0;
 $exception_occur = 0;
-$role=$_SESSION['type'];
+$role = $_SESSION['type'];
 $pageName = basename($_SERVER['PHP_SELF']);
 $exception_cause = new Exception();
 try {
@@ -13,7 +13,7 @@ try {
     $f_id = $_POST["f_id"];
     $f_name = $_POST["f_name"];
     $d_id = $_POST["d_id"];
-    $f_email=$_POST["f_email"];
+    $f_email = $_POST["f_email"];
     if ($f) {
       mysqli_query($conn, "update teacher set name='$f_name',dept_id='$d_id' where id='$f_id'");
     } else {
@@ -41,22 +41,17 @@ try {
   $exception_occur = 1;
   $exception_cause = $except;
 }
-
 ?>
 <html>
 
 <head>
-
-
   <title>
     Manage teacher
   </title>
-
   <?php include '../includes/cdn.php'; ?>
   <link rel="stylesheet" href="../CSS/admin.css">
   <link rel="stylesheet" href="../CSS/sidebar.css">
   <link rel="stylesheet" href="../CSS/footer.css">
-
 </head>
 
 <body>
@@ -74,7 +69,6 @@ try {
   <?php endif;
   include '../includes/sidebar.php'; ?>
   <section class="home">
-
     <div class="modal fade" id="modal1" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -97,9 +91,8 @@ try {
               <div class="form-group">
                 <label> Email</label>
                 <input type="email" class="form-control input1" placeholder="Enter teacher email" name="f_email" value="<?php if ($flag) echo $row['email'];
-                                                                                                                      else echo ""; ?>" required>
+                                                                                                                        else echo ""; ?>" required>
               </div>
-              
               <div class="form-group">
                 <label>Department Id</label>
                 <select type="text" class="form-control input1" name="d_id" required>
@@ -119,7 +112,8 @@ try {
                   <input type="checkbox" id="check" name="check" onclick="csvInput(this)">
                   <label>Update Using CSV File</label>
                 </div>
-                <div class="form-group input1">
+                <div class="form-group" >
+                  <input class="input1" size="50" type="file" id="file" accept=".csv" required hidden disabled>
                 </div>
               <?php endif; ?>
           </div>
@@ -132,8 +126,6 @@ try {
         </div>
       </div>
     </div>
-
-
     <div class="modal fade" id="modal2" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -155,9 +147,6 @@ try {
         </div>
       </div>
     </div>
-
-
-
     <div class="modal fade" id="modal3" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -179,7 +168,6 @@ try {
         </div>
       </div>
     </div>
-
     <section id="gallery" style="min-height: calc(100vh - 166px);">
       <div class="container mt-4 ">
         <h1 class="text-center pt-2 pb-2 text">
@@ -194,73 +182,66 @@ try {
                 <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
                 <div class="card-body">
                   <h5 class="card-title text-center">Add teacher </h5>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-lg-4 mt-4">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#modal2" style="color:black">
+              <div class="card">
+                <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
+                <div class="card-body">
+                  <h5 class="card-title text-center">Update teacher</h5>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-lg-4 mt-4">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#modal3" style="color:black">
+              <div class="card">
+                <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
+                <div class="card-body">
+                  <h5 class="card-title text-center">Drop teacher</h5>
+                </div>
+              </div>
             </a>
           </div>
         </div>
-      </div>
-      <div class="col-lg-4 mt-4">
-        <a href="#" data-bs-toggle="modal" data-bs-target="#modal2" style="color:black">
-          <div class="card">
-            <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
-            <div class="card-body">
-              <h5 class="card-title text-center">Update teacher</h5>
-        </a>
-      </div>
-      </div>
-      </div>
-      <div class="col-lg-4 mt-4">
-        <a href="#" data-bs-toggle="modal" data-bs-target="#modal3" style="color:black">
-          <div class="card">
-            <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
-            <div class="card-body">
-              <h5 class="card-title text-center">Drop teacher</h5>
-        </a>
-      </div>
-      </div>
-      </div>
-      </div>
-      
-      <div class="form-outline mb-4 mt-5 form-check form-switch">
-        <label>
-          <h6>View Data</h6>
-        </label>
-        <input class="form-check-input" type="checkbox" id="view_data" onclick="view_toggle()">
-      </div>
-
-      <?php $data = mysqli_query($conn, "Select id,name,dept_id from teacher"); ?>
-      <div class="row mt-4" id="table" style="height: 400px; overflow:auto" hidden>
-        <table class="text-center table table-light" style="height: 10px;">
-          <thead style="position: sticky; top:0;">
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Department</th>
-              <th></th>
-            </tr>
-          </thead>
-          <?php
-          while ($row = mysqli_fetch_array($data)) :
-          ?>
-            <tr>
-              <td><?php echo $row['id'] ?></td>
-              <td><?php echo $row['name'] ?></td>
-              <td><?php echo $row['dept_id'] ?></td>
-              <td><button class="btn btn-secondary" title="Update"><i class="bx bxs-edit-alt icon " data-id="<?php echo $row['id']; ?>" onclick="update_data(this)"></i></button>
-                <button class="btn btn-danger" title="Delete"><i class="bx bx-trash-alt icon " data-id="<?php echo $row['id']; ?>" onclick="delete_data(this)"></i></button>
-              </td>
-
-
-            </tr>
-          <?php
-          endwhile;
-          ?>
-        </table>
-      </div>
+        <div class="form-outline mb-4 mt-5 form-check form-switch">
+          <label>
+            <h6>View Data</h6>
+          </label>
+          <input class="form-check-input" type="checkbox" id="view_data" onclick="view_toggle()">
+        </div>
+        <?php $data = mysqli_query($conn, "Select id,name,dept_id from teacher"); ?>
+        <div class="row mt-4" id="table" style="height: 400px; overflow:auto" hidden>
+          <table class="text-center table table-light" style="height: 10px;">
+            <thead style="position: sticky; top:0;">
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Department</th>
+                <th></th>
+              </tr>
+            </thead>
+            <?php
+            while ($row = mysqli_fetch_array($data)) :
+            ?>
+              <tr>
+                <td><?php echo $row['id'] ?></td>
+                <td><?php echo $row['name'] ?></td>
+                <td><?php echo $row['dept_id'] ?></td>
+                <td><button class="btn btn-secondary" title="Update"><i class="bx bxs-edit-alt icon " data-id="<?php echo $row['id']; ?>" onclick="update_data(this)"></i></button>
+                  <button class="btn btn-danger" title="Delete"><i class="bx bx-trash-alt icon " data-id="<?php echo $row['id']; ?>" onclick="delete_data(this)"></i></button>
+                </td>
+              </tr>
+            <?php
+            endwhile;
+            ?>
+          </table>
+        </div>
     </section>
-    </div>
-    </div>
-    
-<?php include '../includes/footer.php'; ?>
+    <?php include '../includes/footer.php'; ?>
   </section>
   <script type="text/javascript" src="../js/sidebar.js"></script>
   <script>
@@ -270,23 +251,18 @@ try {
         tmp[0].disabled = true;
         tmp[1].disabled = true;
         tmp[2].disabled = true;
-        let file = document.createElement("input");
-        file.size = "50";
-        file.type = "file";
-        file.name = "filename";
-        file.id = "file";
-        file.required = true;
-        file.accept = ".csv";
-        tmp[3].appendChild(file);
-        tmp[4].setAttribute("name", "csv");
-
+        tmp[3].disabled = true;
+        tmp[4].hidden = false;
+        tmp[4].disabled = false;
+        tmp[5].setAttribute("name", "csv");
       } else {
         tmp[0].disabled = false;
         tmp[1].disabled = false;
         tmp[2].disabled = false;
-        let file = document.getElementById("file");
-        tmp[3].removeChild(file);
-        tmp[4].setAttribute("name", "submit_add_teacher");
+        tmp[3].disabled = false;
+        tmp[4].hidden = true;
+        tmp[4].disabled = true;
+        tmp[5].setAttribute("name", "csv");
       }
     }
 
@@ -297,7 +273,6 @@ try {
         x.hidden = false;
       else
         x.hidden = true;
-
     }
 
     function update_data(a) {

@@ -96,23 +96,23 @@ try {
                                 <input type="email" class="form-control input1" placeholder="Enter Admin email" name="f_email" value="<?php if ($flag) echo $row['email'];
                                                                                                                                         else echo ""; ?>" required>
                             </div>
-
                             <div class="form-group">
                                 <label>Department Id</label>
                                 <select type="text" class="form-control input1" name="d_id" required>
                                     <option value="Administrative" selected>Administrative</option>
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label> Full Access</label>
-                                <input type="checkbox" name="isAdmin" value="1" <?php if ($flag && $row['isAdmin']) echo "checked" ?>>
+                            <div class="form-group mt-1">
+                                <input class="input1" type="checkbox" name="isAdmin" value="1" <?php if ($flag && $row['isAdmin']) echo "checked" ?>>
+                                <label> Super Admin</label>
                             </div>
                             <?php if (!$flag) : ?>
-                                <div class="form-group">
+                                <div class="form-group mt-2">
                                     <input type="checkbox" id="check" name="check" onclick="csvInput(this)">
                                     <label>Update Using CSV File</label>
                                 </div>
-                                <div class="form-group input1">
+                                <div class="form-group">
+                                    <input class="input1" size="50" type="file" id="file" accept=".csv" required hidden disabled>
                                 </div>
                             <?php endif; ?>
                     </div>
@@ -152,17 +152,17 @@ try {
                     <div class="modal-header">
                         <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Drop Admin</h5>
                     </div>
-                    <div class="modal-body">
-                        <form role="form" action="manage_admin.php" method="POST" autocomplete="off">
+                    <form role="form" action="manage_admin.php" method="POST" autocomplete="off">
+                        <div class="modal-body">
                             <div class="form-group">
                                 <label>Admin Id</label>
                                 <input type="text" class="form-control" id="t_id" name="f_id" placeholder="Enter teacher id" required>
                             </div>
-                    </div>
-                    <div class="modal-footer">
-                        <input type="submit" class="btn btn-default btn-success" name="submit_drop_teacher" value="Delete" />
-                        <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-default btn-success" name="submit_drop_teacher" value="Delete" />
+                            <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -222,7 +222,7 @@ try {
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>Department</th>
-                                <th>Full Access</th>
+                                <th>Super Admin</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -245,8 +245,6 @@ try {
                     </table>
                 </div>
         </section>
-        </div>
-        </div>
         <?php include '../includes/footer.php'; ?>
     </section>
     <script type="text/javascript" src="../js/sidebar.js"></script>
@@ -257,24 +255,23 @@ try {
                 tmp[0].disabled = true;
                 tmp[1].disabled = true;
                 tmp[2].disabled = true;
-                let file = document.createElement("input");
-                file.size = "50";
-                file.type = "file";
-                file.name = "filename";
-                file.id = "file";
-                file.required = true;
-                file.accept = ".csv";
-                tmp[3].appendChild(file);
-                tmp[4].setAttribute("name", "csv");
+                tmp[3].disabled = true;
+                tmp[4].disabled = true;
+                tmp[5].hidden = false;
+                tmp[5].disabled = false;
+                tmp[6].setAttribute("name", "csv");
             } else {
                 tmp[0].disabled = false;
                 tmp[1].disabled = false;
                 tmp[2].disabled = false;
-                let file = document.getElementById("file");
-                tmp[3].removeChild(file);
-                tmp[4].setAttribute("name", "submit_add_teacher");
+                tmp[3].disabled = false;
+                tmp[4].disabled = false;
+                tmp[5].disabled = true;
+                tmp[5].hidden = true;
+                tmp[6].setAttribute("name", "submit_add_teacher");
             }
         }
+
         function view_toggle(a) {
             var a = document.getElementById("view_data");
             var x = document.getElementById("table");
@@ -283,12 +280,14 @@ try {
             else
                 x.hidden = true;
         }
+
         function update_data(a) {
             var str = $(a).attr("data-id");
             console.log(str);
             $("#modal2 .modal-body #t_id").val(str);
             $('#modal2').modal('show');
         }
+
         function delete_data(a) {
             var str = $(a).attr("data-id");
             console.log(str);
@@ -297,4 +296,5 @@ try {
         }
     </script>
 </body>
+
 </html>

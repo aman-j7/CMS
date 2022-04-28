@@ -1,7 +1,7 @@
 <?php
 include "../includes/config.php";
 $pageName = basename($_SERVER['PHP_SELF']);
-$courseDiscussion=$_GET["course"];
+$courseDiscussion = $_GET["course"];
 $course = strtoupper($_GET["course"]);
 $t = mysqli_query($conn, "SELECT `course_name` FROM `courses` where course_id='$course'");
 $t = mysqli_fetch_array($t);
@@ -16,7 +16,7 @@ if (isset($_POST["submit"])) {
   $rl = $_POST['refrence'];
   $al = $_POST["assigment"];
   $ul = $_POST["upload"];
-  $progress=$course.'p';
+  $progress = $course . 'p';
   if ($hl == "")
     $hl = NULL;
   if ($ml == "")
@@ -29,10 +29,10 @@ if (isset($_POST["submit"])) {
   }
   if ($f) {
     $no = $_POST['no'];
-    $oldHead=$_POST['oldHead'];
+    $oldHead = $_POST['oldHead'];
     mysqli_query($conn, "UPDATE `$course` SET `header`='$h',`link`='$hl',`notes`='$ml',`ref`='$rl',`assigment`='$al',`upload`='$ul' WHERE `no`=$no ");
     mysqli_query($conn, "UPDATE `$progress` SET `header`='$h' WHERE `header`='$oldHead'");
-  } else{
+  } else {
     mysqli_query($conn, "INSERT INTO `$course` ( `header`, `link`, `notes`, `ref`, `assigment`,`upload`) VALUES ('$h','$hl','$ml','$rl','$al','$ul')");
     mysqli_query($conn, "INSERT INTO `$progress` ( `header`) VALUES ('$h')");
   }
@@ -43,15 +43,16 @@ if (isset($_POST["submit"])) {
   $flag = 1;
 } else if (isset($_POST["delete"])) {
   $no = $_POST['no'];
-  $progress=$course.'p';
-  $header=mysqli_query($conn, "SELECT `header` FROM $course WHERE  `no`=$no");
-  $header=mysqli_fetch_array($header);
-  $header=$header['header'];
+  $progress = $course . 'p';
+  $header = mysqli_query($conn, "SELECT `header` FROM $course WHERE  `no`=$no");
+  $header = mysqli_fetch_array($header);
+  $header = $header['header'];
   mysqli_query($conn, "DELETE FROM $course WHERE  `no`=$no");
   mysqli_query($conn, "DELETE FROM $progress WHERE `header`='$header'");
 }
 ?>
 <html>
+
 <head>
   <title>
     <?php echo $course; ?>
@@ -60,6 +61,7 @@ if (isset($_POST["submit"])) {
   <link rel="stylesheet" href="../CSS/discussion.css">
   <link rel="stylesheet" href="../CSS/sidebar.css">
 </head>
+
 <body>
   <?php if ($role == "teacher") : ?>
     <div class="modal fade" id="modal1" role="dialog">
@@ -74,9 +76,9 @@ if (isset($_POST["submit"])) {
                 <label>Header</label>
                 <input type="text" class="form-control" name="head" placeholder="topic" value="<?php if ($flag) echo $up['header'];
                                                                                                 else echo ""; ?>" required>
-                <?php if($flag):?>
-                <input type="text" class="form-control" name="oldHead" value="<?php echo $up['header'];?>" hidden>
-                <?php endif;?>                                                                            
+                <?php if ($flag) : ?>
+                  <input type="text" class="form-control" name="oldHead" value="<?php echo $up['header']; ?>" hidden>
+                <?php endif; ?>
               </div>
               <div class="form-group">
                 <label>Lecture Link</label>
@@ -123,24 +125,22 @@ if (isset($_POST["submit"])) {
       });
     </script>
   <?php endif;
-   if($role=='student'):?>
-  <div class="modal fade" id="assignments" role="dialog">
+  if ($role == 'student') : ?>
+    <div class="modal fade" id="assignments" role="dialog">
       <div class="modal-dialog modal_user">
-         <div class="modal-content modal_user_content">
-           <div class="modal-header">
-             <h5  class="modal-title" style="margin:0 auto; text-align: left;" id="exampleModalLabel"><b>Assignments</b></h5>
+        <div class="modal-content modal_user_content">
+          <div class="modal-header">
+            <h5 class="modal-title" style="margin:0 auto; text-align: left;" id="exampleModalLabel"><b>Assignments</b></h5>
           </div>
-          <div class="modal-body" id="assignmentData" >
-            
-         </div>
-       </div>
-     </div>
-   </div>
-   <?php endif;?>
+          <div class="modal-body" id="assignmentData">
+          </div>
+        </div>
+      </div>
+    </div>
+  <?php endif; ?>
   <?php include '../includes/sidebar.php'; ?>
   <section class="home">
     <div class="container border border-3 mt-4 ">
-
       <h1 class="text-center pt-3 pb-2 text ">
         <?php
         echo $subject . ' (' . strtoupper($course) . ')';
@@ -149,8 +149,8 @@ if (isset($_POST["submit"])) {
     </div>
     <div class="container border border-3 d-grid gap-3 pb-4 px-4 mt-4">
       <?php
-      $id=$_SESSION['user_id'].'S';
-      $progress_name=$course.'p';
+      $id = $_SESSION['user_id'] . 'S';
+      $progress_name = $course . 'p';
       $row = mysqli_query($conn, "SELECT `no`, `header`, `link`, `notes`, `ref`, `assigment`,`upload` FROM $course");
       $c = 0;
       while ($row &&  $res = mysqli_fetch_array($row)) :
@@ -160,16 +160,18 @@ if (isset($_POST["submit"])) {
         $c = $c + 1; ?>
           <div class="col-lg-4 mt-4 ">
             <div style="background-color:aqua" class="pb-1 pt-2 mb-1 border border-dark">
-              <h5 class="card-title text-center"><?php echo $res['header'] ?> 
-              <?php if($role=="student") : ?>
-          <input style="float:right; margin-right:10px; margin-top:3px;" class="form-check-input"type="checkbox" no="<?php echo $id;?>" hd="<?php echo $res['header'];?>" 
-          course="<?php echo $course;?>" onclick="progressCheck(this)"
-          <?php
-            $head=$res['header'];
-            $prog = mysqli_query($conn, "SELECT `$id` FROM $progress_name where `header`='$head'");
-            $prog=mysqli_fetch_array($prog);
-            if($prog[$id]) echo "checked"?>>
-        <?php endif; ?></h5>
+              <h5 class="card-title text-center"><?php echo $res['header'] ?>
+                <?php if ($role == "student") : ?>
+                  <input style="float:right; margin-right:10px; margin-top:3px;" class="form-check-input" type="checkbox" 
+                  no="<?php echo $id; ?>" hd="<?php echo $res['header']; ?>" 
+                  course="<?php echo $course; ?>" onclick="progressCheck(this)" 
+                  <?php
+                   $head = $res['header'];
+                   $prog = mysqli_query($conn, "SELECT `$id` FROM $progress_name where `header`='$head'");
+                   $prog = mysqli_fetch_array($prog);
+                   if ($prog[$id]) echo "checked" ?>>                                                                                                                                                                                                                          
+                <?php endif; ?>
+              </h5>
             </div>
             <div class="card border border-dark">
               <div class="card-body" style="min-height:110px">
@@ -197,32 +199,34 @@ if (isset($_POST["submit"])) {
                     </tr>
                   </form>
                 </div>
-          <?php endif; ?>
-  
-        </div>
-        </div>
-              <?php if ($c % 3 == 0) : ?>
+              <?php endif; ?>
+            </div>
           </div>
+          <?php if ($c % 3 == 0) : ?>
+        </div>
       <?php endif;
-            endwhile; ?>
-    </div>
-    </div>
+        endwhile; ?>
   </section>
   <script type="text/javascript" src="../js/sidebar.js"></script>
   <script>
-      function progressCheck(check){
-      let course=check.getAttribute('course'); 
-      let no=check.getAttribute('no'); 
-      let head=check.getAttribute('hd'); 
-      let checked=0;
-      if(check.checked){
-        checked=1;
-      }       
+    function progressCheck(check) {
+      let course = check.getAttribute('course');
+      let no = check.getAttribute('no');
+      let head = check.getAttribute('hd');
+      let checked = 0;
+      if (check.checked) {
+        checked = 1;
+      }
       jQuery.ajax({
-        url:'../includes/progressCheck.php',
-        type:"POST",
-        data:{"course":course,"no":no,"checked":checked,"hd":head},
-        success:function(){
+        url: '../includes/progressCheck.php',
+        type: "POST",
+        data: {
+          "course": course,
+          "no": no,
+          "checked": checked,
+          "hd": head
+        },
+        success: function() {
           console.log("ok");
           console.log(course);
           console.log(no);
@@ -230,13 +234,16 @@ if (isset($_POST["submit"])) {
         }
       });
     }
-    function getAssignment(courseId){
-      let course=courseId.getAttribute('course');
+
+    function getAssignment(courseId) {
+      let course = courseId.getAttribute('course');
       jQuery.ajax({
-        url:'../includes/assignments.php',
-        type:"POST",
-        data:{"course":course},
-        success:function(result){
+        url: '../includes/assignments.php',
+        type: "POST",
+        data: {
+          "course": course
+        },
+        success: function(result) {
           jQuery("#assignmentData").html(result);
         }
       });

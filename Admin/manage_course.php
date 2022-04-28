@@ -11,14 +11,14 @@ $exception_cause = new Exception();
 try {
   if (isset($_POST["submit_add_course"])) {
     $f = $_GET["f"];
-    $c_id =$_POST["c_id"];
+    $c_id = $_POST["c_id"];
     $c_name = strtoupper($_POST["c_name"]);
     if ($f) {
       mysqli_query($conn, "update courses set course_name='$c_name' where course_id='$c_id'");
     } else {
       $disc = $c_id . "d";
-      $progress=$c_id."p";
-     mysqli_query ($conn, "insert into courses values('$c_id','$c_name')");
+      $progress = $c_id . "p";
+      mysqli_query($conn, "insert into courses values('$c_id','$c_name')");
       mysqli_query($conn, "CREATE TABLE $c_id ( 
         `no` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
         `header` VARCHAR(100) NOT NULL , 
@@ -35,7 +35,7 @@ try {
         `post` varchar(1000) NOT NULL,
         `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
       )");
-       mysqli_query($conn, "CREATE TABLE $progress ( 
+      mysqli_query($conn, "CREATE TABLE $progress ( 
         `header` VARCHAR(100) NOT NULL  PRIMARY KEY)");
     }
   } else if (isset($_POST["submit_update_course"])) {
@@ -46,7 +46,7 @@ try {
   } else if (isset($_POST["submit_drop_course"])) {
     $c_id = $_POST["c_id"];
     $disc = $c_id . "d";
-    $progress=$c_id."p";
+    $progress = $c_id . "p";
     mysqli_query($conn, "DELETE FROM `courses` where course_id='$c_id'");
     mysqli_query($conn, "DROP TABLE $c_id");
     mysqli_query($conn, "DROP TABLE $disc");
@@ -81,11 +81,10 @@ try {
       $oldc_id = $_POST['oc_id'];
       mysqli_query($conn, "UPDATE `assign` SET `course_id`='$c_id',`student_id`='$s_id' WHERE `course_id` = '$oldc_id' AND `student_id`='$olds_id'");
     } else {
-      $progress=$c_id."p";
-      $colname=$s_id.'S';
+      $progress = $c_id . "p";
+      $colname = $s_id . 'S';
       mysqli_query($conn, "INSERT INTO `assign`(`course_id`, `student_id`) VALUES ('$c_id','$s_id')");
       mysqli_query($conn, "ALTER TABLE $progress ADD $colname BOOL");
-
     }
   } else if (isset($_POST["submit_update_student"])) {
     $c_id = $_POST["c_id"];
@@ -96,11 +95,10 @@ try {
   } else if (isset($_POST["submit_drop_student"])) {
     $c_id = $_POST["c_id"];
     $s_id = $_POST['s_id'];
-    $progress=$c_id."p";
-    $colname=$s_id.'S' ;
+    $progress = $c_id . "p";
+    $colname = $s_id . 'S';
     mysqli_query($conn, "DELETE FROM `assign` where course_id='$c_id' AND student_id='$s_id'");
     mysqli_query($conn, "ALTER TABLE $progress DROP COLUMN $colname");
-
   } else if (isset($_POST["csv_add_course"])) {
     $handle = fopen($_FILES['filename']['tmp_name'], "r");
     fgetcsv($handle, 1000, ",");
@@ -129,6 +127,7 @@ try {
 }
 ?>
 <html>
+
 <head>
   <title>
     Manage Courses
@@ -138,6 +137,7 @@ try {
   <link rel="stylesheet" href="../CSS/sidebar.css">
   <link rel="stylesheet" href="../CSS/footer.css">
 </head>
+
 <body>
   <?php if ($exception_occur) : ?>
     <script>
@@ -189,7 +189,8 @@ try {
                   <input type="checkbox" id="check" name="check" onclick="csvInput1(this)">
                   <label>Update Using CSV File</label>
                 </div>
-                <div class="form-group input1">
+                <div class="form-group" >
+                  <input class="input1" size="50" type="file" id="file" accept=".csv" required hidden disabled>
                 </div>
               <?php endif; ?>
           </div>
@@ -268,7 +269,8 @@ try {
                   <input type="checkbox" id="check" name="check" onclick="csvInput2(this)">
                   <label>Update Using CSV File</label>
                 </div>
-                <div class="form-group input2">
+                <div class="form-group">
+                  <input class="input2" size="50" type="file" id="file" accept=".csv" required hidden disabled>
                 </div>
               <?php endif; ?>
           </div>
@@ -361,7 +363,8 @@ try {
                   <input type="checkbox" id="check" name="check" onclick="csvInput3(this)">
                   <label>Update Using CSV File</label>
                 </div>
-                <div class="form-group input3">
+                <div class="form-group" >
+                  <input class="input3" size="50" type="file" id="file" accept=".csv" required hidden disabled>
                 </div>
               <?php endif; ?>
           </div>
@@ -444,204 +447,202 @@ try {
                 <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
                 <div class="card-body">
                   <h5 class="card-title text-center">Add Courses</h5>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-lg-4 mb-4 mt-4">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#modal2" style="color:black">
+              <div class="card">
+                <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
+                <div class="card-body">
+                  <h5 class="card-title text-center">Update Courses</h5>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-lg-4 mb-4 mt-4">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#modal3" style="color:black">
+              <div class="card">
+                <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
+                <div class="card-body">
+                  <h5 class="card-title text-center">Drop Courses</h5>
+                </div>
+              </div>
             </a>
           </div>
         </div>
-      </div>
-      <div class="col-lg-4 mb-4 mt-4">
-        <a href="#" data-bs-toggle="modal" data-bs-target="#modal2" style="color:black">
-          <div class="card">
-            <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
-            <div class="card-body">
-              <h5 class="card-title text-center">Update Courses</h5>
-        </a>
-      </div>
-      </div>
-      </div>
-      <div class="col-lg-4 mb-4 mt-4">
-        <a href="#" data-bs-toggle="modal" data-bs-target="#modal3" style="color:black">
-          <div class="card">
-            <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
-            <div class="card-body">
-              <h5 class="card-title text-center">Drop Courses</h5>
-        </a>
-      </div>
-      </div>
-      </div>
-      </div>
-      <div class="form-outline mb-4 mt-5 form-check form-switch">
-        <label>
-          <h6>View Data</h6>
-        </label>
-        <input class="form-check-input" type="checkbox" id="view_data" onclick="view_toggle()">
-      </div>
-      <?php $data = mysqli_query($conn, "Select * from courses"); ?>
-      <div class="row mt-4" id="table" style="height: 400px; overflow:auto" hidden>
-        <table class="text-center table table-light" style="height: 10px;">
-          <thead style="position: sticky; top:0;">
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th></th>
-            </tr>
-          </thead>
-          <?php
-          while ($row = mysqli_fetch_array($data)) :
-          ?>
-            <tr>
-              <td><?php echo $row['course_id'] ?></td>
-              <td><?php echo $row['course_name'] ?></td>
-              <td><button class="btn btn-secondary" title="Update"><i class="bx bxs-edit-alt icon " data-id="<?php echo $row['course_id']; ?>" onclick="update_data(this)"></i></button>
-                <button class="btn btn-danger" title="Delete"><i class="bx bx-trash-alt icon " data-id="<?php echo $row['course_id']; ?>" onclick="delete_data(this)"></i></button>
-              </td>
-            </tr>
-          <?php
-          endwhile;
-          ?>
-        </table>
-      </div>
-      <div class="container mt-4 ">
-        <h1 class="text-center pt-2 pb-2 text">
-          TEACHER
-        </h1>
-      </div>
-      <div class="row">
-        <div class="col-lg-4 mt-4">
-          <a href="#" data-bs-toggle="modal" data-bs-target="#modal4" style="color:black">
-            <div class="card">
-              <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
-              <div class="card-body">
-                <h5 class="card-title text-center">Add teacher Course</h5>
-          </a>
+        <div class="form-outline mb-4 mt-5 form-check form-switch">
+          <label>
+            <h6>View Data</h6>
+          </label>
+          <input class="form-check-input" type="checkbox" id="view_data" onclick="view_toggle()">
         </div>
-      </div>
-      </div>
-      <div class="col-lg-4 mt-4">
-        <a href="#" data-bs-toggle="modal" data-bs-target="#modal5" style="color:black">
-          <div class="card">
-            <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
-            <div class="card-body">
-              <h5 class="card-title text-center">Update teacher Course</h5>
-        </a>
-      </div>
-      </div>
-      </div>
-      <div class="col-lg-4 mt-4">
-        <a href="#" data-bs-toggle="modal" data-bs-target="#modal6" style="color:black">
-          <div class="card">
-            <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
-            <div class="card-body">
-              <h5 class="card-title text-center">Drop teacher Course</h5>
-        </a>
-      </div>
-      </div>
-      </div>
-      </div>
-      <div class="form-outline mb-4 mt-5 form-check form-switch">
-        <label>
-          <h6>View Data</h6>
-        </label>
-        <input class="form-check-input" type="checkbox" id="view_data1" onclick="view_toggle1()">
-      </div>
-
-      <?php $data = mysqli_query($conn, "Select *from teaches"); ?>
-      <div class="row mt-4" id="table1" style="height: 400px; overflow:auto" hidden>
-        <table class="text-center table table-light" style="height: 10px;">
-          <thead style="position: sticky; top:0;">
-            <tr>
-              <th>Course ID</th>
-              <th>Teacher ID</th>
-              <th></th>
-            </tr>
-          </thead>
-          <?php
-          while ($row = mysqli_fetch_array($data)) :
-          ?>
-            <tr>
-              <td><?php echo $row['course_id'] ?></td>
-              <td><?php echo $row['teacher_id'] ?></td>
-              <td><button class="btn btn-secondary" title="Update"><i class="bx bxs-edit-alt icon " data-id="<?php echo $row['course_id']; ?>" data-id1="<?php echo $row['teacher_id']; ?>" onclick="update_data1(this)"></i></button>
-                <button class="btn btn-danger" title="Delete"><i class="bx bx-trash-alt icon " data-id="<?php echo $row['course_id']; ?>" data-id1="<?php echo $row['teacher_id']; ?>" onclick="delete_data1(this)"></i></button>
-              </td>
-            </tr>
-          <?php
-          endwhile;
-          ?>
-        </table>
-      </div>
-      <div class="container mt-4 ">
-        <h1 class="text-center pt-2 pb-2 text">
-          STUDENT
-        </h1>
-      </div>
-      <div class="row">
-        <div class="col-lg-4 mt-4">
-          <a href="#" data-bs-toggle="modal" data-bs-target="#modal7" style="color:black">
-            <div class="card">
-              <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
-              <div class="card-body">
-                <h5 class="card-title text-center">Add Student Course</h5>
-          </a>
+        <?php $data = mysqli_query($conn, "Select * from courses"); ?>
+        <div class="row mt-4" id="table" style="height: 400px; overflow:auto" hidden>
+          <table class="text-center table table-light" style="height: 10px;">
+            <thead style="position: sticky; top:0;">
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th></th>
+              </tr>
+            </thead>
+            <?php
+            while ($row = mysqli_fetch_array($data)) :
+            ?>
+              <tr>
+                <td><?php echo $row['course_id'] ?></td>
+                <td><?php echo $row['course_name'] ?></td>
+                <td><button class="btn btn-secondary" title="Update"><i class="bx bxs-edit-alt icon " data-id="<?php echo $row['course_id']; ?>" onclick="update_data(this)"></i></button>
+                  <button class="btn btn-danger" title="Delete"><i class="bx bx-trash-alt icon " data-id="<?php echo $row['course_id']; ?>" onclick="delete_data(this)"></i></button>
+                </td>
+              </tr>
+            <?php
+            endwhile;
+            ?>
+          </table>
         </div>
-      </div>
-      </div>
-      <div class="col-lg-4 mt-4">
-        <a href="#" data-bs-toggle="modal" data-bs-target="#modal8" style="color:black">
-          <div class="card">
-            <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
-            <div class="card-body">
-              <h5 class="card-title text-center">Update Student Course</h5>
-        </a>
-      </div>
-      </div>
-      </div>
-      <div class="col-lg-4 mt-4">
-        <a href="#" data-bs-toggle="modal" data-bs-target="#modal9" style="color:black">
-          <div class="card">
-            <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
-            <div class="card-body">
-              <h5 class="card-title text-center">Drop Student Course</h5>
-        </a>
-      </div>
-      </div>
-      </div>
-      </div>
-      <div class="form-outline mb-4 mt-5 form-check form-switch">
-        <label>
-          <h6>View Data</h6>
-        </label>
-        <input class="form-check-input" type="checkbox" id="view_data2" onclick="view_toggle2()">
-      </div>
-      <?php $data = mysqli_query($conn, "Select * from assign"); ?>
-      <div class="row mt-4" id="table2" style="height: 400px; overflow:auto" hidden>
-        <table class="text-center table table-light" style="height: 10px;">
-          <thead style="position: sticky; top:0;">
-            <tr>
-              <th>Course ID</th>
-              <th>Student ID</th>
-              <th></th>
-            </tr>
-          </thead>
-          <?php
-          while ($row = mysqli_fetch_array($data)) :
-          ?>
-            <tr>
-              <td><?php echo $row['course_id'] ?></td>
-              <td><?php echo $row['student_id'] ?></td>
+        <div class="container mt-4 ">
+          <h1 class="text-center pt-2 pb-2 text">
+            TEACHER
+          </h1>
+        </div>
+        <div class="row">
+          <div class="col-lg-4 mt-4">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#modal4" style="color:black">
+              <div class="card">
+                <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
+                <div class="card-body">
+                  <h5 class="card-title text-center">Add teacher Course</h5>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-lg-4 mt-4">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#modal5" style="color:black">
+              <div class="card">
+                <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
+                <div class="card-body">
+                  <h5 class="card-title text-center">Update teacher Course</h5>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-lg-4 mt-4">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#modal6" style="color:black">
+              <div class="card">
+                <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
+                <div class="card-body">
+                  <h5 class="card-title text-center">Drop teacher Course</h5>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="form-outline mb-4 mt-5 form-check form-switch">
+          <label>
+            <h6>View Data</h6>
+          </label>
+          <input class="form-check-input" type="checkbox" id="view_data1" onclick="view_toggle1()">
+        </div>
 
-              <td><button class="btn btn-secondary" title="Update"><i class="bx bxs-edit-alt icon " data-id="<?php echo $row['course_id']; ?>" data-id1="<?php echo $row['student_id']; ?>" onclick="update_data2(this)"></i></button>
-                <button class="btn btn-danger" title="Delete"><i class="bx bx-trash-alt icon " data-id="<?php echo $row['course_id']; ?>" data-id1="<?php echo $row['student_id']; ?>" onclick="delete_data2(this)"></i></button>
-              </td>
-            </tr>
-          <?php
-          endwhile;
-          ?>
-        </table>
-      </div>
+        <?php $data = mysqli_query($conn, "Select *from teaches"); ?>
+        <div class="row mt-4" id="table1" style="height: 400px; overflow:auto" hidden>
+          <table class="text-center table table-light" style="height: 10px;">
+            <thead style="position: sticky; top:0;">
+              <tr>
+                <th>Course ID</th>
+                <th>Teacher ID</th>
+                <th></th>
+              </tr>
+            </thead>
+            <?php
+            while ($row = mysqli_fetch_array($data)) :
+            ?>
+              <tr>
+                <td><?php echo $row['course_id'] ?></td>
+                <td><?php echo $row['teacher_id'] ?></td>
+                <td><button class="btn btn-secondary" title="Update"><i class="bx bxs-edit-alt icon " data-id="<?php echo $row['course_id']; ?>" data-id1="<?php echo $row['teacher_id']; ?>" onclick="update_data1(this)"></i></button>
+                  <button class="btn btn-danger" title="Delete"><i class="bx bx-trash-alt icon " data-id="<?php echo $row['course_id']; ?>" data-id1="<?php echo $row['teacher_id']; ?>" onclick="delete_data1(this)"></i></button>
+                </td>
+              </tr>
+            <?php
+            endwhile;
+            ?>
+          </table>
+        </div>
+        <div class="container mt-4 ">
+          <h1 class="text-center pt-2 pb-2 text">
+            STUDENT
+          </h1>
+        </div>
+        <div class="row">
+          <div class="col-lg-4 mt-4">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#modal7" style="color:black">
+              <div class="card">
+                <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
+                <div class="card-body">
+                  <h5 class="card-title text-center">Add Student Course</h5>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-lg-4 mt-4">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#modal8" style="color:black">
+              <div class="card">
+                <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
+                <div class="card-body">
+                  <h5 class="card-title text-center">Update Student Course</h5>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-lg-4 mt-4">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#modal9" style="color:black">
+              <div class="card">
+                <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
+                <div class="card-body">
+                  <h5 class="card-title text-center">Drop Student Course</h5>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="form-outline mb-4 mt-5 form-check form-switch">
+          <label>
+            <h6>View Data</h6>
+          </label>
+          <input class="form-check-input" type="checkbox" id="view_data2" onclick="view_toggle2()">
+        </div>
+        <?php $data = mysqli_query($conn, "Select * from assign"); ?>
+        <div class="row mt-4" id="table2" style="height: 400px; overflow:auto" hidden>
+          <table class="text-center table table-light" style="height: 10px;">
+            <thead style="position: sticky; top:0;">
+              <tr>
+                <th>Course ID</th>
+                <th>Student ID</th>
+                <th></th>
+              </tr>
+            </thead>
+            <?php
+            while ($row = mysqli_fetch_array($data)) :
+            ?>
+              <tr>
+                <td><?php echo $row['course_id'] ?></td>
+                <td><?php echo $row['student_id'] ?></td>
+
+                <td><button class="btn btn-secondary" title="Update"><i class="bx bxs-edit-alt icon " data-id="<?php echo $row['course_id']; ?>" data-id1="<?php echo $row['student_id']; ?>" onclick="update_data2(this)"></i></button>
+                  <button class="btn btn-danger" title="Delete"><i class="bx bx-trash-alt icon " data-id="<?php echo $row['course_id']; ?>" data-id1="<?php echo $row['student_id']; ?>" onclick="delete_data2(this)"></i></button>
+                </td>
+              </tr>
+            <?php
+            endwhile;
+            ?>
+          </table>
+        </div>
     </section>
-    </div>
-    </div>
-<?php include '../includes/footer.php'; ?>
+    <?php include '../includes/footer.php'; ?>
   </section>
   <script type="text/javascript" src="../js/sidebar.js"></script>
   <script>
@@ -650,68 +651,53 @@ try {
       if (checkBox.checked) {
         tmp[0].disabled = true;
         tmp[1].disabled = true;
-        let file = document.createElement("input");
-        file.size = "50";
-        file.type = "file";
-        file.name = "filename";
-        file.id = "file";
-        file.required = true;
-        file.accept = ".csv";
-        tmp[2].appendChild(file);
+        tmp[2].hidden = false;
+        tmp[2].disabled = false;
         tmp[3].setAttribute("name", "csv_add_course");
       } else {
         tmp[0].disabled = false;
         tmp[1].disabled = false;
-        let file = document.getElementById("file");
-        tmp[2].removeChild(file);
+        tmp[2].disabled = true;
+        tmp[2].hidden = true;
         tmp[3].setAttribute("name", "submit_add_course");
       }
     }
+
     function csvInput2(checkBox) {
       let tmp = document.querySelectorAll(".input2");
       if (checkBox.checked) {
         tmp[0].disabled = true;
         tmp[1].disabled = true;
-        let file = document.createElement("input");
-        file.size = "50";
-        file.type = "file";
-        file.name = "filename";
-        file.id = "file";
-        file.required = true;
-        file.accept = ".csv";
-        tmp[2].appendChild(file);
+        tmp[2].hidden = false;
+        tmp[2].disabled = false;
         tmp[3].setAttribute("name", "csv_add_teacher");
       } else {
         tmp[0].disabled = false;
         tmp[1].disabled = false;
-        let file = document.getElementById("file");
-        tmp[2].removeChild(file);
+        tmp[2].hidden = true;
+        tmp[2].disabled = true;
         tmp[3].setAttribute("name", "submit_add_teacher");
       }
     }
+
     function csvInput3(checkBox) {
       let tmp = document.querySelectorAll(".input3");
       if (checkBox.checked) {
         tmp[0].disabled = true;
         tmp[1].disabled = true;
-        let file = document.createElement("input");
-        file.size = "50";
-        file.type = "file";
-        file.name = "filename";
-        file.id = "file";
-        file.required = true;
-        file.accept = ".csv";
-        tmp[2].appendChild(file);
+        tmp[2].hidden = false;
+        tmp[2].disabled = false;
         tmp[3].setAttribute("name", "csv_add_student");
 
       } else {
         tmp[0].disabled = false;
         tmp[1].disabled = false;
-        let file = document.getElementById("file");
-        tmp[2].removeChild(file);
+        tmp[2].disabled = true;
+        tmp[2].hidden = true;
         tmp[3].setAttribute("name", "submit_add_student");
       }
     }
+
     function view_toggle(a) {
       var a = document.getElementById("view_data");
       var x = document.getElementById("table");
@@ -720,16 +706,19 @@ try {
       else
         x.hidden = true;
     }
+
     function update_data(a) {
       var str = $(a).attr("data-id");
       $("#modal2 .modal-body #t_id").val(str);
       $('#modal2').modal('show');
     }
+
     function delete_data(a) {
       var str = $(a).attr("data-id");
       $("#modal3 .modal-body #t_id").val(str);
       $('#modal3').modal('show');
     }
+
     function view_toggle1(a) {
       var a = document.getElementById("view_data1");
       var x = document.getElementById("table1");
@@ -738,6 +727,7 @@ try {
       else
         x.hidden = true;
     }
+
     function update_data1(a) {
       var str = $(a).attr("data-id");
       var str1 = $(a).attr("data-id1");
@@ -745,6 +735,7 @@ try {
       $("#modal5 .modal-body #t_id1").val(str1);
       $('#modal5').modal('show');
     }
+
     function delete_data1(a) {
       var str = $(a).attr("data-id");
       var str1 = $(a).attr("data-id1");
@@ -752,6 +743,7 @@ try {
       $("#modal6 .modal-body #t_id1").val(str1);
       $('#modal6').modal('show');
     }
+
     function view_toggle2(a) {
       var a = document.getElementById("view_data2");
       var x = document.getElementById("table2");
@@ -760,6 +752,7 @@ try {
       else
         x.hidden = true;
     }
+
     function update_data2(a) {
       var str = $(a).attr("data-id");
       var str1 = $(a).attr("data-id1");
@@ -767,6 +760,7 @@ try {
       $("#modal8 .modal-body #t_id").val(str);
       $('#modal8').modal('show');
     }
+
     function delete_data2(a) {
       var str = $(a).attr("data-id");
       var str1 = $(a).attr("data-id1");
@@ -776,4 +770,5 @@ try {
     }
   </script>
 </body>
+
 </html>
