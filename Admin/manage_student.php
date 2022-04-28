@@ -43,19 +43,16 @@ try {
 }
 ?>
 <html>
-
 <head>
   <title>
     Manage Student
   </title>
-
   <?php include '../includes/cdn.php'; ?>
   <link rel="stylesheet" href="../CSS/admin.css">
   <link rel="stylesheet" href="../CSS/sidebar.css">
   <link rel="stylesheet" href="../CSS/footer.css">
   </script>
 </head>
-
 <body>
   <?php if ($exception_occur) : ?>
     <script>
@@ -69,9 +66,8 @@ try {
       });
     </script>
   <?php endif;
-  include '../includes/admin_sidebar.php'; ?>
+  include '../includes/sidebar.php'; ?>
   <section class="home">
-
     <div class="modal fade" id="modal1" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -93,8 +89,7 @@ try {
               </div>
               <div class="form-group">
                 <label>Student Name</label>
-                <input type="email" class="form-control input1" placeholder="Enter Student email" name="s_email" value="<?php if ($flag) echo $row['email'];
-                                                                                                                      else echo ""; ?>" required>
+                <input type="email" class="form-control input1" placeholder="Enter Student email" name="s_email" value="<?php if ($flag) echo $row['email']; else echo ""; ?>" required>                                                                                      
               </div>
               <div class="form-group">
                 <label>Department Id</label>

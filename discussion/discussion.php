@@ -50,7 +50,7 @@ $result =  mysqli_query($conn, "SELECT *  FROM $courseDiscussion where parent_co
         <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Reply</h5>
       </div>
       <div class="modal-body">
-        <form name="frm1" method="post" action="index.php?course=<?php echo $course; ?>">
+        <form name="frm1" method="post" action="discussion.php?course=<?php echo $course; ?>">
           <input type="number" id="pid" name="pid" hidden>
           <div class="form-group">
             <input type="text" class="form-control" name="name" value="<?php echo $username; ?>" hidden>
@@ -74,7 +74,7 @@ $result =  mysqli_query($conn, "SELECT *  FROM $courseDiscussion where parent_co
     <div class="panel-body">
       <h3>Discussion forum</h3>
       <hr>
-      <form name="frm" method="post" action="index.php?course=<?php echo $course; ?>">
+      <form name="frm" method="post" action="discussion.php?course=<?php echo $course; ?>">
         <input type="hidden" id="id" name="id" value="0">
         <div class="form-group">
           <input type="text" class="form-control" name="name" value="<?php echo $username; ?>" hidden>

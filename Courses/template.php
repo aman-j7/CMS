@@ -16,6 +16,7 @@ if (isset($_POST["submit"])) {
   $rl = $_POST['refrence'];
   $al = $_POST["assigment"];
   $ul = $_POST["upload"];
+  $progress=$course.'p';
   if ($hl == "")
     $hl = NULL;
   if ($ml == "")
@@ -28,9 +29,10 @@ if (isset($_POST["submit"])) {
   }
   if ($f) {
     $no = $_POST['no'];
+    $oldHead=$_POST['oldHead'];
     mysqli_query($conn, "UPDATE `$course` SET `header`='$h',`link`='$hl',`notes`='$ml',`ref`='$rl',`assigment`='$al',`upload`='$ul' WHERE `no`=$no ");
+    mysqli_query($conn, "UPDATE `$progress` SET `header`='$h' WHERE `header`='$oldHead'");
   } else{
-    $progress=$course.'p';
     mysqli_query($conn, "INSERT INTO `$course` ( `header`, `link`, `notes`, `ref`, `assigment`,`upload`) VALUES ('$h','$hl','$ml','$rl','$al','$ul')");
     mysqli_query($conn, "INSERT INTO `$progress` ( `header`) VALUES ('$h')");
   }
@@ -43,13 +45,13 @@ if (isset($_POST["submit"])) {
   $no = $_POST['no'];
   $progress=$course.'p';
   $header=mysqli_query($conn, "SELECT `header` FROM $course WHERE  `no`=$no");
+  $header=mysqli_fetch_array($header);
+  $header=$header['header'];
   mysqli_query($conn, "DELETE FROM $course WHERE  `no`=$no");
-  mysqli_query($conn, "DELETE FROM $progress WHERE  `header`=$header");
+  mysqli_query($conn, "DELETE FROM $progress WHERE `header`='$header'");
 }
 ?>
-
 <html>
-
 <head>
   <title>
     <?php echo $course; ?>
@@ -72,6 +74,9 @@ if (isset($_POST["submit"])) {
                 <label>Header</label>
                 <input type="text" class="form-control" name="head" placeholder="topic" value="<?php if ($flag) echo $up['header'];
                                                                                                 else echo ""; ?>" required>
+                <?php if($flag):?>
+                <input type="text" class="form-control" name="oldHead" value="<?php echo $up['header'];?>" hidden>
+                <?php endif;?>                                                                            
               </div>
               <div class="form-group">
                 <label>Lecture Link</label>
@@ -132,14 +137,13 @@ if (isset($_POST["submit"])) {
      </div>
    </div>
    <?php endif;?>
-
   <?php include '../includes/sidebar.php'; ?>
   <section class="home">
     <div class="container border border-3 mt-4 ">
 
       <h1 class="text-center pt-3 pb-2 text ">
         <?php
-        echo $subject . ' (' . $course . ')';
+        echo $subject . ' (' . strtoupper($course) . ')';
         ?>
       </h1>
     </div>

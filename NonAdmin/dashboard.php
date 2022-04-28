@@ -34,7 +34,7 @@ if($role=='student'){
   DASHBOARD
 </h1>
 </div>
-<div class="container border border-3 d-grid gap-3 pb-4 px-4 mt-4" style="min-height: calc(100vh - 242px);" >
+<div class="container border border-3 d-grid gap-3 px-4 mt-4" style="min-height: calc(100vh - 230px);" >
   <div class="container mt-2 ">
      <?php
     $c = 0;
@@ -77,7 +77,7 @@ if($role=='student'){
 			          	<div class="progressBarFill" style=" width: <?php echo $percentage?>%;height: 15px;background-color: green;border-radius: 30px;"></div></div>
                   <div style="height: 15px; text-align: center; margin-bottom:1px;"><?php echo $percentage.'%';?></div>
                   <?php else:?>
-                    <h5 class="card-title text-center"><b><?php echo $counter ?></b></h5>
+                    <h5 class="card-title text-center"><b><?php echo strtoupper($counter); ?></b></h5>
                   <?php endif; ?>
               </a>
             </div>

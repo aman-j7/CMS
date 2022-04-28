@@ -11,7 +11,7 @@ $exception_cause = new Exception();
 try {
   if (isset($_POST["submit_add_course"])) {
     $f = $_GET["f"];
-    $c_id = strtoupper($_POST["c_id"]);
+    $c_id =$_POST["c_id"];
     $c_name = strtoupper($_POST["c_name"]);
     if ($f) {
       mysqli_query($conn, "update courses set course_name='$c_name' where course_id='$c_id'");
@@ -127,24 +127,17 @@ try {
   $exception_occur = 1;
   $exception_cause = $except;
 }
-
 ?>
-
 <html>
-
 <head>
   <title>
     Manage Courses
   </title>
-
   <?php include '../includes/cdn.php'; ?>
   <link rel="stylesheet" href="../CSS/admin.css">
   <link rel="stylesheet" href="../CSS/sidebar.css">
   <link rel="stylesheet" href="../CSS/footer.css">
-
-
 </head>
-
 <body>
   <?php if ($exception_occur) : ?>
     <script>
@@ -170,7 +163,7 @@ try {
       });
     </script>
   <?php  }
-  include '../includes/admin_sidebar.php'; ?>
+  include '../includes/sidebar.php'; ?>
   <section class="home">
     <div class="modal fade" id="modal1" role="dialog">
       <div class="modal-dialog">
@@ -209,8 +202,6 @@ try {
         </div>
       </div>
     </div>
-
-
     <div class="modal fade" id="modal2" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -232,9 +223,6 @@ try {
         </div>
       </div>
     </div>
-
-
-
     <div class="modal fade" id="modal3" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -256,12 +244,6 @@ try {
         </div>
       </div>
     </div>
-
-
-
-
-
-
     <div class="modal fade" id="modal4" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -305,8 +287,6 @@ try {
         </div>
       </div>
     </div>
-
-
     <div class="modal fade" id="modal5" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -332,9 +312,6 @@ try {
         </div>
       </div>
     </div>
-
-
-
     <div class="modal fade" id="modal6" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -360,10 +337,6 @@ try {
         </div>
       </div>
     </div>
-
-
-
-
     <div class="modal fade" id="modal7" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -407,8 +380,6 @@ try {
         </div>
       </div>
     </div>
-
-
     <div class="modal fade" id="modal8" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -434,9 +405,6 @@ try {
         </div>
       </div>
     </div>
-
-
-
     <div class="modal fade" id="modal9" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -462,7 +430,6 @@ try {
         </div>
       </div>
     </div>
-
     <section id="gallery" style="min-height: calc(100vh - 166px);">
       <div class="container mt-4 ">
         <h1 class="text-center pt-2 pb-2 text">
@@ -508,7 +475,6 @@ try {
         </label>
         <input class="form-check-input" type="checkbox" id="view_data" onclick="view_toggle()">
       </div>
-
       <?php $data = mysqli_query($conn, "Select * from courses"); ?>
       <div class="row mt-4" id="table" style="height: 400px; overflow:auto" hidden>
         <table class="text-center table table-light" style="height: 10px;">
@@ -528,16 +494,12 @@ try {
               <td><button class="btn btn-secondary" title="Update"><i class="bx bxs-edit-alt icon " data-id="<?php echo $row['course_id']; ?>" onclick="update_data(this)"></i></button>
                 <button class="btn btn-danger" title="Delete"><i class="bx bx-trash-alt icon " data-id="<?php echo $row['course_id']; ?>" onclick="delete_data(this)"></i></button>
               </td>
-
-
             </tr>
           <?php
           endwhile;
           ?>
         </table>
       </div>
-
-
       <div class="container mt-4 ">
         <h1 class="text-center pt-2 pb-2 text">
           TEACHER
@@ -601,15 +563,12 @@ try {
               <td><button class="btn btn-secondary" title="Update"><i class="bx bxs-edit-alt icon " data-id="<?php echo $row['course_id']; ?>" data-id1="<?php echo $row['teacher_id']; ?>" onclick="update_data1(this)"></i></button>
                 <button class="btn btn-danger" title="Delete"><i class="bx bx-trash-alt icon " data-id="<?php echo $row['course_id']; ?>" data-id1="<?php echo $row['teacher_id']; ?>" onclick="delete_data1(this)"></i></button>
               </td>
-
-
             </tr>
           <?php
           endwhile;
           ?>
         </table>
       </div>
-
       <div class="container mt-4 ">
         <h1 class="text-center pt-2 pb-2 text">
           STUDENT
@@ -636,7 +595,6 @@ try {
       </div>
       </div>
       </div>
-
       <div class="col-lg-4 mt-4">
         <a href="#" data-bs-toggle="modal" data-bs-target="#modal9" style="color:black">
           <div class="card">
@@ -654,7 +612,6 @@ try {
         </label>
         <input class="form-check-input" type="checkbox" id="view_data2" onclick="view_toggle2()">
       </div>
-
       <?php $data = mysqli_query($conn, "Select * from assign"); ?>
       <div class="row mt-4" id="table2" style="height: 400px; overflow:auto" hidden>
         <table class="text-center table table-light" style="height: 10px;">
@@ -675,8 +632,6 @@ try {
               <td><button class="btn btn-secondary" title="Update"><i class="bx bxs-edit-alt icon " data-id="<?php echo $row['course_id']; ?>" data-id1="<?php echo $row['student_id']; ?>" onclick="update_data2(this)"></i></button>
                 <button class="btn btn-danger" title="Delete"><i class="bx bx-trash-alt icon " data-id="<?php echo $row['course_id']; ?>" data-id1="<?php echo $row['student_id']; ?>" onclick="delete_data2(this)"></i></button>
               </td>
-
-
             </tr>
           <?php
           endwhile;
@@ -686,7 +641,6 @@ try {
     </section>
     </div>
     </div>
-    
 <?php include '../includes/footer.php'; ?>
   </section>
   <script type="text/javascript" src="../js/sidebar.js"></script>
@@ -705,7 +659,6 @@ try {
         file.accept = ".csv";
         tmp[2].appendChild(file);
         tmp[3].setAttribute("name", "csv_add_course");
-
       } else {
         tmp[0].disabled = false;
         tmp[1].disabled = false;
@@ -714,7 +667,6 @@ try {
         tmp[3].setAttribute("name", "submit_add_course");
       }
     }
-
     function csvInput2(checkBox) {
       let tmp = document.querySelectorAll(".input2");
       if (checkBox.checked) {
@@ -729,7 +681,6 @@ try {
         file.accept = ".csv";
         tmp[2].appendChild(file);
         tmp[3].setAttribute("name", "csv_add_teacher");
-
       } else {
         tmp[0].disabled = false;
         tmp[1].disabled = false;
@@ -738,7 +689,6 @@ try {
         tmp[3].setAttribute("name", "submit_add_teacher");
       }
     }
-
     function csvInput3(checkBox) {
       let tmp = document.querySelectorAll(".input3");
       if (checkBox.checked) {
@@ -762,7 +712,6 @@ try {
         tmp[3].setAttribute("name", "submit_add_student");
       }
     }
-
     function view_toggle(a) {
       var a = document.getElementById("view_data");
       var x = document.getElementById("table");
@@ -770,21 +719,17 @@ try {
         x.hidden = false;
       else
         x.hidden = true;
-
     }
-
     function update_data(a) {
       var str = $(a).attr("data-id");
       $("#modal2 .modal-body #t_id").val(str);
       $('#modal2').modal('show');
     }
-
     function delete_data(a) {
       var str = $(a).attr("data-id");
       $("#modal3 .modal-body #t_id").val(str);
       $('#modal3').modal('show');
     }
-
     function view_toggle1(a) {
       var a = document.getElementById("view_data1");
       var x = document.getElementById("table1");
@@ -792,9 +737,7 @@ try {
         x.hidden = false;
       else
         x.hidden = true;
-
     }
-
     function update_data1(a) {
       var str = $(a).attr("data-id");
       var str1 = $(a).attr("data-id1");
@@ -802,7 +745,6 @@ try {
       $("#modal5 .modal-body #t_id1").val(str1);
       $('#modal5').modal('show');
     }
-
     function delete_data1(a) {
       var str = $(a).attr("data-id");
       var str1 = $(a).attr("data-id1");
@@ -810,7 +752,6 @@ try {
       $("#modal6 .modal-body #t_id1").val(str1);
       $('#modal6').modal('show');
     }
-
     function view_toggle2(a) {
       var a = document.getElementById("view_data2");
       var x = document.getElementById("table2");
@@ -818,9 +759,7 @@ try {
         x.hidden = false;
       else
         x.hidden = true;
-
     }
-
     function update_data2(a) {
       var str = $(a).attr("data-id");
       var str1 = $(a).attr("data-id1");
@@ -828,7 +767,6 @@ try {
       $("#modal8 .modal-body #t_id").val(str);
       $('#modal8').modal('show');
     }
-
     function delete_data2(a) {
       var str = $(a).attr("data-id");
       var str1 = $(a).attr("data-id1");

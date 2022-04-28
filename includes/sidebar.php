@@ -81,7 +81,7 @@
         <?php endif; ?>
 
         <li class="">
-          <a href="../discussion/index.php?course=<?php echo $courseDiscussion; ?>">
+          <a href="../discussion/discussion.php?course=<?php echo $courseDiscussion; ?>">
             <i class='bx bx-pie-chart-alt icon'></i>
             <span class="text nav-text">Discussion</span>
           </a>
@@ -91,6 +91,12 @@
             <a data-bs-toggle="modal" data-bs-target="#modal1" href="#modal1">
               <i class='bx bx-plus-medical icon'></i>
               <span class="text nav-text">Add Material</span>
+            </a>
+          </li>
+          <li class="">
+            <a href="../Attendance/attendance.php?course=<?php echo $courseDiscussion; ?>">
+             <i class='bx bxs-bar-chart-alt-2 icon'></i>
+              <span class="text nav-text">Attendance</span>
             </a>
           </li>
         <?php endif; ?>

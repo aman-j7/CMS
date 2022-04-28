@@ -14,8 +14,8 @@ try {
         $f_name = $_POST["f_name"];
         $d_id = $_POST["d_id"];
         $f_email = $_POST["f_email"];
-        $isAdmin=$_POST['isAdmin'];
-        echo $isAdmin.' '.$d_id;
+        $isAdmin = $_POST['isAdmin'];
+        echo $isAdmin . ' ' . $d_id;
         if ($f) {
             mysqli_query($conn, "update admin set name='$f_name',dept_id='$d_id',`isAdmin`='$isAdmin',`email`='$f_email' where id='$f_id'");
             mysqli_query($conn, "UPDATE `login` SET `email`='$f_email' WHERE `reg_id`='$f_id'");
@@ -44,23 +44,19 @@ try {
     $exception_occur = 1;
     $exception_cause = $except;
 }
-
 ?>
 <html>
 
 <head>
-
-
     <title>
         Manage Admin
     </title>
-
     <?php include '../includes/cdn.php'; ?>
     <link rel="stylesheet" href="../CSS/admin.css">
     <link rel="stylesheet" href="../CSS/sidebar.css">
     <link rel="stylesheet" href="../CSS/footer.css">
-
 </head>
+
 <body>
     <?php if ($exception_occur) : ?>
         <script>
@@ -74,9 +70,8 @@ try {
             });
         </script>
     <?php endif;
-    include '../includes/admin_sidebar.php'; ?>
+    include '../includes/sidebar.php'; ?>
     <section class="home">
-
         <div class="modal fade" id="modal1" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -89,27 +84,28 @@ try {
                             <div class="form-group">
                                 <label>Admin Id</label>
                                 <input type="text" class="form-control input1" name="f_id" placeholder="Enter Admin id" value="<?php if ($flag) echo $row['id'];
-                                                                                                                                    else echo ""; ?>" required>
+                                                                                                                                else echo ""; ?>" required>
                             </div>
                             <div class="form-group">
                                 <label> Admin Name</label>
                                 <input type="text" class="form-control input1" placeholder="Enter Admin name" name="f_name" value="<?php if ($flag) echo $row['name'];
-                                                                                                                                        else echo ""; ?>" required>
+                                                                                                                                    else echo ""; ?>" required>
                             </div>
                             <div class="form-group">
                                 <label> Email</label>
-                                <input type="email" class="form-control input1" placeholder="Enter Admin email" name="f_email" value="<?php if ($flag) echo $row['email']; else echo ""; ?>" required>
+                                <input type="email" class="form-control input1" placeholder="Enter Admin email" name="f_email" value="<?php if ($flag) echo $row['email'];
+                                                                                                                                        else echo ""; ?>" required>
                             </div>
 
                             <div class="form-group">
                                 <label>Department Id</label>
                                 <select type="text" class="form-control input1" name="d_id" required>
-                                <option value="Administrative" selected >Administrative</option>
+                                    <option value="Administrative" selected>Administrative</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label> Full Access</label>
-                                <input type="checkbox" name="isAdmin" value="1"<?php if ($flag && $row['isAdmin']) echo "checked" ?>>
+                                <input type="checkbox" name="isAdmin" value="1" <?php if ($flag && $row['isAdmin']) echo "checked" ?>>
                             </div>
                             <?php if (!$flag) : ?>
                                 <div class="form-group">
@@ -129,8 +125,6 @@ try {
                 </div>
             </div>
         </div>
-
-
         <div class="modal fade" id="modal2" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -152,9 +146,6 @@ try {
                 </div>
             </div>
         </div>
-
-
-
         <div class="modal fade" id="modal3" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -176,7 +167,6 @@ try {
                 </div>
             </div>
         </div>
-
         <section id="gallery" style="min-height: calc(100vh - 166px);">
             <div class="container mt-4 ">
                 <h1 class="text-center pt-2 pb-2 text">
@@ -191,74 +181,73 @@ try {
                                 <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
                                 <div class="card-body">
                                     <h5 class="card-title text-center">Add Admin </h5>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-4 mt-4">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#modal2" style="color:black">
+                            <div class="card">
+                                <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
+                                <div class="card-body">
+                                    <h5 class="card-title text-center">Update Admin</h5>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-4 mt-4">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#modal3" style="color:black">
+                            <div class="card">
+                                <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
+                                <div class="card-body">
+                                    <h5 class="card-title text-center">Drop Admin</h5>
+                                </div>
+                            </div>
                         </a>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-4 mt-4">
-                <a href="#" data-bs-toggle="modal" data-bs-target="#modal2" style="color:black">
-                    <div class="card">
-                        <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
-                        <div class="card-body">
-                            <h5 class="card-title text-center">Update Admin</h5>
-                </a>
-            </div>
-            </div>
-            </div>
-            <div class="col-lg-4 mt-4">
-                <a href="#" data-bs-toggle="modal" data-bs-target="#modal3" style="color:black">
-                    <div class="card">
-                        <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
-                        <div class="card-body">
-                            <h5 class="card-title text-center">Drop Admin</h5>
-                </a>
-            </div>
-            </div>
-            </div>
-            </div>
-
-            <div class="form-outline mb-4 mt-5 form-check form-switch">
-                <label>
-                    <h6>View Data</h6>
-                </label>
-                <input class="form-check-input" type="checkbox" id="view_data" onclick="view_toggle()">
-            </div>
-
-            <?php 
-            $id=$_SESSION['user_id'];
-            $data = mysqli_query($conn, "Select `id`,`name`,`dept_id`,`isAdmin` from `admin`where `id`!='$id'"); ?>
-            <div class="row mt-4" id="table" style="height: 400px; overflow:auto" hidden>
-                <table class="text-center table table-light" style="height: 10px;">
-                    <thead style="position: sticky; top:0;">
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Department</th>
-                            <th>Full Access</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <?php
-                    while ($row = mysqli_fetch_array($data)) :
-                    ?>
-                        <tr>
-                            <td><?php echo $row['id'] ?></td>
-                            <td><?php echo $row['name'] ?></td>
-                            <td><?php echo $row['dept_id'] ?></td>
-                            <td><?php if($row['isAdmin']) echo "Yes"; else echo "NO"; ?></td>
-                            <td><button class="btn btn-secondary" title="Update"><i class="bx bxs-edit-alt icon " data-id="<?php echo $row['id']; ?>" onclick="update_data(this)"></i></button>
-                                <button class="btn btn-danger" title="Delete"><i class="bx bx-trash-alt icon " data-id="<?php echo $row['id']; ?>" onclick="delete_data(this)"></i></button>
-                            </td>
-                        </tr>
-                    <?php
-                    endwhile;
-                    ?>
-                </table>
-            </div>
+                <div class="form-outline mb-4 mt-5 form-check form-switch">
+                    <label>
+                        <h6>View Data</h6>
+                    </label>
+                    <input class="form-check-input" type="checkbox" id="view_data" onclick="view_toggle()">
+                </div>
+                <?php
+                $id = $_SESSION['user_id'];
+                $data = mysqli_query($conn, "Select `id`,`name`,`dept_id`,`isAdmin` from `admin`where `id`!='$id'"); ?>
+                <div class="row mt-4" id="table" style="height: 400px; overflow:auto" hidden>
+                    <table class="text-center table table-light" style="height: 10px;">
+                        <thead style="position: sticky; top:0;">
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Department</th>
+                                <th>Full Access</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <?php
+                        while ($row = mysqli_fetch_array($data)) :
+                        ?>
+                            <tr>
+                                <td><?php echo $row['id'] ?></td>
+                                <td><?php echo $row['name'] ?></td>
+                                <td><?php echo $row['dept_id'] ?></td>
+                                <td><?php if ($row['isAdmin']) echo "Yes";
+                                    else echo "NO"; ?></td>
+                                <td><button class="btn btn-secondary" title="Update"><i class="bx bxs-edit-alt icon " data-id="<?php echo $row['id']; ?>" onclick="update_data(this)"></i></button>
+                                    <button class="btn btn-danger" title="Delete"><i class="bx bx-trash-alt icon " data-id="<?php echo $row['id']; ?>" onclick="delete_data(this)"></i></button>
+                                </td>
+                            </tr>
+                        <?php
+                        endwhile;
+                        ?>
+                    </table>
+                </div>
         </section>
         </div>
         </div>
-        <?php include '../includes/footer.php'; ?>    
+        <?php include '../includes/footer.php'; ?>
     </section>
     <script type="text/javascript" src="../js/sidebar.js"></script>
     <script>
@@ -277,7 +266,6 @@ try {
                 file.accept = ".csv";
                 tmp[3].appendChild(file);
                 tmp[4].setAttribute("name", "csv");
-
             } else {
                 tmp[0].disabled = false;
                 tmp[1].disabled = false;
@@ -287,7 +275,6 @@ try {
                 tmp[4].setAttribute("name", "submit_add_teacher");
             }
         }
-
         function view_toggle(a) {
             var a = document.getElementById("view_data");
             var x = document.getElementById("table");
@@ -295,16 +282,13 @@ try {
                 x.hidden = false;
             else
                 x.hidden = true;
-
         }
-
         function update_data(a) {
             var str = $(a).attr("data-id");
             console.log(str);
             $("#modal2 .modal-body #t_id").val(str);
             $('#modal2').modal('show');
         }
-
         function delete_data(a) {
             var str = $(a).attr("data-id");
             console.log(str);
@@ -313,5 +297,4 @@ try {
         }
     </script>
 </body>
-
 </html>

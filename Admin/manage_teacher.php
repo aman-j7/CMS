@@ -72,7 +72,7 @@ try {
       });
     </script>
   <?php endif;
-  include '../includes/admin_sidebar.php'; ?>
+  include '../includes/sidebar.php'; ?>
   <section class="home">
 
     <div class="modal fade" id="modal1" role="dialog">
