@@ -60,11 +60,10 @@ if (isset($_POST["submit"])) {
 	$result=createMeeting($arr);
 	if(isset($result->id)){
     $t=$_POST["topic"];
+    $progress=$course.'p';
     mysqli_query($conn, "INSERT INTO `$course` ( `header`, `link`, `notes`, `assigment`,`upload`,`isMeeting`) VALUES ('$t','$result->join_url','$result->password','$result->start_time','$result->duration','1')");
-	}
-}else if (isset($_POST["meetingDelete"])) {
-  $no = $_POST['no'];
-  mysqli_query($conn, "DELETE FROM $course WHERE  `no`=$no");
+    mysqli_query($conn, "INSERT INTO `$progress` ( `header`) VALUES ('$t')");
+  }
 }
 ?>
 <html>
@@ -157,13 +156,7 @@ if (isset($_POST["submit"])) {
                 <label>Password </label>
                 <input type="text" class="form-control" name="password" placeholder="Enter Password" required>
               </div>
-              <div class="form-group">
-                <label>Assigment Link</label>
-                <input type="text" class="form-control" name="assigment" placeholder=" Assigment Link">
-                <label>Upload Link</label>
-                <input type="text" class="form-control" name="upload" placeholder="Upload Link">
-              </div>
-          </div>
+            </div>
           <div class="modal-footer">
             <input type="submit" class="btn btn-default btn-success" name="meeting" value= "Submit" />
             <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -215,20 +208,29 @@ if (isset($_POST["submit"])) {
         $c = $c + 1; 
         if($res['isMeeting']):?>
         <div class="col-lg-4 mt-4 ">
-            <div style="background-color:aqua" class="pb-1 pt-2 mb-1 border border-dark">
-              <h5 class="card-title text-center"><?php echo $res['header'] ?></h5>
+            <div style="background-color:lightgreen;" class="pb-1 pt-2 mb-1 border border-dark">
+              <h5 class="card-title text-center"><?php echo $res['header'] ?>
+              <?php if ($role == "student") : ?>
+                  <input style="float:right; margin-right:10px; margin-top:3px;" class="form-check-input" type="checkbox" 
+                  no="<?php echo $id; ?>" hd="<?php echo $res['header']; ?>" 
+                  course="<?php echo $course; ?>" onclick="progressCheck(this)" 
+                  <?php
+                   $head = $res['header'];
+                   $prog = mysqli_query($conn, "SELECT `$id` FROM $progress_name where `header`='$head'");
+                   $prog = mysqli_fetch_array($prog);
+                   if ($prog[$id]) echo "checked" ?>                                                                                                                                                                                                                         
+                <?php endif; ?></h5>
             </div>
             <div class="card border border-dark">
-              <div class="card-body" style="min-height:110px">
+              <div class="card-body" style="min-height:150px">
                 <?php if ($res['link'] != NULL) : ?>
-                  <a href="<?php echo $res['link'] ?>" class="link-secondary">Lecture Video Link</a><br>
+                  <a href="<?php echo $res['link'] ?>" class="link-secondary">Meeting Link</a><br>
                 <?php endif; ?>
                 <?php if ($res['notes'] != NULL) : ?>
-                  <?php echo $res['notes'] ?><br>
+                  <b>Password:</b><br> <?php echo $res['notes'] ?><br>
                 <?php endif; ?>
                 <?php if ($res['assigment'] != NULL) : ?>
-                  <?php echo $res['assigment'] ?><br>
-                  <?php echo $res['upload'] ?><br>
+                  <b>Start Time:</b><br><?php echo substr($res['assigment'],0,strlen($res['assigment'])-1) ?><br>
                 <?php endif; ?>
               </div>
               <?php if ($role == "teacher") : ?>
@@ -236,7 +238,7 @@ if (isset($_POST["submit"])) {
                   <form role="form" action="template.php?course=<?php echo $course ?>&course_name=<?php echo $subject ?>" method="POST">
                     <tr>
                       <td><input type="integer" name="no" value=<?php echo $res['no'] ?> hidden></td>
-                      <td><input type="submit" class="btn btn-danger  btn-sm mx-1 me-2" name="meetingDelete" value="Delete" style="float:right" /></td>
+                      <td><input type="submit" class="btn btn-danger  btn-sm mx-1 me-2" name="delete" value="Delete" style="float:right" /></td>
                     </tr>
                   </form>
                 </div>
@@ -260,7 +262,7 @@ if (isset($_POST["submit"])) {
               </h5>
             </div>
             <div class="card border border-dark">
-              <div class="card-body" style="min-height:110px">
+              <div class="card-body" style="min-height:150px">
                 <?php if ($res['link'] != NULL) : ?>
                   <a href="<?php echo $res['link'] ?>" class="link-secondary">Lecture Video Link</a><br>
                 <?php endif; ?>
