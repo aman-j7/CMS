@@ -94,6 +94,12 @@
             </a>
           </li>
           <li class="">
+            <a data-bs-toggle="modal" data-bs-target="#modal2" href="#modal2">
+              <i class='bx bx-video icon'></i>
+              <span class="text nav-text">Add Video Lecture</span>
+            </a>
+          </li>
+          <li class="">
             <a href="../Attendance/attendance.php?course=<?php echo $courseDiscussion; ?>">
              <i class='bx bxs-bar-chart-alt-2 icon'></i>
               <span class="text nav-text">Attendance</span>

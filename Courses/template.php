@@ -1,5 +1,7 @@
 <?php
 include "../includes/config.php";
+include "../video/config.php";
+include "../video/api.php";
 $pageName = basename($_SERVER['PHP_SELF']);
 $courseDiscussion = $_GET["course"];
 $course = strtoupper($_GET["course"]);
@@ -49,6 +51,20 @@ if (isset($_POST["submit"])) {
   $header = $header['header'];
   mysqli_query($conn, "DELETE FROM $course WHERE  `no`=$no");
   mysqli_query($conn, "DELETE FROM $progress WHERE `header`='$header'");
+}else if (isset($_POST["meeting"])) {
+  $arr['topic']=$_POST["topic"];
+	$arr['start_date']=$_POST["date"];
+	$arr['duration']=$_POST["duration"];
+	$arr['password']=$_POST["password"];
+	$arr['type']='2';
+	$result=createMeeting($arr);
+	if(isset($result->id)){
+    $t=$_POST["topic"];
+    mysqli_query($conn, "INSERT INTO `$course` ( `header`, `link`, `notes`, `assigment`,`upload`,`isMeeting`) VALUES ('$t','$result->join_url','$result->password','$result->start_time','$result->duration','1')");
+	}
+}else if (isset($_POST["meetingDelete"])) {
+  $no = $_POST['no'];
+  mysqli_query($conn, "DELETE FROM $course WHERE  `no`=$no");
 }
 ?>
 <html>
@@ -117,6 +133,45 @@ if (isset($_POST["submit"])) {
         </div>
       </div>
     </div>
+    <div class="modal fade" id="modal2" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Update Student</h5>
+          </div>
+          <div class="modal-body">
+            <form role="form" action="template.php?course=<?php echo $course ?>& course_name=<?php echo $subject ?> " method="POST" autocomplete="off">
+              <div class="form-group">
+                <label>Topic</label>
+                <input type="text" class="form-control" name="topic" placeholder="topic" required>
+              </div>
+              <div class="form-group">
+                <label>Start Date & Time</label>
+                <input type="datetime-local" class="form-control" name="date" required >
+              </div>
+              <div class="form-group">
+                <label>Duration</label>
+                <input type="integer" class="form-control" name="duration" placeholder="In Minutes" reqired>
+              </div>
+              <div class="form-group">
+                <label>Password </label>
+                <input type="text" class="form-control" name="password" placeholder="Enter Password" required>
+              </div>
+              <div class="form-group">
+                <label>Assigment Link</label>
+                <input type="text" class="form-control" name="assigment" placeholder=" Assigment Link">
+                <label>Upload Link</label>
+                <input type="text" class="form-control" name="upload" placeholder="Upload Link">
+              </div>
+          </div>
+          <div class="modal-footer">
+            <input type="submit" class="btn btn-default btn-success" name="meeting" value= "Submit" />
+            <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
   <?php endif;
   if ($flag) : ?>
     <script type='text/javascript'>
@@ -151,13 +206,44 @@ if (isset($_POST["submit"])) {
       <?php
       $id = $_SESSION['user_id'] . 'S';
       $progress_name = $course . 'p';
-      $row = mysqli_query($conn, "SELECT `no`, `header`, `link`, `notes`, `ref`, `assigment`,`upload` FROM $course");
+      $row = mysqli_query($conn, "SELECT `no`, `header`, `link`, `notes`, `ref`, `assigment`,`upload`,`isMeeting` FROM $course");
       $c = 0;
-      while ($row &&  $res = mysqli_fetch_array($row)) :
+      while ($row && $res = mysqli_fetch_array($row)) :
         if ($c % 3 == 0) : ?>
           <div class="row ">
           <?php endif;
-        $c = $c + 1; ?>
+        $c = $c + 1; 
+        if($res['isMeeting']):?>
+        <div class="col-lg-4 mt-4 ">
+            <div style="background-color:aqua" class="pb-1 pt-2 mb-1 border border-dark">
+              <h5 class="card-title text-center"><?php echo $res['header'] ?></h5>
+            </div>
+            <div class="card border border-dark">
+              <div class="card-body" style="min-height:110px">
+                <?php if ($res['link'] != NULL) : ?>
+                  <a href="<?php echo $res['link'] ?>" class="link-secondary">Lecture Video Link</a><br>
+                <?php endif; ?>
+                <?php if ($res['notes'] != NULL) : ?>
+                  <?php echo $res['notes'] ?><br>
+                <?php endif; ?>
+                <?php if ($res['assigment'] != NULL) : ?>
+                  <?php echo $res['assigment'] ?><br>
+                  <?php echo $res['upload'] ?><br>
+                <?php endif; ?>
+              </div>
+              <?php if ($role == "teacher") : ?>
+                <div class="mb-2">
+                  <form role="form" action="template.php?course=<?php echo $course ?>&course_name=<?php echo $subject ?>" method="POST">
+                    <tr>
+                      <td><input type="integer" name="no" value=<?php echo $res['no'] ?> hidden></td>
+                      <td><input type="submit" class="btn btn-danger  btn-sm mx-1 me-2" name="meetingDelete" value="Delete" style="float:right" /></td>
+                    </tr>
+                  </form>
+                </div>
+              <?php endif; ?>
+            </div>
+          </div>
+        <?php else :?>
           <div class="col-lg-4 mt-4 ">
             <div style="background-color:aqua" class="pb-1 pt-2 mb-1 border border-dark">
               <h5 class="card-title text-center"><?php echo $res['header'] ?>
@@ -202,7 +288,8 @@ if (isset($_POST["submit"])) {
               <?php endif; ?>
             </div>
           </div>
-          <?php if ($c % 3 == 0) : ?>
+          <?php endif; 
+          if ($c % 3 == 0) : ?>
         </div>
       <?php endif;
         endwhile; ?>
