@@ -16,7 +16,6 @@ $isAdmin=$isAdmin['isAdmin'];
 
   <?php include '../includes/cdn.php'; ?>
   <link rel="stylesheet" href="../CSS/admin.css">
-  <link rel="stylesheet" href="../CSS/userdata.css">;
   <link rel="stylesheet" href="../CSS/sidebar.css">
   <link rel="stylesheet" href="../CSS/footer.css">
 
@@ -25,11 +24,11 @@ $isAdmin=$isAdmin['isAdmin'];
 <body>
   <?php include '../includes/admin_sidebar.php'; ?>
   <section class="home">
-    <div class="container mt-4 ">
-      <h1 class="text-center pt-2 pb-2 text">
-        DASHBOARD
-      </h1>
-    </div>
+  <div class="container mt-4 ">
+                <h1 class="text-center pt-2 pb-2 text">
+                    DASHBOARD
+                </h1>
+            </div>
 
 
     <div class="container border border-3 d-grid gap-3 pb-4 px-4 mt-4">

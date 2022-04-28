@@ -11,8 +11,8 @@ $exception_cause = new Exception();
 try {
   if (isset($_POST["submit_add_course"])) {
     $f = $_GET["f"];
-    $c_id = $_POST["c_id"];
-    $c_name = $_POST["c_name"];
+    $c_id = strtoupper($_POST["c_id"]);
+    $c_name = strtoupper($_POST["c_name"]);
     if ($f) {
       mysqli_query($conn, "update courses set course_name='$c_name' where course_id='$c_id'");
     } else {
@@ -140,6 +140,7 @@ try {
   <?php include '../includes/cdn.php'; ?>
   <link rel="stylesheet" href="../CSS/admin.css">
   <link rel="stylesheet" href="../CSS/sidebar.css">
+  <link rel="stylesheet" href="../CSS/footer.css">
 
 
 </head>
@@ -462,10 +463,10 @@ try {
       </div>
     </div>
 
-    <section id="gallery">
+    <section id="gallery" style="min-height: calc(100vh - 166px);">
       <div class="container mt-4 ">
         <h1 class="text-center pt-2 pb-2 text">
-          Courses
+          MANAGE COURSES
         </h1>
       </div>
       <div class="container">
@@ -539,7 +540,7 @@ try {
 
       <div class="container mt-4 ">
         <h1 class="text-center pt-2 pb-2 text">
-          Teacher
+          TEACHER
         </h1>
       </div>
       <div class="row">
@@ -611,7 +612,7 @@ try {
 
       <div class="container mt-4 ">
         <h1 class="text-center pt-2 pb-2 text">
-          Student
+          STUDENT
         </h1>
       </div>
       <div class="row">
@@ -685,6 +686,8 @@ try {
     </section>
     </div>
     </div>
+    
+<?php include '../includes/footer.php'; ?>
   </section>
   <script type="text/javascript" src="../js/sidebar.js"></script>
   <script>

@@ -20,7 +20,7 @@
 <div class="modal fade" id="onlineUser" role="dialog">
   <div class="modal-dialog modal_user">
     <div class="modal-content modal_user_content">
-      <div class="modal-header">
+      <div class="modal-header" sytle="background-color: grey;">
         <h5 id="user" class="modal-title" style="margin:0 auto; text-align: left;" id="exampleModalLabel"><b>Online Users</b></h5>
       </div>
       <div class="modal-body" id="userData">

@@ -22,6 +22,7 @@ if($role=='student'){
   <?php include '../includes/cdn.php'; ?>
   <link rel="stylesheet" href="../CSS/admin.css">
   <link rel="stylesheet" href="../CSS/sidebar.css">
+  <link rel="stylesheet" href="../CSS/footer.css">
   
 </head>
 
@@ -33,7 +34,7 @@ if($role=='student'){
   DASHBOARD
 </h1>
 </div>
-<div class="container border border-3 d-grid gap-3 pb-4 px-4 mt-4">
+<div class="container border border-3 d-grid gap-3 pb-4 px-4 mt-4" style="min-height: calc(100vh - 242px);" >
   <div class="container mt-2 ">
      <?php
     $c = 0;
@@ -66,17 +67,18 @@ if($role=='student'){
           }
         } ?>
         <div class="col-lg-4 mb-4 mt-4 ">
-          <a href="../Courses/template.php?course=<?php echo $counter ?>&course_name=<?php echo $t ?>" style="color:black"> <!-- no need of course name, should be changed -->
+          <a href="../Courses/template.php?course=<?php echo $counter ?>&course_name=<?php echo $t ?>" style="color:black; text-decoration: none;">
             <div class="card" >
+            <h5 class="card-title text-center mt-2"><b><?php echo $t ?></b></h5>
               <img src="https://news.miami.edu/life/_assets/images/images-stories/2019/08/faculty-new-year-940x529.jpg" alt="" class="card-img-top">
               <div class="card-body">
-                <!-- progress bar , apne hissab se set kr lena -->
                 <?php if($role=="student"):?>
                   <div class="progressBar" style="height: 15px;background-color: lightgray;border-radius: 30px;">
 			          	<div class="progressBarFill" style=" width: <?php echo $percentage?>%;height: 15px;background-color: green;border-radius: 30px;"></div></div>
-                  <div style="height: 15px; text-align: center; margin-bottom:5px;"><?php echo $percentage.'%';?></div>
-                  <?php endif;?>
-                <h5 class="card-title text-center"><?php echo $counter ?></h5>
+                  <div style="height: 15px; text-align: center; margin-bottom:1px;"><?php echo $percentage.'%';?></div>
+                  <?php else:?>
+                    <h5 class="card-title text-center"><b><?php echo $counter ?></b></h5>
+                  <?php endif; ?>
               </a>
             </div>
           </div>
@@ -87,6 +89,8 @@ if($role=='student'){
     endwhile;?>
   </div>
   </div>
+  </div>
+  <?php include '../includes/footer.php'; ?>
   </section>
   <script type="text/javascript" src="../js/sidebar.js"></script>
 </body>

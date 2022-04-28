@@ -51,6 +51,7 @@ catch(Exception $except){
   <?php include '../includes/cdn.php'; ?>
   <link rel="stylesheet" href="../CSS/admin.css">
   <link rel="stylesheet" href="../CSS/sidebar.css">
+  <link rel="stylesheet" href="../CSS/footer.css">
 
 </head>
 
@@ -157,14 +158,15 @@ catch(Exception $except){
 
 
 
-  <section id="gallery">
+  <section id="gallery" style="min-height: calc(100vh - 166px);">
     <div class="container">
-
+    <div class="container mt-4 ">
+                <h1 class="text-center pt-2 pb-2 text">
+                    MANAGE DEPARTMENT
+                </h1>
+            </div>
 
       <div class="row">
-        <div class="text-center  text">
-          <h1><strong>Department</strong></h1>
-        </div>
         <div class="col-lg-4 mt-4">
           <a href="#" data-bs-toggle="modal" data-bs-target="#modal1" style="color:black">
             <div class="card">
@@ -230,6 +232,8 @@ catch(Exception $except){
   </section>
   </div>
   </div>
+  
+<?php include '../includes/footer.php'; ?>
             </section>
             <script type="text/javascript" src="../js/sidebar.js"></script>
   <script>

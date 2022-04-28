@@ -18,8 +18,7 @@
           </li>
         </ul>
       </section>
-
-      <!-- Footer legal -->
+      
       <section class="ft-legal">
         <ul class="ft-legal-list">
           <li ><a href="#">Terms &amp; Conditions</a></li>

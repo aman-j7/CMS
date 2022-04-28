@@ -147,7 +147,7 @@ if (isset($_POST["submit"])) {
       <?php
       $id=$_SESSION['user_id'].'S';
       $progress_name=$course.'p';
-      $row = mysqli_query($conn, "SELECT `no`, `header`, `link`, `notes`, `ref`, `assigment`,`upload`,`checked` FROM $course");
+      $row = mysqli_query($conn, "SELECT `no`, `header`, `link`, `notes`, `ref`, `assigment`,`upload` FROM $course");
       $c = 0;
       while ($row &&  $res = mysqli_fetch_array($row)) :
         if ($c % 3 == 0) : ?>

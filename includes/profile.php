@@ -1,6 +1,7 @@
 <?php
 include "../includes/config.php";
 
+
 $pageName = basename($_SERVER['PHP_SELF']);
 $id = $_SESSION['user_id'];
 $role = $_SESSION['type'];
@@ -35,9 +36,11 @@ if ($row['address'])
 <html>
 
 <head>
+	<link rel="stylesheet" href="../CSS/admin.css">
 	<link rel="stylesheet" href="../CSS/profile_css.css">
 	<?php include '../includes/cdn.php'; ?>
 	<link rel="stylesheet" href="../CSS/sidebar.css">
+	<link rel="stylesheet" href="../CSS/footer.css">;
 
 	<style>
 		.outer {
@@ -57,6 +60,7 @@ if ($row['address'])
 		.inner {
 			margin-left: auto;
 			margin-right: auto;
+			vertical-align: middle;
 		}
 	</style>
 </head>
@@ -66,8 +70,8 @@ if ($row['address'])
 	<?php include '../includes/sidebar.php'; ?>
 	<section class="home">
 		<div class="outer">
-			<div class="middle">
-				<div class="inner">
+			<div class="middle ">
+				<div class="inner" style="min-height: calc(100vh - 142px); padding: 50px 0;">
 					<form action="profile.php" method="POST">
 						<div class="container">
 							<div class="row gutters">
@@ -81,7 +85,7 @@ if ($row['address'])
 													</div>
 													<h5 class="user-name"><?php echo $row['name']; ?></h5>
 													<h6 class="user-email"><?php echo $row['email']; ?></h6>
-													<button type="button" class="btn btn-link" onclick="editProfile()">Edit Profile</button>
+													<button type="button" class="btn btn-link mt-2" onclick="editProfile()">Edit Profile</button>
 												</div>
 											</div>
 										</div>
@@ -181,6 +185,7 @@ if ($row['address'])
 						</div>
 					</form>
 				</div>
+				<?php include '../includes/footer.php'; ?>
 			</div>
 		</div>
 	</section>

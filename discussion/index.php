@@ -105,7 +105,7 @@ $result =  mysqli_query($conn, "SELECT *  FROM $courseDiscussion where parent_co
                 if($res['role'] == 'teacher')
                   $colour = "red"; 
               ?>
-              <td ><b><img src="../images/avatar.jpg" width="30px" height="30px" /><span style="color: <?php echo $colour; ?>"> <?php echo $res['student']; ?> </span> :<i> <?php echo $res['date']; ?>:</i></b></br>
+              <td ><b><img src="../images/avatar.jpg" width="30px" height="30px" /><span style="color: <?php echo $colour; ?>"> <?php echo $res['student']; ?></span> :<i> <?php echo $res['date']; ?>:</i></b></br>
                 <p style="padding-left:80px"><?php echo $res['post']; ?></br>
                   <button type="button" class="btn btn-link" data-toggle="modal" data-target="#ReplyModal" data-id=<?php echo $res['id']; ?> id="submit" onclick="func(this)">
                     Reply

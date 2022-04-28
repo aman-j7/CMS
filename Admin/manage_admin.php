@@ -58,6 +58,7 @@ try {
     <?php include '../includes/cdn.php'; ?>
     <link rel="stylesheet" href="../CSS/admin.css">
     <link rel="stylesheet" href="../CSS/sidebar.css">
+    <link rel="stylesheet" href="../CSS/footer.css">
 
 </head>
 <body>
@@ -176,10 +177,10 @@ try {
             </div>
         </div>
 
-        <section id="gallery">
+        <section id="gallery" style="min-height: calc(100vh - 166px);">
             <div class="container mt-4 ">
                 <h1 class="text-center pt-2 pb-2 text">
-                    Admin
+                    MANAGE ADMIN
                 </h1>
             </div>
             <div class="container">
@@ -257,6 +258,7 @@ try {
         </section>
         </div>
         </div>
+        <?php include '../includes/footer.php'; ?>    
     </section>
     <script type="text/javascript" src="../js/sidebar.js"></script>
     <script>

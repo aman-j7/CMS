@@ -11,14 +11,13 @@
 .card-img-top {
   height: 300px;
   width: 100%;
-} 
-  .modal-dialog {
-    min-height: calc(100vh - 60px);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    overflow: auto;
-
+}
+.modal-dialog {
+  min-height: calc(100vh - 60px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: auto;
 }
 .modal-header,
 .close {
