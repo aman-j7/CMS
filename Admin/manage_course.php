@@ -26,7 +26,8 @@ try {
         `notes` VARCHAR(100)  , 
         `ref` VARCHAR(100)  ,
         `assigment` VARCHAR(100), 
-        `upload` VARCHAR(100))");
+        `upload` VARCHAR(100),
+        `isMeeting` BOOL)");
       mysqli_query($conn, "CREATE TABLE $disc (
         `id` int(11) NOT NULL  AUTO_INCREMENT PRIMARY KEY,
         `parent_comment` varchar(500) NOT NULL,
