@@ -7,15 +7,16 @@ $role = $_SESSION['type'];
 $pageName = basename($_SERVER['PHP_SELF']);
 $exception_cause = new Exception();
 try {
-    $department = mysqli_query($conn, "SELECT * FROM `department`");
     if (isset($_POST["submit_add_teacher"])) {
         $f = $_GET["f"];
         $f_id = $_POST["f_id"];
         $f_name = $_POST["f_name"];
         $d_id = $_POST["d_id"];
         $f_email = $_POST["f_email"];
-        $isAdmin = $_POST['isAdmin'];
-        echo $isAdmin . ' ' . $d_id;
+        if(isset($_POST["isAdmin"]))
+            $isAdmin = 1;
+        else
+            $isAdmin=0;
         if ($f) {
             mysqli_query($conn, "update admin set name='$f_name',dept_id='$d_id',`isAdmin`='$isAdmin',`email`='$f_email' where id='$f_id'");
             mysqli_query($conn, "UPDATE `login` SET `email`='$f_email' WHERE `reg_id`='$f_id'");
@@ -103,7 +104,7 @@ try {
                                 </select>
                             </div>
                             <div class="form-group mt-1">
-                                <input class="input1" type="checkbox" name="isAdmin" value="1" <?php if ($flag && $row['isAdmin']) echo "checked" ?>>
+                                <input class="input1" type="checkbox" name="isAdmin" <?php if ($flag && $row['isAdmin']) echo "checked" ?>>
                                 <label> Super Admin</label>
                             </div>
                             <?php if (!$flag) : ?>
