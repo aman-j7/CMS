@@ -52,7 +52,8 @@ $res=mysqli_query($conn, "SELECT `course_name`,`course_id` FROM `courses`");
                     endwhile; ?>
             </div>
         </div>
-        <?php include '../includes/footer.php'; ?>
+    </div>
+    <?php include '../includes/footer.php'; ?>
     </section>
     <script type="text/javascript" src="../js/sidebar.js"></script>
 </body>

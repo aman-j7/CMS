@@ -71,7 +71,7 @@ if ($row['address'])
 	<section class="home">
 		<div class="outer">
 			<div class="middle ">
-				<div class="inner" style="min-height: calc(100vh - 142px); padding: 50px 0;">
+				<div class="inner" style="min-height: calc(100vh - 132px); padding: 50px 0;">
 					<form action="profile.php" method="POST">
 						<div class="container">
 							<div class="row gutters">

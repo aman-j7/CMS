@@ -13,11 +13,17 @@ $courseAttendance = $course . 'p';
   <?php include '../includes/cdn.php'; ?>
   <link rel="stylesheet" href="../CSS/discussion.css">
   <link rel="stylesheet" href="../CSS/sidebar.css">
+  <link rel="stylesheet" href="../CSS/footer.css">
 </head>
 <body>
   <?php include '../includes/sidebar.php'; ?>
   <section class="home">
-    <div class="container">
+  <div class="container mt-4 ">
+      <h1 class="text-center pt-2 pb-2 text">
+        ATTENDANCE (<?php echo strtoupper($course); ?>)
+      </h1>
+    </div>
+    <div class="container" style="min-height: calc(100vh - 231px);">
       <?php
       $columns = mysqli_query($conn, "SELECT `COLUMN_NAME` 
                 FROM `INFORMATION_SCHEMA`.`COLUMNS` 
@@ -67,6 +73,7 @@ $courseAttendance = $course . 'p';
         </table>
       </div>
     </div>
+    <?php include '../includes/footer.php'; ?>
   </section>
   <script type="text/javascript" src="../js/sidebar.js"></script>
 </body>

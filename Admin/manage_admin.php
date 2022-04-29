@@ -168,7 +168,7 @@ try {
                 </div>
             </div>
         </div>
-        <section id="gallery" style="min-height: calc(100vh - 166px);">
+        <section id="gallery" style="min-height: calc(100vh - 155px);">
             <div class="container mt-4 ">
                 <h1 class="text-center pt-2 pb-2 text">
                     MANAGE ADMIN

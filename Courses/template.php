@@ -75,6 +75,7 @@ if (isset($_POST["submit"])) {
   <?php include '../includes/cdn.php'; ?>
   <link rel="stylesheet" href="../CSS/discussion.css">
   <link rel="stylesheet" href="../CSS/sidebar.css">
+  <link rel="stylesheet" href="../CSS/footer.css">
 </head>
 
 <body>
@@ -146,7 +147,7 @@ if (isset($_POST["submit"])) {
               </div>
               <div class="form-group">
                 <label>Start Date & Time</label>
-                <input type="datetime-local" class="form-control" name="date" required >
+                <input type="datetime" class="form-control" name="date" required >
               </div>
               <div class="form-group">
                 <label>Duration</label>
@@ -195,7 +196,7 @@ if (isset($_POST["submit"])) {
         ?>
       </h1>
     </div>
-    <div class="container border border-3 d-grid gap-3 pb-4 px-4 mt-4">
+    <div class="container border border-3 d-grid gap-3 pb-4 px-4 mt-4" style="min-height: calc(100vh - 253px);" >
       <?php
       $id = $_SESSION['user_id'] . 'S';
       $progress_name = $course . 'p';
@@ -209,7 +210,8 @@ if (isset($_POST["submit"])) {
         if($res['isMeeting']):?>
         <div class="col-lg-4 mt-4 ">
             <div style="background-color:lightgreen;" class="pb-1 pt-2 mb-1 border border-dark">
-              <h5 class="card-title text-center"><?php echo $res['header'] ?>
+              <h5 class="card-title text-center">
+                <?php echo $res['header'] ?>
               <?php if ($role == "student") : ?>
                   <input style="float:right; margin-right:10px; margin-top:3px;" class="form-check-input" type="checkbox" 
                   no="<?php echo $id; ?>" hd="<?php echo $res['header']; ?>" 
@@ -219,7 +221,8 @@ if (isset($_POST["submit"])) {
                    $prog = mysqli_query($conn, "SELECT `$id` FROM $progress_name where `header`='$head'");
                    $prog = mysqli_fetch_array($prog);
                    if ($prog[$id]) echo "checked" ?>                                                                                                                                                                                                                         
-                <?php endif; ?></h5>
+                <?php endif; ?>>
+              </h5>
             </div>
             <div class="card border border-dark">
               <div class="card-body" style="min-height:150px">
@@ -295,6 +298,9 @@ if (isset($_POST["submit"])) {
         </div>
       <?php endif;
         endwhile; ?>
+  </div>
+  </div>
+  <?php include '../includes/footer.php'; ?>
   </section>
   <script type="text/javascript" src="../js/sidebar.js"></script>
   <script>
