@@ -6,7 +6,6 @@ if(isset($_POST["video_meeting"]))
 	$getdate=$_POST['date'];
     $gettime=$_POST['time'];
     $date=date($getdate.' '.$gettime);
-    // $date = date('g:i a', strtotime($date) - 60 * 60 * 5);
 	$arr['topic']=$_POST["topic"];
 	$arr['start_date']=$date;
 	$arr['duration']=$_POST["duration"];
@@ -14,10 +13,9 @@ if(isset($_POST["video_meeting"]))
 	$arr['type']='2';
 	$result=createMeeting($arr);
 	if(isset($result->id)){
-        $date = date(strtotime($result->start_time) - 60 * 60 * 5);
 		echo "Join URL: <a href='".$result->join_url."'>".$result->join_url."</a><br/>";
 		echo "Password: ".$result->password."<br/>";
-		echo "Start Time: ".$date."<br/>";
+		echo "Start Time: ".$result->start_time."<br/>";
 		echo "Duration: ".$result->duration."<br/>";
 	}else{
 		echo '<pre>';

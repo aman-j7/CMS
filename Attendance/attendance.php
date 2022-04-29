@@ -47,9 +47,10 @@ $courseAttendance = $course . 'p';
             $totalLectures = 0;
             $selectedLectures = 0;
             $progress = mysqli_query($conn, "SELECT `$studentId` FROM `$courseAttendance`");
-            while ($checked = mysqli_fetch_array($progress)) {
+            $attendanceTime = mysqli_query($conn, "SELECT `attendanceTime` FROM `$course`");
+            while ( ($studentCheckedTime = mysqli_fetch_array($progress) ) && ($courseCheckedTime = mysqli_fetch_array($attendanceTime)) ) {
               $totalLectures++;
-              if ($checked[$studentId]) {
+              if ( ($studentCheckedTime[$studentId]!=date("0000-00-00 00:00:00")) && ($courseCheckedTime['attendanceTime'] >=$studentCheckedTime[$studentId] ) ) {
                 $selectedLectures++;
               }
             }

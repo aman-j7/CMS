@@ -27,7 +27,8 @@ try {
         `ref` VARCHAR(100)  ,
         `assigment` VARCHAR(100), 
         `upload` VARCHAR(100),
-        `isMeeting` BOOL)");
+        `isMeeting` BOOLEAN NOT NULL,
+        `attendanceTime` DATETIME NOT NULL)");
       mysqli_query($conn, "CREATE TABLE $disc (
         `id` int(11) NOT NULL  AUTO_INCREMENT PRIMARY KEY,
         `parent_comment` varchar(500) NOT NULL,
@@ -85,7 +86,7 @@ try {
       $progress = $c_id . "p";
       $colname = $s_id . 'S';
       mysqli_query($conn, "INSERT INTO `assign`(`course_id`, `student_id`) VALUES ('$c_id','$s_id')");
-      mysqli_query($conn, "ALTER TABLE $progress ADD $colname BOOL");
+      mysqli_query($conn, "ALTER TABLE $progress ADD $colname DATETIME NOT NULL");
     }
   } else if (isset($_POST["submit_update_student"])) {
     $c_id = $_POST["c_id"];

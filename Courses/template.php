@@ -18,6 +18,7 @@ if (isset($_POST["submit"])) {
   $rl = $_POST['refrence'];
   $al = $_POST["assigment"];
   $ul = $_POST["upload"];
+  $attendanceTime=$_POST['attendanceTime'];
   $progress = $course . 'p';
   if ($hl == "")
     $hl = NULL;
@@ -32,15 +33,15 @@ if (isset($_POST["submit"])) {
   if ($f) {
     $no = $_POST['no'];
     $oldHead = $_POST['oldHead'];
-    mysqli_query($conn, "UPDATE `$course` SET `header`='$h',`link`='$hl',`notes`='$ml',`ref`='$rl',`assigment`='$al',`upload`='$ul' WHERE `no`=$no ");
+    mysqli_query($conn, "UPDATE `$course` SET `header`='$h',`link`='$hl',`notes`='$ml',`ref`='$rl',`assigment`='$al',`upload`='$ul',`attendanceTime`='$attendanceTime' WHERE `no`=$no ");
     mysqli_query($conn, "UPDATE `$progress` SET `header`='$h' WHERE `header`='$oldHead'");
   } else {
-    mysqli_query($conn, "INSERT INTO `$course` ( `header`, `link`, `notes`, `ref`, `assigment`,`upload`) VALUES ('$h','$hl','$ml','$rl','$al','$ul')");
+    mysqli_query($conn, "INSERT INTO `$course` ( `header`, `link`, `notes`, `ref`, `assigment`,`upload`,`attendanceTime`) VALUES ('$h','$hl','$ml','$rl','$al','$ul','$attendanceTime')");
     mysqli_query($conn, "INSERT INTO `$progress` ( `header`) VALUES ('$h')");
   }
 } else if (isset($_POST["update"])) {
   $no = $_POST['no'];
-  $up = mysqli_query($conn, "SELECT `no`, `header`, `link`, `notes`, `ref`, `assigment`,`upload` FROM $course WHERE `no`=$no");
+  $up = mysqli_query($conn, "SELECT `no`, `header`, `link`, `notes`, `ref`, `assigment`,`upload`,`attendanceTime` FROM $course WHERE `no`=$no");
   $up = mysqli_fetch_array($up);
   $flag = 1;
 } else if (isset($_POST["delete"])) {
@@ -57,12 +58,13 @@ if (isset($_POST["submit"])) {
 	$arr['duration']=$_POST["duration"];
 	$arr['password']=$_POST["password"];
 	$arr['type']='2';
+  $attendanceTime=$_POST['attendanceTime'];
 	$result=createMeeting($arr);
 	if(isset($result->id)){
     $t=$_POST["topic"];
     $progress=$course.'p';
     $date = date('g:i a', strtotime($result->start_time) - 60 * 60 * 5);
-    mysqli_query($conn, "INSERT INTO `$course` ( `header`, `link`, `notes`, `assigment`,`upload`,`isMeeting`) VALUES ('$t','$result->join_url','$result->password','$date','$result->duration','1')");
+    mysqli_query($conn, "INSERT INTO `$course` ( `header`, `link`, `notes`, `assigment`,`upload`,`isMeeting`,`attendanceTime`) VALUES ('$t','$result->join_url','$result->password','$date','$result->duration','1','$attendanceTime')");
     mysqli_query($conn, "INSERT INTO `$progress` ( `header`) VALUES ('$t')");
   }
 }
@@ -120,10 +122,14 @@ if (isset($_POST["submit"])) {
                 <input type="text" class="form-control" name="upload" placeholder="Upload Link" value="<?php if ($flag) echo $up['upload'];
                                                                                                         else echo ""; ?>">
               </div>
-              <input type="integer" name="f" value="<?php echo $flag ?>" hidden>
-              <?php if ($flag) : ?>
-                <input type="integer" name="no" value="<?php echo $up['no'] ?>" hidden><br>
-              <?php endif; ?>
+              <div class="form-group">
+                <label>Attendance Time</label>
+                <input type="datetime-local" class="form-control" name="attendanceTime" required>
+                <input type="integer" name="f" value="<?php echo $flag ?>" hidden>
+                <?php if ($flag) : ?>
+                  <input type="integer" name="no" value="<?php echo $up['no'] ?>" hidden><br>
+                <?php endif; ?>
+              </div>
           </div>
           <div class="modal-footer">
             <input type="submit" class="btn btn-default btn-success" name="submit" value="<?php if ($flag) echo 'Update';
@@ -158,7 +164,11 @@ if (isset($_POST["submit"])) {
                 <label>Password </label>
                 <input type="text" class="form-control" name="password" placeholder="Enter Password" required>
               </div>
+              <div class="form-group">
+                <label>Attendance Time</label>
+                <input type="datetime-local" class="form-control" name="attendanceTime" required>
             </div>
+          </div>
           <div class="modal-footer">
             <input type="submit" class="btn btn-default btn-success" name="meeting" value= "Submit" />
             <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -201,7 +211,7 @@ if (isset($_POST["submit"])) {
       <?php
       $id = $_SESSION['user_id'] . 'S';
       $progress_name = $course . 'p';
-      $row = mysqli_query($conn, "SELECT `no`, `header`, `link`, `notes`, `ref`, `assigment`,`upload`,`isMeeting` FROM $course");
+      $row = mysqli_query($conn, "SELECT `no`, `header`, `link`, `notes`, `ref`, `assigment`,`upload`,`isMeeting`,`attendanceTime` FROM $course");
       $c = 0;
       while ($row && $res = mysqli_fetch_array($row)) :
         if ($c % 3 == 0) : ?>
@@ -221,21 +231,15 @@ if (isset($_POST["submit"])) {
                    $head = $res['header'];
                    $prog = mysqli_query($conn, "SELECT `$id` FROM $progress_name where `header`='$head'");
                    $prog = mysqli_fetch_array($prog);
-                   if ($prog[$id]) echo "checked" ?>>                                                                                                                                                                                                                         
+                   if ($prog[$id]!=date("0000-00-00 00:00:00")) echo "checked" ?>>                                                                                                                                                                                                                         
                 <?php endif; ?>
               </h5>
             </div>
             <div class="card border border-dark">
-              <div class="card-body" style="min-height:150px">
-                <?php if ($res['link'] != NULL) : ?>
+              <div class="card-body" style="min-height:150px">               
                   <a href="<?php echo $res['link'] ?>" class="link-secondary">Meeting Link</a><br>
-                <?php endif; ?>
-                <?php if ($res['notes'] != NULL) : ?>
                   <b>Password:</b><br> <?php echo $res['notes'] ?><br>
-                <?php endif; ?>
-                <?php if ($res['assigment'] != NULL) : ?>
-                  <b>Start Time:</b><br><?php echo substr($res['assigment'],0,strlen($res['assigment'])-1) ?><br>
-                <?php endif; ?>
+                  <b>Start Time:</b><br><?php echo $res['assigment']; ?><br>
               </div>
               <?php if ($role == "teacher") : ?>
                 <div class="mb-2">
@@ -259,9 +263,9 @@ if (isset($_POST["submit"])) {
                   course="<?php echo $course; ?>" onclick="progressCheck(this)" 
                   <?php
                    $head = $res['header'];
-                   $prog = mysqli_query($conn, "SELECT `$id` FROM $progress_name where `header`='$head'");
+                   $prog = mysqli_query($conn, "SELECT `$id` FROM `$progress_name` where `header`='$head'");
                    $prog = mysqli_fetch_array($prog);
-                   if ($prog[$id]) echo "checked" ?>>                                                                                                                                                                                                                          
+                   if ($prog[$id]!=date("0000-00-00 00:00:00")) echo "checked" ?>>                                                                                                                                                                                                                          
                 <?php endif; ?>
               </h5>
             </div>
@@ -280,6 +284,9 @@ if (isset($_POST["submit"])) {
                   <a href=" <?php echo $res['assigment'] ?>" class="link-secondary">Assigment Link</a><br>
                   <a href="<?php echo $res['upload'] ?>" class="link-secondary">Upload Link</a><br>
                 <?php endif; ?>
+                <?php if($role=="teacher"):?>
+                <b>Attendance Time:</b><br><?php echo $res['attendanceTime'];?><br>
+                <?php endif;?>
               </div>
               <?php if ($role == "teacher") : ?>
                 <div class="mb-2">
@@ -323,14 +330,9 @@ if (isset($_POST["submit"])) {
           "hd": head
         },
         success: function() {
-          console.log("ok");
-          console.log(course);
-          console.log(no);
-          console.log(head);
         }
       });
     }
-
     function getAssignment(courseId) {
       let course = courseId.getAttribute('course');
       jQuery.ajax({
