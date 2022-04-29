@@ -10,7 +10,7 @@ use \Firebase\JWT\JWT;
 function createMeeting($data = array())
 {
     $post_time = $data['start_date'];
-    $start_time = gmdate("Y-m-d\TH:i:s", strtotime($post_time));
+    $start_time = date("Y-m-d\TH:i:s", strtotime($post_time));
 
     $createMeetingArr = array();
     if (!empty($data['alternative_host_ids']))

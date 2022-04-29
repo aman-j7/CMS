@@ -5,7 +5,7 @@ if(isset($_POST["video_meeting"]))
 {
 	$getdate=$_POST['date'];
     $gettime=$_POST['time'];
-    $date=date($getdate.' '.$gettime);
+    $date=$getdate.' '.$gettime;
 	$arr['topic']=$_POST["topic"];
 	$arr['start_date']=$date;
 	$arr['duration']=$_POST["duration"];

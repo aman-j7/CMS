@@ -63,7 +63,7 @@ if (isset($_POST["submit"])) {
 	if(isset($result->id)){
     $t=$_POST["topic"];
     $progress=$course.'p';
-    $date = date('g:i a', strtotime($result->start_time) - 60 * 60 * 5);
+    $date=$arr['start_date'];
     mysqli_query($conn, "INSERT INTO `$course` ( `header`, `link`, `notes`, `assigment`,`upload`,`isMeeting`,`attendanceTime`) VALUES ('$t','$result->join_url','$result->password','$date','$result->duration','1','$attendanceTime')");
     mysqli_query($conn, "INSERT INTO `$progress` ( `header`) VALUES ('$t')");
   }
