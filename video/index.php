@@ -3,17 +3,21 @@ include('config.php');
 include('api.php');
 if(isset($_POST["video_meeting"]))
 {
-	
+	$getdate=$_POST['date'];
+    $gettime=$_POST['time'];
+    $date=date($getdate.' '.$gettime);
+    // $date = date('g:i a', strtotime($date) - 60 * 60 * 5);
 	$arr['topic']=$_POST["topic"];
-	$arr['start_date']=$_POST["date"];
+	$arr['start_date']=$date;
 	$arr['duration']=$_POST["duration"];
 	$arr['password']=$_POST["password"];
 	$arr['type']='2';
 	$result=createMeeting($arr);
 	if(isset($result->id)){
+        $date = date(strtotime($result->start_time) - 60 * 60 * 5);
 		echo "Join URL: <a href='".$result->join_url."'>".$result->join_url."</a><br/>";
 		echo "Password: ".$result->password."<br/>";
-		echo "Start Time: ".$result->start_time."<br/>";
+		echo "Start Time: ".$date."<br/>";
 		echo "Duration: ".$result->duration."<br/>";
 	}else{
 		echo '<pre>';
@@ -31,7 +35,11 @@ if(isset($_POST["video_meeting"]))
                             </div>
                             <div class="form-group">
                                 <label> Start Date</label>
-                                <input type="datetime-local" class="form-control input1" placeholder="Enter start date" name="date" required>
+                                <input type="date" class="form-control input1" placeholder="Enter start date" name="date" required>
+                            </div>
+                            <div class="form-group">
+                                <label> Start time</label>
+                                <input type="time" class="form-control input1" placeholder="Enter start time" name="time" required>
                             </div>
                             <div class="form-group">
                                 <label>Duration</label>

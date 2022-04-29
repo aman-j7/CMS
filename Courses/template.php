@@ -61,7 +61,8 @@ if (isset($_POST["submit"])) {
 	if(isset($result->id)){
     $t=$_POST["topic"];
     $progress=$course.'p';
-    mysqli_query($conn, "INSERT INTO `$course` ( `header`, `link`, `notes`, `assigment`,`upload`,`isMeeting`) VALUES ('$t','$result->join_url','$result->password','$result->start_time','$result->duration','1')");
+    $date = date('g:i a', strtotime($result->start_time) - 60 * 60 * 5);
+    mysqli_query($conn, "INSERT INTO `$course` ( `header`, `link`, `notes`, `assigment`,`upload`,`isMeeting`) VALUES ('$t','$result->join_url','$result->password','$date','$result->duration','1')");
     mysqli_query($conn, "INSERT INTO `$progress` ( `header`) VALUES ('$t')");
   }
 }
@@ -147,7 +148,7 @@ if (isset($_POST["submit"])) {
               </div>
               <div class="form-group">
                 <label>Start Date & Time</label>
-                <input type="datetime" class="form-control" name="date" required >
+                <input type="datetime-local" class="form-control" name="date" required >
               </div>
               <div class="form-group">
                 <label>Duration</label>
@@ -211,8 +212,8 @@ if (isset($_POST["submit"])) {
         <div class="col-lg-4 mt-4 ">
             <div style="background-color:lightgreen;" class="pb-1 pt-2 mb-1 border border-dark">
               <h5 class="card-title text-center">
-                <?php echo $res['header'] ?>
-              <?php if ($role == "student") : ?>
+                <?php echo $res['header'];
+                  if ($role == "student") : ?>
                   <input style="float:right; margin-right:10px; margin-top:3px;" class="form-check-input" type="checkbox" 
                   no="<?php echo $id; ?>" hd="<?php echo $res['header']; ?>" 
                   course="<?php echo $course; ?>" onclick="progressCheck(this)" 
@@ -220,8 +221,8 @@ if (isset($_POST["submit"])) {
                    $head = $res['header'];
                    $prog = mysqli_query($conn, "SELECT `$id` FROM $progress_name where `header`='$head'");
                    $prog = mysqli_fetch_array($prog);
-                   if ($prog[$id]) echo "checked" ?>                                                                                                                                                                                                                         
-                <?php endif; ?>>
+                   if ($prog[$id]) echo "checked" ?>>                                                                                                                                                                                                                         
+                <?php endif; ?>
               </h5>
             </div>
             <div class="card border border-dark">
