@@ -137,5 +137,4 @@ catch(Exception $except){
     showSlides();
   </script>
 </body>
-
 </html>

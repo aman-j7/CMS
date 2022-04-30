@@ -1,5 +1,8 @@
 <?php
 include "../includes/config.php";
+if($_SESSION['user_id']==Null || $_SESSION['type']==Null ||  $_SESSION['type']=='student'){
+  header("Location:../login.php");
+}
 $role = $_SESSION['type'];
 $pageName = basename($_SERVER['PHP_SELF']);
 $course = $_GET["course"];

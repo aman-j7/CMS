@@ -1,6 +1,9 @@
 <?php
 include "../includes/config.php";
 include "../includes/random_color.php";
+if ($_SESSION['user_id'] == Null || $_SESSION['type'] == Null ||  $_SESSION['type'] != 'admin') {
+    header("Location:../login.php");
+}
 $flag = 0;
 $exception_occur = 0;
 $role = $_SESSION['type'];
@@ -118,13 +121,13 @@ try {
                                     <input class="input1" size="50" type="file" id="file" name="filename" accept=".csv" required hidden disabled>
                                 </div>
                             <?php endif; ?>
-                    <div class="modal-footer">
-                        <input type="submit" class="btn btn-default btn-success input1" name="submit_add_teacher" value="<?php if ($flag) echo "Update";
-                                                                                                                            else echo "Add"; ?>" />
-                        <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <div class="modal-footer">
+                                <input type="submit" class="btn btn-default btn-success input1" name="submit_add_teacher" value="<?php if ($flag) echo "Update";
+                                                                                                                                    else echo "Add"; ?>" />
+                                <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             </div>
-                    </form>
-                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

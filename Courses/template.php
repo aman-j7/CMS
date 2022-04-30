@@ -1,6 +1,9 @@
 <?php
 include "../includes/config.php";
-$user_id=$_SESSION['user_id'];
+if ($_SESSION['user_id'] == Null || $_SESSION['type'] == Null ||  $_SESSION['type'] == 'admin') {
+  header("Location:../login.php");
+}
+$user_id = $_SESSION['user_id'];
 include "../video/api.php";
 $pageName = basename($_SERVER['PHP_SELF']);
 $courseDiscussion = $_GET["course"];
@@ -18,7 +21,7 @@ if (isset($_POST["submit"])) {
   $rl = $_POST['refrence'];
   $al = $_POST["assigment"];
   $ul = $_POST["upload"];
-  $attendanceTime=$_POST['attendanceTime'];
+  $attendanceTime = $_POST['attendanceTime'];
   $progress = $course . 'p';
   if ($hl == "")
     $hl = NULL;
@@ -52,28 +55,27 @@ if (isset($_POST["submit"])) {
   $header = $header['header'];
   mysqli_query($conn, "DELETE FROM $course WHERE  `no`=$no");
   mysqli_query($conn, "DELETE FROM $progress WHERE `header`='$header'");
-}else if (isset($_POST["meeting"])) {
-  $arr['topic']=$_POST["topic"];
-	$arr['start_date']=$_POST["date"];
-	$arr['duration']=$_POST["duration"];
-	$arr['password']=$_POST["password"];
-	$arr['type']='2';
-  $attendanceTime=$_POST['attendanceTime'];
-	$result=createMeeting($arr);
-	if(isset($result->id)){
-    $t=$_POST["topic"];
-    $progress=$course.'p';
-    $date=$arr['start_date'];
+} else if (isset($_POST["meeting"])) {
+  $arr['topic'] = $_POST["topic"];
+  $arr['start_date'] = $_POST["date"];
+  $arr['duration'] = $_POST["duration"];
+  $arr['password'] = $_POST["password"];
+  $arr['type'] = '2';
+  $attendanceTime = $_POST['attendanceTime'];
+  $result = createMeeting($arr);
+  if (isset($result->id)) {
+    $t = $_POST["topic"];
+    $progress = $course . 'p';
+    $date = $arr['start_date'];
     mysqli_query($conn, "INSERT INTO `$course` ( `header`, `link`, `notes`, `assigment`,`upload`,`isMeeting`,`attendanceTime`) VALUES ('$t','$result->join_url','$result->password','$date','$result->duration','1','$attendanceTime')");
     mysqli_query($conn, "INSERT INTO `$progress` ( `header`) VALUES ('$t')");
   }
-}else if (isset($_POST["meeting_api"])){
-  $api_key=$_POST['api_key'];
-  $api_secret=$_POST['api_secret'];
-  $email=$_POST['email'];
+} else if (isset($_POST["meeting_api"])) {
+  $api_key = $_POST['api_key'];
+  $api_secret = $_POST['api_secret'];
+  $email = $_POST['email'];
   mysqli_query($conn, "update teacher set api_key='$api_key',api_secret='$api_secret', email='$email' where id='$user_id'");
   mysqli_query($conn, "UPDATE `login` SET `email`='$email' WHERE `reg_id`='$user_id'");
-
 }
 ?>
 <html>
@@ -94,7 +96,8 @@ if (isset($_POST["submit"])) {
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Update Student</h5>
+            <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel"><?php if ($flag) echo "Update Material";else echo "Add Material"; ?></h5>
+                                                                                                
           </div>
           <div class="modal-body">
             <form role="form" action="template.php?course=<?php echo $course ?>& course_name=<?php echo $subject ?> " method="POST" autocomplete="off">
@@ -137,13 +140,13 @@ if (isset($_POST["submit"])) {
                   <input type="integer" name="no" value="<?php echo $up['no'] ?>" hidden><br>
                 <?php endif; ?>
               </div>
+              <div class="modal-footer">
+                <input type="submit" class="btn btn-default btn-success" name="submit" value="<?php if ($flag) echo 'Update';
+                                                                                              else echo "Submit"; ?>" />
+                <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+            </form>
           </div>
-          <div class="modal-footer">
-            <input type="submit" class="btn btn-default btn-success" name="submit" value="<?php if ($flag) echo 'Update';
-                                                                                          else echo "Submit"; ?>" />
-            <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          </div>
-          </form>
         </div>
       </div>
     </div>
@@ -151,17 +154,17 @@ if (isset($_POST["submit"])) {
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Meeting</h5>
-          </div> 
+            <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Add Meeting</h5>
+          </div>
           <div class="modal-body">
-            <form role="form" action="template.php?course=<?php echo $course ?>& course_name=<?php echo $subject ?> " method="POST" autocomplete="off"> 
-            <div class="form-group">
+            <form role="form" action="template.php?course=<?php echo $course ?>& course_name=<?php echo $subject ?> " method="POST" autocomplete="off">
+              <div class="form-group">
                 <label>Topic</label>
                 <input type="text" class="form-control" name="topic" placeholder="topic" required>
               </div>
               <div class="form-group">
                 <label>Start Date & Time</label>
-                <input type="datetime-local" class="form-control" name="date" required >
+                <input type="datetime-local" class="form-control" name="date" required>
               </div>
               <div class="form-group">
                 <label>Duration</label>
@@ -174,17 +177,17 @@ if (isset($_POST["submit"])) {
               <div class="form-group">
                 <label>Attendance Time</label>
                 <input type="datetime-local" class="form-control" name="attendanceTime" required>
-            </div>
-            <div class="form-group">
-                  <input type="checkbox" id="api_check" name="api_check" onclick="update_api()">
-                  <label>Update your api</label>
-                </div>
+              </div>
+              <div class="form-group">
+                <input type="checkbox" id="api_check" name="api_check" onclick="update_api()">
+                <label>Update your api</label>
+              </div>
+              <div class="modal-footer">
+                <input type="submit" class="btn btn-default btn-success" name="meeting" value="Submit" />
+                <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+            </form>
           </div>
-          <div class="modal-footer">
-            <input type="submit" class="btn btn-default btn-success" name="meeting" value= "Submit" />
-            <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          </div>
-          </form>
         </div>
       </div>
     </div>
@@ -193,32 +196,32 @@ if (isset($_POST["submit"])) {
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Update api</h5>
-          </div> 
-     <div class="modal-body">
+            <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Zoom API Keys</h5>
+          </div>
+          <div class="modal-body">
             <form role="form" action="template.php?course=<?php echo $course ?>& course_name=<?php echo $subject ?> " method="POST" autocomplete="off">
-            <?php
-            $secret_key=mysqli_query($conn,"SELECT `email`,`api_key`, `api_secret` FROM `teacher` WHERE `id`='$user_id'");
-            $secret_key=mysqli_fetch_array($secret_key);
-            ?>  
-            <div class="form-group">
+              <?php
+              $secret_key = mysqli_query($conn, "SELECT `email`,`api_key`, `api_secret` FROM `teacher` WHERE `id`='$user_id'");
+              $secret_key = mysqli_fetch_array($secret_key);
+              ?>
+              <div class="form-group">
                 <label>Api Key</label>
-                <input type="text" class="form-control api" name="api_key" placeholder="Enter api key" value="<?php if( $secret_key['api_key'])  echo $secret_key['api_key']?>" required>
+                <input type="text" class="form-control api" name="api_key" placeholder="Enter api key" value="<?php if ($secret_key['api_key'])  echo $secret_key['api_key'] ?>" required>
               </div>
               <div class="form-group">
                 <label>Api Secret key</label>
-                <input type="text" class="form-control api" name="api_secret" placeholder="Enter api secret" value="<?php if( $secret_key['api_secret']) echo $secret_key['api_secret']?>" required >
+                <input type="text" class="form-control api" name="api_secret" placeholder="Enter api secret" value="<?php if ($secret_key['api_secret']) echo $secret_key['api_secret'] ?>" required>
               </div>
               <div class="form-group">
                 <label>Email</label>
-                <input type="email" class="form-control api" name="email" placeholder="Enter email" value="<?php if( $secret_key['email']) echo $secret_key['email']?>" required>
+                <input type="email" class="form-control api" name="email" placeholder="Enter email" value="<?php if ($secret_key['email']) echo $secret_key['email'] ?>" required>
               </div>
+              <div class="modal-footer">
+                <input type="submit" class="btn btn-default btn-success" name="meeting_api" value="Submit" />
+                <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+            </form>
           </div>
-          <div class="modal-footer">
-            <input type="submit" class="btn btn-default btn-success" name="meeting_api" value= "Submit" />
-            <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          </div>
-          </form>
         </div>
       </div>
     </div>
@@ -252,7 +255,7 @@ if (isset($_POST["submit"])) {
         ?>
       </h1>
     </div>
-    <div class="container border border-3 d-grid gap-3 pb-4 px-4 mt-4" style="min-height: calc(100vh - 253px);" >
+    <div class="container border border-3 d-grid gap-3 pb-4 px-4 mt-4" style="min-height: calc(100vh - 253px);">
       <?php
       $id = $_SESSION['user_id'] . 'S';
       $progress_name = $course . 'p';
@@ -262,98 +265,92 @@ if (isset($_POST["submit"])) {
         if ($c % 3 == 0) : ?>
           <div class="row ">
           <?php endif;
-        $c = $c + 1; 
-        if($res['isMeeting']):?>
-        <div class="col-lg-4 mt-4 ">
-            <div style="background-color:lightgreen;" class="pb-1 pt-2 mb-1 border border-dark">
-              <h5 class="card-title text-center">
-                <?php echo $res['header'];
+        $c = $c + 1;
+        if ($res['isMeeting']) : ?>
+            <div class="col-lg-4 mt-4 ">
+              <div style="background-color:lightgreen;" class="pb-1 pt-2 mb-1 border border-dark">
+                <h5 class="card-title text-center">
+                  <?php echo $res['header'];
                   if ($role == "student") : ?>
-                  <input style="float:right; margin-right:10px; margin-top:3px;" class="form-check-input" type="checkbox" 
-                  no="<?php echo $id; ?>" hd="<?php echo $res['header']; ?>" 
-                  course="<?php echo $course; ?>" onclick="progressCheck(this)" 
-                  <?php
-                   $head = $res['header'];
-                   $prog = mysqli_query($conn, "SELECT `$id` FROM $progress_name where `header`='$head'");
-                   $prog = mysqli_fetch_array($prog);
-                   if ($prog[$id]!=date("0000-00-00 00:00:00")) echo "checked" ?>>                                                                                                                                                                                                                         
-                <?php endif; ?>
-              </h5>
-            </div>
-            <div class="card border border-dark">
-              <div class="card-body" style="min-height:150px">               
+                    <input style="float:right; margin-right:10px; margin-top:3px;" class="form-check-input" type="checkbox" no="<?php echo $id; ?>" hd="<?php echo $res['header']; ?>" course="<?php echo $course; ?>" onclick="progressCheck(this)" <?php
+                                                                                                                                                                                                                                                      $head = $res['header'];
+                                                                                                                                                                                                                                                      $prog = mysqli_query($conn, "SELECT `$id` FROM $progress_name where `header`='$head'");
+                                                                                                                                                                                                                                                      $prog = mysqli_fetch_array($prog);
+                                                                                                                                                                                                                                                      if ($prog[$id] != date("0000-00-00 00:00:00")) echo "checked" ?>>
+                  <?php endif; ?>
+                </h5>
+              </div>
+              <div class="card border border-dark">
+                <div class="card-body" style="min-height:150px">
                   <a href="<?php echo $res['link'] ?>" class="link-secondary">Meeting Link</a><br>
                   <b>Password:</b><br> <?php echo $res['notes'] ?><br>
-                  <b>Start Time:</b><br><?php echo substr($res['assigment'],0,10).' '.substr($res['assigment'],11,strlen($res['assigment']));?><br>
-              </div>
-              <?php if ($role == "teacher") : ?>
-                <div class="mb-2">
-                  <form role="form" action="template.php?course=<?php echo $course ?>&course_name=<?php echo $subject ?>" method="POST">
-                    <tr>
-                      <td><input type="integer" name="no" value=<?php echo $res['no'] ?> hidden></td>
-                      <td><input type="submit" class="btn btn-danger  btn-sm mx-1 me-2" name="delete" value="Delete" style="float:right" /></td>
-                    </tr>
-                  </form>
+                  <b>Start Time:</b><br><?php echo substr($res['assigment'], 0, 10) . ' ' . substr($res['assigment'], 11, strlen($res['assigment'])); ?><br>
                 </div>
-              <?php endif; ?>
-            </div>
-          </div>
-        <?php else :?>
-          <div class="col-lg-4 mt-4 ">
-            <div style="background-color:aqua" class="pb-1 pt-2 mb-1 border border-dark">
-              <h5 class="card-title text-center"><?php echo $res['header'] ?>
-                <?php if ($role == "student") : ?>
-                  <input style="float:right; margin-right:10px; margin-top:3px;" class="form-check-input" type="checkbox" 
-                  no="<?php echo $id; ?>" hd="<?php echo $res['header']; ?>" 
-                  course="<?php echo $course; ?>" onclick="progressCheck(this)" 
-                  <?php
-                   $head = $res['header'];
-                   $prog = mysqli_query($conn, "SELECT `$id` FROM `$progress_name` where `header`='$head'");
-                   $prog = mysqli_fetch_array($prog);
-                   if ($prog[$id]!=date("0000-00-00 00:00:00")) echo "checked" ?>>                                                                                                                                                                                                                          
+                <?php if ($role == "teacher") : ?>
+                  <div class="mb-2">
+                    <form role="form" action="template.php?course=<?php echo $course ?>&course_name=<?php echo $subject ?>" method="POST">
+                      <tr>
+                        <td><input type="integer" name="no" value=<?php echo $res['no'] ?> hidden></td>
+                        <td><input type="submit" class="btn btn-danger  btn-sm mx-1 me-2" name="delete" value="Delete" style="float:right" /></td>
+                      </tr>
+                    </form>
+                  </div>
                 <?php endif; ?>
-              </h5>
-            </div>
-            <div class="card border border-dark">
-              <div class="card-body" style="min-height:150px">
-                <?php if ($res['link'] != NULL) : ?>
-                  <a href="<?php echo $res['link'] ?>" class="link-secondary">Lecture Video Link</a><br>
-                <?php endif; ?>
-                <?php if ($res['notes'] != NULL) : ?>
-                  <a href="<?php echo $res['notes'] ?>" class="link-secondary">Material link</a><br>
-                <?php endif; ?>
-                <?php if ($res['ref'] != NULL) : ?>
-                  <a href="<?php echo $res['ref'] ?>" class="link-secondary">Refrences</a><br>
-                <?php endif; ?>
-                <?php if ($res['assigment'] != NULL) : ?>
-                  <a href=" <?php echo $res['assigment'] ?>" class="link-secondary">Assigment Link</a><br>
-                  <a href="<?php echo $res['upload'] ?>" class="link-secondary">Upload Link</a><br>
-                <?php endif; ?>
-                <?php if($role=="teacher"):?>
-                <b>Attendance Time:</b><br><?php echo $res['attendanceTime'];?><br>
-                <?php endif;?>
               </div>
-              <?php if ($role == "teacher") : ?>
-                <div class="mb-2">
-                  <form role="form" action="template.php?course=<?php echo $course ?>&course_name=<?php echo $subject ?>" method="POST">
-                    <tr>
-                      <td><input type="integer" name="no" value=<?php echo $res['no'] ?> hidden></td>
-                      <td><input type="submit" class="btn btn-danger  btn-sm mx-1 me-2" name="delete" value="Delete" style="float:right" /></td>
-                      <td><input type="submit" class="btn btn-info  btn-sm mx-1 me-2" name="update" value="Update" style="float:right" /></td>
-                    </tr>
-                  </form>
-                </div>
-              <?php endif; ?>
             </div>
+          <?php else : ?>
+            <div class="col-lg-4 mt-4 ">
+              <div style="background-color:aqua" class="pb-1 pt-2 mb-1 border border-dark">
+                <h5 class="card-title text-center"><?php echo $res['header'] ?>
+                  <?php if ($role == "student") : ?>
+                    <input style="float:right; margin-right:10px; margin-top:3px;" class="form-check-input" type="checkbox" no="<?php echo $id; ?>" hd="<?php echo $res['header']; ?>" course="<?php echo $course; ?>" onclick="progressCheck(this)" <?php
+                                                                                                                                                                                                                                                      $head = $res['header'];
+                                                                                                                                                                                                                                                      $prog = mysqli_query($conn, "SELECT `$id` FROM `$progress_name` where `header`='$head'");
+                                                                                                                                                                                                                                                      $prog = mysqli_fetch_array($prog);
+                                                                                                                                                                                                                                                      if ($prog[$id] != date("0000-00-00 00:00:00")) echo "checked" ?>>
+                  <?php endif; ?>
+                </h5>
+              </div>
+              <div class="card border border-dark">
+                <div class="card-body" style="min-height:150px">
+                  <?php if ($res['link'] != NULL) : ?>
+                    <a href="<?php echo $res['link'] ?>" class="link-secondary">Lecture Video Link</a><br>
+                  <?php endif; ?>
+                  <?php if ($res['notes'] != NULL) : ?>
+                    <a href="<?php echo $res['notes'] ?>" class="link-secondary">Material link</a><br>
+                  <?php endif; ?>
+                  <?php if ($res['ref'] != NULL) : ?>
+                    <a href="<?php echo $res['ref'] ?>" class="link-secondary">Refrences</a><br>
+                  <?php endif; ?>
+                  <?php if ($res['assigment'] != NULL) : ?>
+                    <a href=" <?php echo $res['assigment'] ?>" class="link-secondary">Assigment Link</a><br>
+                    <a href="<?php echo $res['upload'] ?>" class="link-secondary">Upload Link</a><br>
+                  <?php endif; ?>
+                  <?php if ($role == "teacher") : ?>
+                    <b>Attendance Time:</b><br><?php echo $res['attendanceTime']; ?><br>
+                  <?php endif; ?>
+                </div>
+                <?php if ($role == "teacher") : ?>
+                  <div class="mb-2">
+                    <form role="form" action="template.php?course=<?php echo $course ?>&course_name=<?php echo $subject ?>" method="POST">
+                      <tr>
+                        <td><input type="integer" name="no" value=<?php echo $res['no'] ?> hidden></td>
+                        <td><input type="submit" class="btn btn-danger  btn-sm mx-1 me-2" name="delete" value="Delete" style="float:right" /></td>
+                        <td><input type="submit" class="btn btn-info  btn-sm mx-1 me-2" name="update" value="Update" style="float:right" /></td>
+                      </tr>
+                    </form>
+                  </div>
+                <?php endif; ?>
+              </div>
+            </div>
+          <?php endif;
+        if ($c % 3 == 0) : ?>
           </div>
-          <?php endif; 
-          if ($c % 3 == 0) : ?>
-        </div>
       <?php endif;
-        endwhile; ?>
-  </div>
-  </div>
-  <?php include '../includes/footer.php'; ?>
+      endwhile; ?>
+    </div>
+    </div>
+    <?php include '../includes/footer.php'; ?>
   </section>
   <script type="text/javascript" src="../js/sidebar.js"></script>
   <script>
@@ -374,10 +371,10 @@ if (isset($_POST["submit"])) {
           "checked": checked,
           "hd": head
         },
-        success: function() {
-        }
+        success: function() {}
       });
     }
+
     function getAssignment(courseId) {
       let course = courseId.getAttribute('course');
       jQuery.ajax({
@@ -391,7 +388,8 @@ if (isset($_POST["submit"])) {
         }
       });
     }
-    function update_api(){
+
+    function update_api() {
       $(document).ready(function() {
         $('#modal2').modal('hide');
       });

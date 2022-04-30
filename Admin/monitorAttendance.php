@@ -1,11 +1,15 @@
 <?php
 include "../includes/config.php";
+if ($_SESSION['user_id'] == Null || $_SESSION['type'] == Null ||  $_SESSION['type'] != 'admin') {
+    header("Location:../login.php");
+}
 $id = $_SESSION['user_id'];
 $role = $_SESSION['type'];
 $pageName = basename($_SERVER['PHP_SELF']);
-$res=mysqli_query($conn, "SELECT `course_name`,`course_id` FROM `courses`");
+$res = mysqli_query($conn, "SELECT `course_name`,`course_id` FROM `courses`");
 ?>
 <html>
+
 <head>
     <title>
         Monitor Attendance
@@ -15,6 +19,7 @@ $res=mysqli_query($conn, "SELECT `course_name`,`course_id` FROM `courses`");
     <link rel="stylesheet" href="../CSS/sidebar.css">
     <link rel="stylesheet" href="../CSS/footer.css">
 </head>
+
 <body>
     <?php include '../includes/sidebar.php'; ?>
     <section class="home">
@@ -30,11 +35,11 @@ $res=mysqli_query($conn, "SELECT `course_name`,`course_id` FROM `courses`");
                 while ($row = mysqli_fetch_array($res)) :
                     if ($c % 3 == 0) : ?>
                         <div class="row">
-                    <?php endif;
+                        <?php endif;
                     $c = $c + 1;
                     $counter = $row['course_id'];
                     $t = $row['course_name'];
-                    ?>
+                        ?>
                         <div class="col-lg-4 mb-4 mt-4 ">
                             <a href="../Attendance/attendance.php?course=<?php echo $counter ?>" style="color:black; text-decoration: none;">
                                 <div class="card">
@@ -52,8 +57,8 @@ $res=mysqli_query($conn, "SELECT `course_name`,`course_id` FROM `courses`");
                     endwhile; ?>
             </div>
         </div>
-    </div>
-    <?php include '../includes/footer.php'; ?>
+        </div>
+        <?php include '../includes/footer.php'; ?>
     </section>
     <script type="text/javascript" src="../js/sidebar.js"></script>
 </body>

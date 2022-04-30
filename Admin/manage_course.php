@@ -1,6 +1,9 @@
 <?php
 include "../includes/config.php";
 include "../includes/random_color.php";
+if($_SESSION['user_id']==Null || $_SESSION['type']==Null ||  $_SESSION['type']!='admin'){
+  header("Location:../login.php");
+}
 $teacher = 0;
 $flag = 0;
 $student = 0;

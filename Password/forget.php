@@ -11,10 +11,9 @@ $reg = 0;
 $check = 0;
 $invalid_reg = 0;
 $invalid_otp = 0;
-$exception_occur=0;
-$exception_cause=new Exception();
-try
-{
+$exception_occur = 0;
+$exception_cause = new Exception();
+try {
   if (isset($_POST["submit2"])) {
     $o1 = $_POST["otp1"];
     $otp = $_POST["otp2"];
@@ -56,11 +55,9 @@ try
       $invalid_reg = 1;
     }
   }
-}
-catch(Exception $except){
-  $exception_occur=1;
-  $exception_cause=$except;
-
+} catch (Exception $except) {
+  $exception_occur = 1;
+  $exception_cause = $except;
 }
 ?>
 <html>
@@ -76,10 +73,10 @@ catch(Exception $except){
 
 <body>
 
-<?php if($exception_occur):?>
+  <?php if ($exception_occur) : ?>
     <script>
-    alert("<?php echo $exception_cause->getMessage()?>");
-  </script>
+      alert("<?php echo $exception_cause->getMessage() ?>");
+    </script>
   <?php endif;
   if ($flag) : ?>
     <section class="h-100 gradient-form">
@@ -105,15 +102,10 @@ catch(Exception $except){
                       <div class="form-outline mb-4">
                         <input type="integer" name="reg" class="form-control" placeholder="Registration Number" required />
                       </div>
-
-
                       <div class="text-center pt-1 mb-5 pb-1">
                         <input class="btn btn-primary btn-sm gradient-custom-2 mb-3" id="submit" type="submit" name="submit1" value="Submit" />
-
                       </div>
-
                     </form>
-
                   </div>
                 </div>
                 <div class="col-lg-6 d-flex align-items-center">
@@ -181,7 +173,6 @@ catch(Exception $except){
 
                       <div class="text-center pt-1 mb-5 pb-1">
                         <input class="btn btn-primary btn-sm gradient-custom-2 mb-3" id="submit" type="submit" name="submit2" value="Submit" />
-
                       </div>
 
                     </form>
@@ -208,14 +199,10 @@ catch(Exception $except){
         </div>
       </div>
     </section>
-
-
-
     <script>
       document.getElementById('timer').innerHTML =
         02 + ":" + 00;
       Timer();
-
 
       function Timer() {
         var presentTime = document.getElementById('timer').innerHTML;
@@ -236,13 +223,10 @@ catch(Exception $except){
           })
           return;
         }
-
         document.getElementById('timer').innerHTML =
           m + ":" + s;
         console.log(m)
         setTimeout(Timer, 1000);
-
-
       }
 
       function second(sec) {

@@ -30,7 +30,6 @@
 </div>
 <nav class="sidebar close">
   <header>
-
     <div class="image-text">
       <span class="image">
         <img src="../images/L_logo.png" alt="logo">
@@ -41,21 +40,19 @@
         <span class="profession">Learning</span>
       </div>
     </div>
-
     <i class='bx bx-chevron-right toggle'></i>
   </header>
-
   <div class="menu-bar">
     <div class="menu">
       <li class="">
-      <?php if($role=="admin"):?>
-        <a href="../admin/admin_dashboard.php">
-        <?php elseif($role=="teacher"||$role=="student") :?>
-        <a href="../NonAdmin/dashboard.php">
-        <?php endif; ?>
-          <i class='bx bx-home-alt icon'></i>
-          <span class="text nav-text">Home</span>
-        </a>
+        <?php if ($role == "admin") : ?>
+          <a href="../admin/admin_dashboard.php">
+          <?php elseif ($role == "teacher" || $role == "student") : ?>
+            <a href="../NonAdmin/dashboard.php">
+            <?php endif; ?>
+            <i class='bx bx-home-alt icon'></i>
+            <span class="text nav-text">Home</span>
+            </a>
       </li>
       <li class="">
         <a href="../includes/profile.php">
@@ -70,16 +67,14 @@
         </a>
       </li>
       <?php if ($pageName == 'template.php') : ?>
-
         <?php if ($role == 'student') : ?>
           <li class="">
-            <a href="#" onclick="getAssignment(this)" course="<?php echo $course;?>" data-bs-toggle="modal" data-bs-target="#assignments" style="color:black">
+            <a href="#" onclick="getAssignment(this)" course="<?php echo $course; ?>" data-bs-toggle="modal" data-bs-target="#assignments" style="color:black">
               <i class='bx bx-bell icon'></i>
               <span class="text nav-text">Assigment</span>
             </a>
           </li>
         <?php endif; ?>
-
         <li class="">
           <a href="../discussion/discussion.php?course=<?php echo $courseDiscussion; ?>">
             <i class='bx bx-pie-chart-alt icon'></i>
@@ -94,25 +89,26 @@
             </a>
           </li>
           <?php
-           $secret_key=mysqli_query($conn,"SELECT `api_key`FROM `teacher` WHERE `id`='$user_id'");
-           $secret_key=mysqli_fetch_array($secret_key);
-           ?>
+          $secret_key = mysqli_query($conn, "SELECT `api_key`FROM `teacher` WHERE `id`='$user_id'");
+          $secret_key = mysqli_fetch_array($secret_key);
+          ?>
           <li class="">
-            <a data-bs-toggle="modal" data-bs-target="<?php if($secret_key['api_key']) echo'#modal2'; else echo '#modal3';?>" href="<?php if($secret_key['api_key']) echo'#modal2'; else echo '#modal3';?>">
+            <a data-bs-toggle="modal" data-bs-target="<?php if ($secret_key['api_key']) echo '#modal2';
+                                                      else echo '#modal3'; ?>" href="<?php if ($secret_key['api_key']) echo '#modal2';
+                                                                                                                                    else echo '#modal3'; ?>">
               <i class='bx bx-video icon'></i>
               <span class="text nav-text">Add Video Lecture</span>
             </a>
           </li>
           <li class="">
             <a href="../Attendance/attendance.php?course=<?php echo $courseDiscussion; ?>">
-             <i class='bx bxs-bar-chart-alt-2 icon'></i>
+              <i class='bx bxs-bar-chart-alt-2 icon'></i>
               <span class="text nav-text">Attendance</span>
             </a>
           </li>
         <?php endif; ?>
       <?php endif; ?>
     </div>
-
     <div class="bottom-content">
       <li class="">
         <a href="../includes/logout.php">
@@ -120,7 +116,6 @@
           <span class="text nav-text">Logout</span>
         </a>
       </li>
-
       <li class="mode">
         <div class="sun-moon">
           <i class='bx bx-moon icon moon'></i>
@@ -132,7 +127,6 @@
           <span class="switch"></span>
         </div>
       </li>
-
     </div>
   </div>
   </div>
