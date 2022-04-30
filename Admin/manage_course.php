@@ -105,21 +105,47 @@ try {
     $handle = fopen($_FILES['filename']['tmp_name'], "r");
     fgetcsv($handle, 1000, ",");
     while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-      mysqli_query($conn, "insert into depratment values('$data[0]','$data[1]')");
+      mysqli_query($conn, "insert into courses values('$data[0]','$data[1]')");
+      $c_id=$data[0];
+      $disc = $c_id . "d";
+      $progress = $c_id . "p";
+      mysqli_query($conn, "CREATE TABLE $c_id ( 
+        `no` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+        `header` VARCHAR(100) NOT NULL , 
+        `link` VARCHAR(100)  , 
+        `notes` VARCHAR(100)  , 
+        `ref` VARCHAR(100)  ,
+        `assigment` VARCHAR(100), 
+        `upload` VARCHAR(100),
+        `isMeeting` BOOLEAN NOT NULL,
+        `attendanceTime` DATETIME NOT NULL)");
+      mysqli_query($conn, "CREATE TABLE $disc (
+        `id` int(11) NOT NULL  AUTO_INCREMENT PRIMARY KEY,
+        `parent_comment` varchar(500) NOT NULL,
+        `student` varchar(1000) NOT NULL,
+        `role` varchar(100) NOT NULL,
+        `post` varchar(1000) NOT NULL,
+        `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+      )");
+      mysqli_query($conn, "CREATE TABLE $progress ( 
+        `header` VARCHAR(100) NOT NULL  PRIMARY KEY)");
     }
     fclose($handle);
   } else if (isset($_POST["csv_add_teacher"])) {
     $handle = fopen($_FILES['filename']['tmp_name'], "r");
     fgetcsv($handle, 1000, ",");
     while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-      mysqli_query($conn, "insert into depratment values('$data[0]','$data[1]')");
+      mysqli_query($conn, "insert into teaches values('$data[0]','$data[1]')");
     }
     fclose($handle);
   } else if (isset($_POST["csv_add_student"])) {
     $handle = fopen($_FILES['filename']['tmp_name'], "r");
     fgetcsv($handle, 1000, ",");
     while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-      mysqli_query($conn, "insert into depratment values('$data[0]','$data[1]')");
+      mysqli_query($conn, "insert into assign values('$data[0]','$data[1]')");
+      $progress = $data[0] . "p";
+      $colname = $data[1] . 'S';
+      mysqli_query($conn, "ALTER TABLE $progress ADD $colname DATETIME NOT NULL");
     }
     fclose($handle);
   }
@@ -175,7 +201,7 @@ try {
                                                                                   else echo "Add Course"; ?></h5>
           </div>
           <div class="modal-body">
-            <form role="form" action="manage_course.php?f=<?php echo $flag ?>" method="POST" autocomplete="off">
+            <form role="form" action="manage_course.php?f=<?php echo $flag ?>" method="POST" enctype="multipart/form-data" autocomplete="off">
               <div class="form-group">
                 <label>Course Id</label>
                 <input type="text" class="form-control input1" name="c_id" placeholder="Enter Course id" value="<?php if ($flag) echo $row['course_id'];
@@ -192,7 +218,7 @@ try {
                   <label>Update Using CSV File</label>
                 </div>
                 <div class="form-group" >
-                  <input class="input1" size="50" type="file" id="file" accept=".csv" required hidden disabled>
+                  <input class="input1" size="50" type="file" id="file" name="filename" accept=".csv" required hidden disabled>
                 </div>
               <?php endif; ?>
           </div>
@@ -255,7 +281,7 @@ try {
                                                                                   else echo "Add teacher Course"; ?></h5>
           </div>
           <div class="modal-body">
-            <form role="form" action="manage_course.php?f=<?php echo $teacher ?>" method="POST" autocomplete="off">
+            <form role="form" action="manage_course.php?f=<?php echo $teacher ?>" method="POST" enctype="multipart/form-data" autocomplete="off">
               <div class="form-group">
                 <label>Course Id</label>
                 <input type="text" class="form-control input2" name="c_id" placeholder="Enter Course id" value="<?php if ($teacher) echo $row['course_id'];
@@ -272,7 +298,7 @@ try {
                   <label>Update Using CSV File</label>
                 </div>
                 <div class="form-group">
-                  <input class="input2" size="50" type="file" id="file" accept=".csv" required hidden disabled>
+                  <input class="input2" size="50" type="file" id="file" name="filename" accept=".csv" required hidden disabled>
                 </div>
               <?php endif; ?>
           </div>
@@ -349,7 +375,7 @@ try {
                                                                                   else echo "Add Student Course"; ?></h5>
           </div>
           <div class="modal-body">
-            <form role="form" action="manage_course.php?f=<?php echo $student ?>" method="POST" autocomplete="off">
+            <form role="form" action="manage_course.php?f=<?php echo $student ?>" method="POST" enctype="multipart/form-data" autocomplete="off">
               <div class="form-group">
                 <label>Course Id</label>
                 <input type="text" class="form-control input3" name="c_id" placeholder="Enter Course id" value="<?php if ($student) echo $row['course_id'];
@@ -366,7 +392,7 @@ try {
                   <label>Update Using CSV File</label>
                 </div>
                 <div class="form-group" >
-                  <input class="input3" size="50" type="file" id="file" accept=".csv" required hidden disabled>
+                  <input class="input3" size="50" type="file" id="file" name="filename" accept=".csv" required hidden disabled>
                 </div>
               <?php endif; ?>
           </div>

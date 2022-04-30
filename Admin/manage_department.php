@@ -29,7 +29,7 @@ try {
     fgetcsv($handle, 1000, ",");
     while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
       echo "$data[0]".' '.$data[1].' ';
-      mysqli_query($conn, "insert into depratment values('$data[0]','$data[1]')");
+      mysqli_query($conn, "insert into department values('$data[0]','$data[1]')");
     }
     fclose($handle);
   }
