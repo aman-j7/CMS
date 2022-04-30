@@ -93,8 +93,12 @@
               <span class="text nav-text">Add Material</span>
             </a>
           </li>
+          <?php
+           $secret_key=mysqli_query($conn,"SELECT `api_key`FROM `teacher` WHERE `id`='$user_id'");
+           $secret_key=mysqli_fetch_array($secret_key);
+           ?>
           <li class="">
-            <a data-bs-toggle="modal" data-bs-target="#modal2" href="#modal2">
+            <a data-bs-toggle="modal" data-bs-target="<?php if($secret_key['api_key']) echo'#modal2'; else echo '#modal3';?>" href="<?php if($secret_key['api_key']) echo'#modal2'; else echo '#modal3';?>">
               <i class='bx bx-video icon'></i>
               <span class="text nav-text">Add Video Lecture</span>
             </a>

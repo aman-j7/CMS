@@ -1,6 +1,6 @@
 <?php
 include "../includes/config.php";
-include "../video/config.php";
+$user_id=$_SESSION['user_id'];
 include "../video/api.php";
 $pageName = basename($_SERVER['PHP_SELF']);
 $courseDiscussion = $_GET["course"];
@@ -67,6 +67,13 @@ if (isset($_POST["submit"])) {
     mysqli_query($conn, "INSERT INTO `$course` ( `header`, `link`, `notes`, `assigment`,`upload`,`isMeeting`,`attendanceTime`) VALUES ('$t','$result->join_url','$result->password','$date','$result->duration','1','$attendanceTime')");
     mysqli_query($conn, "INSERT INTO `$progress` ( `header`) VALUES ('$t')");
   }
+}else if (isset($_POST["meeting_api"])){
+  $api_key=$_POST['api_key'];
+  $api_secret=$_POST['api_secret'];
+  $email=$_POST['email'];
+  mysqli_query($conn, "update teacher set api_key='$api_key',api_secret='$api_secret', email='$email' where id='$user_id'");
+  mysqli_query($conn, "UPDATE `login` SET `email`='$email' WHERE `reg_id`='$user_id'");
+
 }
 ?>
 <html>
@@ -144,11 +151,11 @@ if (isset($_POST["submit"])) {
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Update Student</h5>
-          </div>
+            <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Meeting</h5>
+          </div> 
           <div class="modal-body">
-            <form role="form" action="template.php?course=<?php echo $course ?>& course_name=<?php echo $subject ?> " method="POST" autocomplete="off">
-              <div class="form-group">
+            <form role="form" action="template.php?course=<?php echo $course ?>& course_name=<?php echo $subject ?> " method="POST" autocomplete="off"> 
+            <div class="form-group">
                 <label>Topic</label>
                 <input type="text" class="form-control" name="topic" placeholder="topic" required>
               </div>
@@ -158,7 +165,7 @@ if (isset($_POST["submit"])) {
               </div>
               <div class="form-group">
                 <label>Duration</label>
-                <input type="integer" class="form-control" name="duration" placeholder="In Minutes" reqired>
+                <input type="integer" class="form-control" name="duration" placeholder="In Minutes" required>
               </div>
               <div class="form-group">
                 <label>Password </label>
@@ -168,9 +175,47 @@ if (isset($_POST["submit"])) {
                 <label>Attendance Time</label>
                 <input type="datetime-local" class="form-control" name="attendanceTime" required>
             </div>
+            <div class="form-group">
+                  <input type="checkbox" id="api_check" name="api_check" onclick="update_api()">
+                  <label>Update your api</label>
+                </div>
           </div>
           <div class="modal-footer">
             <input type="submit" class="btn btn-default btn-success" name="meeting" value= "Submit" />
+            <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="modal3" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Update api</h5>
+          </div> 
+     <div class="modal-body">
+            <form role="form" action="template.php?course=<?php echo $course ?>& course_name=<?php echo $subject ?> " method="POST" autocomplete="off">
+            <?php
+            $secret_key=mysqli_query($conn,"SELECT `email`,`api_key`, `api_secret` FROM `teacher` WHERE `id`='$user_id'");
+            $secret_key=mysqli_fetch_array($secret_key);
+            ?>  
+            <div class="form-group">
+                <label>Api Key</label>
+                <input type="text" class="form-control api" name="api_key" placeholder="Enter api key" value="<?php if( $secret_key['api_key'])  echo $secret_key['api_key']?>" required>
+              </div>
+              <div class="form-group">
+                <label>Api Secret key</label>
+                <input type="text" class="form-control api" name="api_secret" placeholder="Enter api secret" value="<?php if( $secret_key['api_secret']) echo $secret_key['api_secret']?>" required >
+              </div>
+              <div class="form-group">
+                <label>Email</label>
+                <input type="email" class="form-control api" name="email" placeholder="Enter email" value="<?php if( $secret_key['email']) echo $secret_key['email']?>" required>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <input type="submit" class="btn btn-default btn-success" name="meeting_api" value= "Submit" />
             <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           </div>
           </form>
@@ -239,7 +284,7 @@ if (isset($_POST["submit"])) {
               <div class="card-body" style="min-height:150px">               
                   <a href="<?php echo $res['link'] ?>" class="link-secondary">Meeting Link</a><br>
                   <b>Password:</b><br> <?php echo $res['notes'] ?><br>
-                  <b>Start Time:</b><br><?php echo $res['assigment']; ?><br>
+                  <b>Start Time:</b><br><?php echo substr($res['assigment'],0,10).' '.substr($res['assigment'],11,strlen($res['assigment']));?><br>
               </div>
               <?php if ($role == "teacher") : ?>
                 <div class="mb-2">
@@ -344,6 +389,14 @@ if (isset($_POST["submit"])) {
         success: function(result) {
           jQuery("#assignmentData").html(result);
         }
+      });
+    }
+    function update_api(){
+      $(document).ready(function() {
+        $('#modal2').modal('hide');
+      });
+      $(document).ready(function() {
+        $('#modal3').modal('show');
       });
     }
   </script>

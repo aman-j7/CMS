@@ -32,8 +32,8 @@ try {
     $handle = fopen($_FILES['filename']['tmp_name'], "r");
     fgetcsv($handle, 1000, ",");
     while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-      mysqli_query($conn, "insert into student (`id`, `name`, `dept_id`) values('$data[0]','$data[1]','$data[2]')");
-      mysqli_query($conn, "insert into login values('$data[0]','CMS@123','student','abc@gamil.com',0)");
+      mysqli_query($conn, "insert into student (`id`, `name`,`email`,`dept_id`) values('$data[0]','$data[1]','$data[2]','$data[3]')");
+      mysqli_query($conn, "insert into login values('$data[0]','CMS@123','student','$data[2]',0)");
     }
     fclose($handle);
   }

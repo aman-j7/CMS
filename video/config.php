@@ -1,5 +1,7 @@
 <?php
-define('API_KEY','13zmeBQoS-W4o_ciBQPa7w');
-define('API_SECRET','inqrBRq4irCo9Ki2o2uwpKTXTsRUz7Nr1wu7');
-define('EMAIL_ID','projectcms05@gmail.com');
+$key=mysqli_query($conn,"SELECT `email`,`api_key`, `api_secret` FROM `teacher` WHERE `id`='$user_id'");
+$key=mysqli_fetch_array($key);
+define('API_KEY',$key['api_key']);
+define('API_SECRET',$key['api_secret']);
+define('EMAIL_ID',$key['email']);
 ?>
