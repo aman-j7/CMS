@@ -128,124 +128,126 @@ try {
           </div>
         </div>
       </div>
-      <div class="modal fade" id="modal2" role="dialog">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Update Student</h5>
-            </div>
-            <div class="modal-body">
-              <form role="form" action="manage_student.php" method="POST" autocomplete="off">
-                <div class="form-group">
-                  <label>Student Id</label>
-                  <input type="text" class="form-control" name="s_id" id="s_id" placeholder="Enter Student id" required>
-                </div>
-                <div class="modal-footer">
-                  <input type="submit" class="btn btn-default btn-success" name="submit_update_student" value="Proceed" />
-                  <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-              </form>
-            </div>
+    </div>
+    <div class="modal fade" id="modal2" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Update Student</h5>
+          </div>
+          <div class="modal-body">
+            <form role="form" action="manage_student.php" method="POST" autocomplete="off">
+              <div class="form-group">
+                <label>Student Id</label>
+                <input type="text" class="form-control" name="s_id" id="s_id" placeholder="Enter Student id" required>
+              </div>
+              <div class="modal-footer">
+                <input type="submit" class="btn btn-default btn-success" name="submit_update_student" value="Proceed" />
+                <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
-      <div class="modal fade" id="modal3" role="dialog">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Drop Student</h5>
-            </div>
-            <div class="modal-body">
-              <form role="form" action="manage_student.php" method="POST" autocomplete="off">
-                <div class="form-group">
-                  <label>Student Id</label>
-                  <input type="text" class="form-control" name="s_id" id="s_id" placeholder="Enter Student id" required>
-                </div>
-                <div class="modal-footer">
-                  <input type="submit" class="btn btn-default btn-success" name="submit_drop_student" value="Delete" />
-                  <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-              </form>
-            </div>
+    </div>
+    <div class="modal fade" id="modal3" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Drop Student</h5>
+          </div>
+          <div class="modal-body">
+            <form role="form" action="manage_student.php" method="POST" autocomplete="off">
+              <div class="form-group">
+                <label>Student Id</label>
+                <input type="text" class="form-control" name="s_id" id="s_id" placeholder="Enter Student id" required>
+              </div>
+              <div class="modal-footer">
+                <input type="submit" class="btn btn-default btn-success" name="submit_drop_student" value="Delete" />
+                <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+            </form>
           </div>
         </div>
-        <section id="gallery" style="min-height: calc(100vh - 155px);">
-          <div class="container mt-4 ">
-            <h1 class="text-center pt-2 pb-2 text">
-              MANAGE STUDENT
-            </h1>
+      </div>
+    </div>
+    <section id="gallery" style="min-height: calc(100vh - 155px);">
+      <div class="container mt-4 ">
+        <h1 class="text-center pt-2 pb-2 text">
+          MANAGE STUDENT
+        </h1>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-4 mt-4">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#modal1" style="color:black">
+              <div class="card">
+                <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
+                <div class="card-body">
+                  <h5 class="card-title text-center">Add Student </h5>
+                </div>
+              </div>
+            </a>
           </div>
-          <div class="container">
-            <div class="row">
-              <div class="col-lg-4 mt-4">
-                <a href="#" data-bs-toggle="modal" data-bs-target="#modal1" style="color:black">
-                  <div class="card">
-                    <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
-                    <div class="card-body">
-                      <h5 class="card-title text-center">Add Student </h5>
-                    </div>
-                  </div>
-                </a>
+          <div class="col-lg-4 mt-4">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#modal2" style="color:black">
+              <div class="card">
+                <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
+                <div class="card-body">
+                  <h5 class="card-title text-center">Update Student</h5>
+                </div>
               </div>
-              <div class="col-lg-4 mt-4">
-                <a href="#" data-bs-toggle="modal" data-bs-target="#modal2" style="color:black">
-                  <div class="card">
-                    <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
-                    <div class="card-body">
-                      <h5 class="card-title text-center">Update Student</h5>
-                    </div>
-                  </div>
-                </a>
+            </a>
+          </div>
+          <div class="col-lg-4 mt-4">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#modal3" style="color:black">
+              <div class="card">
+                <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
+                <div class="card-body">
+                  <h5 class="card-title text-center">Drop Student</h5>
+                </div>
               </div>
-              <div class="col-lg-4 mt-4">
-                <a href="#" data-bs-toggle="modal" data-bs-target="#modal3" style="color:black">
-                  <div class="card">
-                    <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
-                    <div class="card-body">
-                      <h5 class="card-title text-center">Drop Student</h5>
-                    </div>
-                  </div>
-                </a>
-              </div>
-            </div>
-            <div class="form-outline mb-4 mt-5 form-check form-switch">
-              <label>
-                <h6>View Data</h6>
-              </label>
-              <input class="form-check-input" type="checkbox" id="view_data" onclick="view_toggle()">
-            </div>
-            <?php $data = mysqli_query($conn, "Select id,name,dept_id,email from student"); ?>
-            <div class="row mt-4" id="table" style="height: 400px; overflow:auto" hidden>
-              <table class="text-center table table-light" style="height: 10px;">
-                <thead style="position: sticky; top:0;">
-                  <tr>
-                    <th>Id</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Department</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <?php
-                while ($row = mysqli_fetch_array($data)) :
-                ?>
-                  <tr>
-                    <td><?php echo $row['id'] ?></td>
-                    <td><?php echo $row['name'] ?></td>
-                    <td><a href="mailto: <?php echo $row['email'] ?>" target="_blank"><?php echo $row['email'] ?></a></td>
-                    <td><?php echo $row['dept_id'] ?></td>
-                    <td>
-                      <button class="btn btn-secondary" title="Update"><i class="bx bxs-edit-alt icon " data-id="<?php echo $row['id']; ?>" onclick="update_data(this)"></i></button>
-                      <button class="btn btn-danger" title="Delete"><i class="bx bx-trash-alt icon " data-id="<?php echo $row['id']; ?>" onclick="delete_data(this)"></i></button>
-                    </td>
-                  </tr>
-                <?php
-                endwhile;
-                ?>
-              </table>
-            </div>
-        </section>
-        <?php include '../includes/footer.php'; ?>
+            </a>
+          </div>
+        </div>
+        <div class="form-outline mb-4 mt-5 form-check form-switch">
+          <label>
+            <h6>View Data</h6>
+          </label>
+          <input class="form-check-input" type="checkbox" id="view_data" onclick="view_toggle()">
+        </div>
+        <?php $data = mysqli_query($conn, "Select id,name,dept_id,email from student"); ?>
+        <div class="row mt-4" id="table" style="height: 400px; overflow:auto" hidden>
+          <table class="text-center table table-light" style="height: 10px;">
+            <thead style="position: sticky; top:0;">
+              <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Department</th>
+                <th></th>
+              </tr>
+            </thead>
+            <?php
+            while ($row = mysqli_fetch_array($data)) :
+            ?>
+              <tr>
+                <td><?php echo $row['id'] ?></td>
+                <td><?php echo $row['name'] ?></td>
+                <td><a href="mailto: <?php echo $row['email'] ?>" target="_blank"><?php echo $row['email'] ?></a></td>
+                <td><?php echo $row['dept_id'] ?></td>
+                <td>
+                  <button class="btn btn-secondary" title="Update"><i class="bx bxs-edit-alt icon " data-id="<?php echo $row['id']; ?>" onclick="update_data(this)"></i></button>
+                  <button class="btn btn-danger" title="Delete"><i class="bx bx-trash-alt icon " data-id="<?php echo $row['id']; ?>" onclick="delete_data(this)"></i></button>
+                </td>
+              </tr>
+            <?php
+            endwhile;
+            ?>
+          </table>
+        </div>
+    </section>
+    <?php include '../includes/footer.php'; ?>
   </section>
   <script type="text/javascript" src="../js/sidebar.js"></script>
   <script>

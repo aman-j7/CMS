@@ -50,7 +50,7 @@
       <li class="">
       <?php if($role=="admin"):?>
         <a href="../admin/admin_dashboard.php">
-        <?php else :?>
+        <?php elseif($role=="teacher"||$role=="student") :?>
         <a href="../NonAdmin/dashboard.php">
         <?php endif; ?>
           <i class='bx bx-home-alt icon'></i>

@@ -102,6 +102,7 @@ try {
               </div>
             </form>
           </div>
+          </div>
         </div>
       </div>
       <div class="modal fade" id="modal2" role="dialog">
@@ -122,6 +123,7 @@ try {
                 </div>
               </form>
             </div>
+            </div>
           </div>
         </div>
         <div class="modal fade" id="modal3" role="dialog">
@@ -141,6 +143,7 @@ try {
                     <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                   </div>
                 </form>
+              </div>
               </div>
             </div>
           </div>

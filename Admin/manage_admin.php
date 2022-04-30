@@ -118,13 +118,13 @@ try {
                                     <input class="input1" size="50" type="file" id="file" name="filename" accept=".csv" required hidden disabled>
                                 </div>
                             <?php endif; ?>
-                    </div>
                     <div class="modal-footer">
                         <input type="submit" class="btn btn-default btn-success input1" name="submit_add_teacher" value="<?php if ($flag) echo "Update";
                                                                                                                             else echo "Add"; ?>" />
                         <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    </div>
+                            </div>
                     </form>
+                            </div>
                 </div>
             </div>
         </div>

@@ -83,7 +83,10 @@ try {
       $oldc_id = $_POST['oc_id'];
       $progress = $oldc_id . "p";
       $colname = $olds_id . 'S';
-      mysqli_query($conn, "UPDATE `assign` SET `course_id`='$c_id',`student_id`='$s_id' WHERE `course_id` = '$oldc_id' AND `student_id`='$olds_id'");
+      mysqli_query($conn, "UPDATE `assign` SET `student_id`='$s_id' WHERE `course_id` = '$oldc_id' AND `student_id`='$olds_id'");
+      mysqli_query($conn, "ALTER TABLE $progress DROP COLUMN $colname");
+      $progress = $c_id . "p";
+      $colname = $s_id . 'S';
       mysqli_query($conn, "ALTER TABLE $progress ADD $colname DATETIME NOT NULL");
     } else {
       $progress = $c_id . "p";
@@ -208,7 +211,10 @@ try {
               <div class="form-group">
                 <label>Course Id</label>
                 <input type="text" class="form-control input1" name="c_id" placeholder="Enter Course id" value="<?php if ($flag) echo $row['course_id'];
-                                                                                                                else echo ""; ?>" required>
+                                                                                                                else echo ""; ?>" required <?php if ($flag) echo "disabled";?>>
+                <?php if($flag):?>
+                <input type="text" class="form-control input1" name="c_id" placeholder="Enter Course id" value="<?php if ($flag) echo $row['course_id'];?>"hidden>
+                <?php endif;?>
               </div>
               <div class="form-group">
                 <label>Course Name</label>
@@ -230,6 +236,7 @@ try {
                 <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
               </div>
             </form>
+              </div>
           </div>
         </div>
       </div>
@@ -250,6 +257,7 @@ try {
                   <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
               </form>
+              </div>
             </div>
           </div>
         </div>
@@ -270,6 +278,7 @@ try {
                     <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                   </div>
                 </form>
+              </div>
               </div>
             </div>
           </div>
@@ -311,6 +320,7 @@ try {
                       <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                   </form>
+                    </div>
                 </div>
               </div>
             </div>
@@ -335,6 +345,7 @@ try {
                         <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                       </div>
                     </form>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -360,6 +371,7 @@ try {
                         </div>
                       </form>
                     </div>
+                    </div>
                   </div>
                 </div>
                 <div class="modal fade" id="modal7" role="dialog">
@@ -374,7 +386,10 @@ try {
                           <div class="form-group">
                             <label>Course Id</label>
                             <input type="text" class="form-control input3" name="c_id" placeholder="Enter Course id" value="<?php if ($student) echo $row['course_id'];
-                                                                                                                            else echo ""; ?>" required>
+                                                                                                                            else echo ""; ?>" required <?php if ($student) echo"disabled";?>>
+                            <?php if($student):?>
+                               <input type="text" class="form-control input3" name="c_id" placeholder="Enter Course id" value="<?php if ($student) echo $row['course_id'];?>"hidden>
+                              <?php endif;?>
                           </div>
                           <div class="form-group">
                             <label>Student Id</label>
@@ -400,6 +415,7 @@ try {
                             <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                           </div>
                         </form>
+                          </div>
                       </div>
                     </div>
                   </div>
@@ -424,6 +440,7 @@ try {
                               <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             </div>
                           </form>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -448,6 +465,7 @@ try {
                                 <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                               </div>
                             </form>
+                          </div>
                           </div>
                         </div>
                       </div>

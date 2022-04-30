@@ -124,6 +124,7 @@ try {
                 <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
               </div>
             </form>
+                </div>
           </div>
         </div>
       </div>
@@ -144,6 +145,7 @@ try {
                   <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
               </form>
+                </div>
             </div>
           </div>
         </div>
@@ -164,6 +166,7 @@ try {
                     <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                   </div>
                 </form>
+                </div>
               </div>
             </div>
           </div>
