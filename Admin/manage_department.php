@@ -28,6 +28,7 @@ try {
     $handle = fopen($_FILES['filename']['tmp_name'], "r");
     fgetcsv($handle, 1000, ",");
     while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+      echo "$data[0]".' '.$data[1].' ';
       mysqli_query($conn, "insert into depratment values('$data[0]','$data[1]')");
     }
     fclose($handle);
@@ -74,7 +75,7 @@ try {
                                                                                   else echo "Add Department"; ?></h5>
           </div>
           <div class="modal-body">
-            <form role="form" action="manage_department.php?f=<?php echo $flag ?>" method="POST" autocomplete="off">
+            <form role="form" action="manage_department.php?f=<?php echo $flag ?>" method="POST" enctype="multipart/form-data" autocomplete="off">
               <div class="form-group">
                 <label>Department Id</label>
                 <input type="text" class="form-control input1" name="d_id" placeholder="Enter Department id" value="<?php if ($flag) echo $row['dept_id'];
@@ -91,7 +92,7 @@ try {
                   <label>Update Using CSV File</label>
                 </div>
                 <div class="form-group" >
-                  <input class="input1" size="50" type="file" id="file" accept=".csv" required hidden disabled>
+                  <input class="input1" size="50" type="file" id="file" name="filename" accept=".csv" required hidden disabled>
                 </div>
               <?php endif; ?>
           </div>
