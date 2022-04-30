@@ -8,6 +8,7 @@ $isAdmin = mysqli_fetch_array($isAdmin);
 $isAdmin = $isAdmin['isAdmin'];
 ?>
 <html>
+
 <head>
   <title>
     Admin Dashboard
@@ -17,6 +18,7 @@ $isAdmin = $isAdmin['isAdmin'];
   <link rel="stylesheet" href="../CSS/sidebar.css">
   <link rel="stylesheet" href="../CSS/footer.css">
 </head>
+
 <body>
   <?php include '../includes/sidebar.php'; ?>
   <section class="home">
@@ -99,4 +101,5 @@ $isAdmin = $isAdmin['isAdmin'];
   </section>
   <script type="text/javascript" src="../js/sidebar.js"></script>
 </body>
+
 </html>

@@ -13,10 +13,10 @@ try {
         $f_name = $_POST["f_name"];
         $d_id = $_POST["d_id"];
         $f_email = $_POST["f_email"];
-        if(isset($_POST["isAdmin"]))
+        if (isset($_POST["isAdmin"]))
             $isAdmin = 1;
         else
-            $isAdmin=0;
+            $isAdmin = 0;
         if ($f) {
             mysqli_query($conn, "update admin set name='$f_name',dept_id='$d_id',`isAdmin`='$isAdmin',`email`='$f_email' where id='$f_id'");
             mysqli_query($conn, "UPDATE `login` SET `email`='$f_email' WHERE `reg_id`='$f_id'");
@@ -32,11 +32,12 @@ try {
     } else if (isset($_POST["submit_drop_teacher"])) {
         $f_id = $_POST["f_id"];
         mysqli_query($conn, "DELETE FROM `admin` where id='$f_id'");
+        mysqli_query($conn, "DELETE FROM `login` where `reg_id`='$f_id'");
     } else if (isset($_POST["csv"])) {
         $handle = fopen($_FILES['filename']['tmp_name'], "r");
         fgetcsv($handle, 1000, ",");
         while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-            echo $data[0].' '.$data[1].' '.$data[2].' '.$data[3].' '.$data[4];
+            echo $data[0] . ' ' . $data[1] . ' ' . $data[2] . ' ' . $data[3] . ' ' . $data[4];
             mysqli_query($conn, "insert into admin (`id`, `name`,`email`,`dept_id`,`isAdmin`) values('$data[0]','$data[1]','$data[2]','$data[3]','$data[4]')");
             mysqli_query($conn, "insert into login values('$data[0]','CMS@123','admin','$data[2]',0)");
         }
@@ -216,13 +217,14 @@ try {
                 </div>
                 <?php
                 $id = $_SESSION['user_id'];
-                $data = mysqli_query($conn, "Select `id`,`name`,`dept_id`,`isAdmin` from `admin`where `id`!='$id'"); ?>
+                $data = mysqli_query($conn, "Select `id`,`name`,`dept_id`,`email`,`isAdmin` from `admin`where `id`!='$id'"); ?>
                 <div class="row mt-4" id="table" style="height: 400px; overflow:auto" hidden>
                     <table class="text-center table table-light" style="height: 10px;">
                         <thead style="position: sticky; top:0;">
                             <tr>
-                                <th>ID</th>
+                                <th>Id</th>
                                 <th>Name</th>
+                                <th>Email</th>
                                 <th>Department</th>
                                 <th>Super Admin</th>
                                 <th></th>
@@ -234,9 +236,10 @@ try {
                             <tr>
                                 <td><?php echo $row['id'] ?></td>
                                 <td><?php echo $row['name'] ?></td>
+                                <td><a href="mailto: <?php echo $row['email'] ?>" target="_blank"><?php echo $row['email'] ?></a></td>
                                 <td><?php echo $row['dept_id'] ?></td>
                                 <td><?php if ($row['isAdmin']) echo "Yes";
-                                    else echo "NO"; ?></td>
+                                    else echo "No"; ?></td>
                                 <td><button class="btn btn-secondary" title="Update"><i class="bx bxs-edit-alt icon " data-id="<?php echo $row['id']; ?>" onclick="update_data(this)"></i></button>
                                     <button class="btn btn-danger" title="Delete"><i class="bx bx-trash-alt icon " data-id="<?php echo $row['id']; ?>" onclick="delete_data(this)"></i></button>
                                 </td>

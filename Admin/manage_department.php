@@ -28,7 +28,7 @@ try {
     $handle = fopen($_FILES['filename']['tmp_name'], "r");
     fgetcsv($handle, 1000, ",");
     while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-      echo "$data[0]".' '.$data[1].' ';
+      echo "$data[0]" . ' ' . $data[1] . ' ';
       mysqli_query($conn, "insert into department values('$data[0]','$data[1]')");
     }
     fclose($handle);
@@ -91,134 +91,131 @@ try {
                   <input type="checkbox" id="check" name="check" onclick="csvInput(this)">
                   <label>Update Using CSV File</label>
                 </div>
-                <div class="form-group" >
+                <div class="form-group">
                   <input class="input1" size="50" type="file" id="file" name="filename" accept=".csv" required hidden disabled>
                 </div>
               <?php endif; ?>
-          </div>
-          <div class="modal-footer">
-            <input type="submit" class="btn btn-default btn-success input1" name="submit_add_department" value="<?php if ($flag) echo "Update";
-                                                                                                                else echo "Add"; ?>" />
-            <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          </div>
-          </form>
-        </div>
-      </div>
-    </div>
-    <div class="modal fade" id="modal2" role="dialog">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Update Department</h5>
-          </div>
-          <div class="modal-body">
-            <form role="form" action="manage_department.php" method="POST" autocomplete="off">
-              <div class="form-group">
-                <label>Department Id</label>
-                <input type="text" class="form-control" name="d_id" id="t_id" placeholder="Enter Department id" required>
+              <div class="modal-footer">
+                <input type="submit" class="btn btn-default btn-success input1" name="submit_add_department" value="<?php if ($flag) echo "Update";
+                                                                                                                    else echo "Add"; ?>" />
+                <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
               </div>
-          </div>
-          <div class="modal-footer">
-            <input type="submit" class="btn btn-default btn-success" name="submit_update_department" value="Proceed" />
-            <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          </div>
-          </form>
-        </div>
-      </div>
-    </div>
-    <div class="modal fade" id="modal3" role="dialog">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Drop Department</h5>
-          </div>
-          <div class="modal-body">
-            <form role="form" action="manage_department.php" method="POST" autocomplete="off">
-              <div class="form-group">
-                <label>Department Id</label>
-                <input type="text" class="form-control" name="d_id" id="t_id" placeholder="Enter Department id" required>
-              </div>
-          </div>
-          <div class="modal-footer">
-            <input type="submit" class="btn btn-default btn-success" name="submit_drop_department" value="Delete" />
-            <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          </div>
-          </form>
-        </div>
-      </div>
-    </div>
-    <section id="gallery" style="min-height: calc(100vh - 155px);">
-      <div class="container">
-        <div class="container mt-4 ">
-          <h1 class="text-center pt-2 pb-2 text">
-            MANAGE DEPARTMENT
-          </h1>
-        </div>
-        <div class="row">
-          <div class="col-lg-4 mt-4">
-            <a href="#" data-bs-toggle="modal" data-bs-target="#modal1" style="color:black">
-              <div class="card">
-                <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
-                <div class="card-body">
-                  <h5 class="card-title text-center">Add Department </h5>
-            </a>
+            </form>
           </div>
         </div>
       </div>
-      <div class="col-lg-4 mt-4">
-        <a href="#" data-bs-toggle="modal" data-bs-target="#modal2" style="color:black">
-          <div class="card">
-            <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
-            <div class="card-body">
-              <h5 class="card-title text-center">Update Depratment</h5>
+      <div class="modal fade" id="modal2" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Update Department</h5>
+            </div>
+            <div class="modal-body">
+              <form role="form" action="manage_department.php" method="POST" autocomplete="off">
+                <div class="form-group">
+                  <label>Department Id</label>
+                  <input type="text" class="form-control" name="d_id" id="t_id" placeholder="Enter Department id" required>
+                </div>
+                <div class="modal-footer">
+                  <input type="submit" class="btn btn-default btn-success" name="submit_update_department" value="Proceed" />
+                  <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+              </form>
             </div>
           </div>
-        </a>
-      </div>
-      <div class="col-lg-4 mt-4">
-        <a href="#" data-bs-toggle="modal" data-bs-target="#modal3" style="color:black">
-          <div class="card">
-            <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
-            <div class="card-body">
-              <h5 class="card-title text-center">Drop Depratment</h5>
+        </div>
+        <div class="modal fade" id="modal3" role="dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Drop Department</h5>
+              </div>
+              <div class="modal-body">
+                <form role="form" action="manage_department.php" method="POST" autocomplete="off">
+                  <div class="form-group">
+                    <label>Department Id</label>
+                    <input type="text" class="form-control" name="d_id" id="t_id" placeholder="Enter Department id" required>
+                  </div>
+                  <div class="modal-footer">
+                    <input type="submit" class="btn btn-default btn-success" name="submit_drop_department" value="Delete" />
+                    <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
-        </a>
-      </div>
-      </div>
-      <div class="form-outline mb-4 mt-5 form-check form-switch">
-        <label>
-          <h6>View Data</h6>
-        </label>
-        <input class="form-check-input" type="checkbox" id="view_data" onclick="view_toggle()">
-      </div>
-      <?php $data = mysqli_query($conn, "Select * from department"); ?>
-      <div class="row mt-4" id="table" style="height: 400px; overflow:auto" hidden>
-        <table class="text-center table table-light" style="height: 10px;">
-          <thead style="position: sticky; top:0;">
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th></th>
-            </tr>
-          </thead>
-          <?php
-          while ($row = mysqli_fetch_array($data)) :
-          ?>
-            <tr>
-              <td><?php echo $row['dept_id'] ?></td>
-              <td><?php echo $row['dept_name'] ?></td>
-              <td><button class="btn btn-secondary" title="Update"><i class="bx bxs-edit-alt icon " data-id="<?php echo $row['dept_id']; ?>" onclick="update_data(this)"></i></button>
-                <button class="btn btn-danger" title="Delete"><i class="bx bx-trash-alt icon " data-id="<?php echo $row['dept_id']; ?>" onclick="delete_data(this)"></i></button>
-              </td>
-            </tr>
-          <?php
-          endwhile;
-          ?>
-        </table>
-      </div>
-    </section>
-    <?php include '../includes/footer.php'; ?>
+          <section id="gallery" style="min-height: calc(100vh - 155px);">
+            <div class="container">
+              <div class="container mt-4 ">
+                <h1 class="text-center pt-2 pb-2 text">
+                  MANAGE DEPARTMENT
+                </h1>
+              </div>
+              <div class="row">
+                <div class="col-lg-4 mt-4">
+                  <a href="#" data-bs-toggle="modal" data-bs-target="#modal1" style="color:black">
+                    <div class="card">
+                      <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
+                      <div class="card-body">
+                        <h5 class="card-title text-center">Add Department </h5>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 mt-4">
+              <a href="#" data-bs-toggle="modal" data-bs-target="#modal2" style="color:black">
+                <div class="card">
+                  <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
+                  <div class="card-body">
+                    <h5 class="card-title text-center">Update Depratment</h5>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <div class="col-lg-4 mt-4">
+              <a href="#" data-bs-toggle="modal" data-bs-target="#modal3" style="color:black">
+                <div class="card">
+                  <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
+                  <div class="card-body">
+                    <h5 class="card-title text-center">Drop Depratment</h5>
+                  </div>
+                </div>
+              </a>
+            </div>
+        </div>
+        <div class="form-outline mb-4 mt-5 form-check form-switch">
+          <label>
+            <h6>View Data</h6>
+          </label>
+          <input class="form-check-input" type="checkbox" id="view_data" onclick="view_toggle()">
+        </div>
+        <?php $data = mysqli_query($conn, "Select * from department"); ?>
+        <div class="row mt-4" id="table" style="height: 400px; overflow:auto" hidden>
+          <table class="text-center table table-light" style="height: 10px;">
+            <thead style="position: sticky; top:0;">
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th></th>
+              </tr>
+            </thead>
+            <?php
+            while ($row = mysqli_fetch_array($data)) :
+            ?>
+              <tr>
+                <td><?php echo $row['dept_id'] ?></td>
+                <td><?php echo $row['dept_name'] ?></td>
+                <td><button class="btn btn-secondary" title="Update"><i class="bx bxs-edit-alt icon " data-id="<?php echo $row['dept_id']; ?>" onclick="update_data(this)"></i></button>
+                  <button class="btn btn-danger" title="Delete"><i class="bx bx-trash-alt icon " data-id="<?php echo $row['dept_id']; ?>" onclick="delete_data(this)"></i></button>
+                </td>
+              </tr>
+            <?php
+            endwhile;
+            ?>
+          </table>
+        </div>
+  </section>
+  <?php include '../includes/footer.php'; ?>
   </section>
   <script type="text/javascript" src="../js/sidebar.js"></script>
   <script>
@@ -227,13 +224,13 @@ try {
       if (checkBox.checked) {
         tmp[0].disabled = true;
         tmp[1].disabled = true;
-        tmp[2].hidden=false;
+        tmp[2].hidden = false;
         tmp[2].disabled = false;
         tmp[3].setAttribute("name", "csv");
       } else {
         tmp[0].disabled = false;
         tmp[1].disabled = false;
-        tmp[2].hidden=true;
+        tmp[2].hidden = true;
         tmp[2].disabled = true;
         tmp[3].setAttribute("name", "submit_add_department");
       }

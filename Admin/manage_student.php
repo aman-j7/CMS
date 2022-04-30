@@ -15,10 +15,11 @@ try {
     $d_id = $_POST["d_id"];
     $s_email = $_POST["s_email"];
     if ($f) {
-      mysqli_query($conn, "update student set name='$s_name',dept_id='$d_id' where id='$s_id'");
+      mysqli_query($conn, "update student set name='$s_name',dept_id='$d_id',`email`='$s_email' where id='$s_id'");
+      mysqli_query($conn, "UPDATE `login` SET `email`='$s_email' WHERE `reg_id`='$s_id'");
     } else {
-      mysqli_query($conn, "insert into student (`id`, `name`, `dept_id`) values('$s_id','$s_name','$d_id')");
-      mysqli_query($conn, "insert into login values('$s_id','CMS@123','student','$s_email',0)"); //email change krna hai or moodle mai email ka option dena
+      mysqli_query($conn, "insert into student (`id`, `name`, `dept_id`,`email`) values('$s_id','$s_name','$d_id','$s_email')");
+      mysqli_query($conn, "insert into login values('$s_id','CMS@123','student','$s_email',0)");
     }
   } else if (isset($_POST["submit_update_student"])) {
     $s_id = $_POST["s_id"];
@@ -28,6 +29,7 @@ try {
   } else if (isset($_POST["submit_drop_student"])) {
     $s_id = $_POST["s_id"];
     mysqli_query($conn, "DELETE FROM `student` where id='$s_id'");
+    mysqli_query($conn, "DELETE FROM `login` where `reg_id`='$s_id'");
   } else if (isset($_POST["csv"])) {
     $handle = fopen($_FILES['filename']['tmp_name'], "r");
     fgetcsv($handle, 1000, ",");
@@ -54,6 +56,7 @@ try {
   <link rel="stylesheet" href="../CSS/footer.css">
   </script>
 </head>
+
 <body>
   <?php if ($exception_occur) : ?>
     <script>
@@ -89,7 +92,7 @@ try {
                                                                                                                       else echo ""; ?>" required>
               </div>
               <div class="form-group">
-                <label>Emai</label>
+                <label>Email</label>
                 <input type="email" class="form-control input1" placeholder="Enter Student email" name="s_email" value="<?php if ($flag) echo $row['email'];
                                                                                                                         else echo ""; ?>" required>
               </div>
@@ -112,137 +115,137 @@ try {
                   <input type="checkbox" id="check" name="check" onclick="csvInput(this)">
                   <label>Update Using CSV File</label>
                 </div>
-                <div class="form-group" >
+                <div class="form-group">
                   <input class="input1" size="50" type="file" id="file" name="filename" accept=".csv" required hidden disabled>
                 </div>
               <?php endif; ?>
-          </div>
-          <div class="modal-footer">
-            <input type="submit" class="btn btn-default btn-success input1" name="submit_add_student" value="<?php if ($flag) echo "Update";
-                                                                                                              else echo "Add"; ?>" />
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          </div>
-          </form>
-        </div>
-      </div>
-    </div>
-    <div class="modal fade" id="modal2" role="dialog">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Update Student</h5>
-          </div>
-          <div class="modal-body">
-            <form role="form" action="manage_student.php" method="POST" autocomplete="off">
-              <div class="form-group">
-                <label>Student Id</label>
-                <input type="text" class="form-control" name="s_id" id="s_id" placeholder="Enter Student id" required>
+              <div class="modal-footer">
+                <input type="submit" class="btn btn-default btn-success input1" name="submit_add_student" value="<?php if ($flag) echo "Update";
+                                                                                                                  else echo "Add"; ?>" />
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
               </div>
+            </form>
           </div>
-          <div class="modal-footer">
-            <input type="submit" class="btn btn-default btn-success" name="submit_update_student" value="Proceed" />
-            <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          </div>
-          </form>
         </div>
       </div>
-    </div>
-    <div class="modal fade" id="modal3" role="dialog">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Drop Student</h5>
-          </div>
-          <div class="modal-body">
-            <form role="form" action="manage_student.php" method="POST" autocomplete="off">
-              <div class="form-group">
-                <label>Student Id</label>
-                <input type="text" class="form-control" name="s_id" id="s_id" placeholder="Enter Student id" required>
-              </div>
-          </div>
-          <div class="modal-footer">
-            <input type="submit" class="btn btn-default btn-success" name="submit_drop_student" value="Delete" />
-            <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          </div>
-          </form>
-        </div>
-      </div>
-    </div>
-    <section id="gallery" style="min-height: calc(100vh - 155px);">
-      <div class="container mt-4 ">
-        <h1 class="text-center pt-2 pb-2 text">
-          MANAGE STUDENT
-        </h1>
-      </div>
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-4 mt-4">
-            <a href="#" data-bs-toggle="modal" data-bs-target="#modal1" style="color:black">
-              <div class="card">
-                <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
-                <div class="card-body">
-                  <h5 class="card-title text-center">Add Student </h5>
+      <div class="modal fade" id="modal2" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Update Student</h5>
+            </div>
+            <div class="modal-body">
+              <form role="form" action="manage_student.php" method="POST" autocomplete="off">
+                <div class="form-group">
+                  <label>Student Id</label>
+                  <input type="text" class="form-control" name="s_id" id="s_id" placeholder="Enter Student id" required>
                 </div>
-              </div>
-            </a>
-          </div>
-          <div class="col-lg-4 mt-4">
-            <a href="#" data-bs-toggle="modal" data-bs-target="#modal2" style="color:black">
-              <div class="card">
-                <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
-                <div class="card-body">
-                  <h5 class="card-title text-center">Update Student</h5>
+                <div class="modal-footer">
+                  <input type="submit" class="btn btn-default btn-success" name="submit_update_student" value="Proceed" />
+                  <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
-              </div>
-            </a>
+              </form>
+            </div>
           </div>
-          <div class="col-lg-4 mt-4">
-            <a href="#" data-bs-toggle="modal" data-bs-target="#modal3" style="color:black">
-              <div class="card">
-                <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
-                <div class="card-body">
-                  <h5 class="card-title text-center">Drop Student</h5>
+        </div>
+      </div>
+      <div class="modal fade" id="modal3" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Drop Student</h5>
+            </div>
+            <div class="modal-body">
+              <form role="form" action="manage_student.php" method="POST" autocomplete="off">
+                <div class="form-group">
+                  <label>Student Id</label>
+                  <input type="text" class="form-control" name="s_id" id="s_id" placeholder="Enter Student id" required>
                 </div>
-              </div>
-            </a>
+                <div class="modal-footer">
+                  <input type="submit" class="btn btn-default btn-success" name="submit_drop_student" value="Delete" />
+                  <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
-        <div class="form-outline mb-4 mt-5 form-check form-switch">
-          <label>
-            <h6>View Data</h6>
-          </label>
-          <input class="form-check-input" type="checkbox" id="view_data" onclick="view_toggle()">
-        </div>
-        <?php $data = mysqli_query($conn, "Select id,name,dept_id from student"); ?>
-        <div class="row mt-4" id="table" style="height: 400px; overflow:auto" hidden>
-          <table class="text-center table table-light" style="height: 10px;">
-            <thead style="position: sticky; top:0;">
-              <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Department</th>
-                <th></th>
-              </tr>
-            </thead>
-            <?php
-            while ($row = mysqli_fetch_array($data)) :
-            ?>
-              <tr>
-                <td><?php echo $row['id'] ?></td>
-                <td><?php echo $row['name'] ?></td>
-                <td><?php echo $row['dept_id'] ?></td>
-                <td>
-                  <button class="btn btn-secondary" title="Update"><i class="bx bxs-edit-alt icon " data-id="<?php echo $row['id']; ?>" onclick="update_data(this)"></i></button>
-                  <button class="btn btn-danger" title="Delete"><i class="bx bx-trash-alt icon " data-id="<?php echo $row['id']; ?>" onclick="delete_data(this)"></i></button>
-                </td>
-              </tr>
-            <?php
-            endwhile;
-            ?>
-          </table>
-        </div>
-    </section>
-    <?php include '../includes/footer.php'; ?>
+        <section id="gallery" style="min-height: calc(100vh - 155px);">
+          <div class="container mt-4 ">
+            <h1 class="text-center pt-2 pb-2 text">
+              MANAGE STUDENT
+            </h1>
+          </div>
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-4 mt-4">
+                <a href="#" data-bs-toggle="modal" data-bs-target="#modal1" style="color:black">
+                  <div class="card">
+                    <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
+                    <div class="card-body">
+                      <h5 class="card-title text-center">Add Student </h5>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <div class="col-lg-4 mt-4">
+                <a href="#" data-bs-toggle="modal" data-bs-target="#modal2" style="color:black">
+                  <div class="card">
+                    <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
+                    <div class="card-body">
+                      <h5 class="card-title text-center">Update Student</h5>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <div class="col-lg-4 mt-4">
+                <a href="#" data-bs-toggle="modal" data-bs-target="#modal3" style="color:black">
+                  <div class="card">
+                    <img src="../images/1.png" alt="" class="card-img-top" style="background-color:<?php echo randomhex(); ?>">
+                    <div class="card-body">
+                      <h5 class="card-title text-center">Drop Student</h5>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+            <div class="form-outline mb-4 mt-5 form-check form-switch">
+              <label>
+                <h6>View Data</h6>
+              </label>
+              <input class="form-check-input" type="checkbox" id="view_data" onclick="view_toggle()">
+            </div>
+            <?php $data = mysqli_query($conn, "Select id,name,dept_id,email from student"); ?>
+            <div class="row mt-4" id="table" style="height: 400px; overflow:auto" hidden>
+              <table class="text-center table table-light" style="height: 10px;">
+                <thead style="position: sticky; top:0;">
+                  <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Department</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <?php
+                while ($row = mysqli_fetch_array($data)) :
+                ?>
+                  <tr>
+                    <td><?php echo $row['id'] ?></td>
+                    <td><?php echo $row['name'] ?></td>
+                    <td><a href="mailto: <?php echo $row['email'] ?>" target="_blank"><?php echo $row['email'] ?></a></td>
+                    <td><?php echo $row['dept_id'] ?></td>
+                    <td>
+                      <button class="btn btn-secondary" title="Update"><i class="bx bxs-edit-alt icon " data-id="<?php echo $row['id']; ?>" onclick="update_data(this)"></i></button>
+                      <button class="btn btn-danger" title="Delete"><i class="bx bx-trash-alt icon " data-id="<?php echo $row['id']; ?>" onclick="delete_data(this)"></i></button>
+                    </td>
+                  </tr>
+                <?php
+                endwhile;
+                ?>
+              </table>
+            </div>
+        </section>
+        <?php include '../includes/footer.php'; ?>
   </section>
   <script type="text/javascript" src="../js/sidebar.js"></script>
   <script>
@@ -253,7 +256,7 @@ try {
         tmp[1].disabled = true;
         tmp[2].disabled = true;
         tmp[3].disabled = true;
-        tmp[4].hidden=false;
+        tmp[4].hidden = false;
         tmp[4].disabled = false;
         tmp[5].setAttribute("name", "csv");
       } else {
@@ -261,11 +264,12 @@ try {
         tmp[1].disabled = false;
         tmp[2].disabled = false;
         tmp[3].disabled = false;
-        tmp[4].hidden=true;
+        tmp[4].hidden = true;
         tmp[4].disabled = true;
         tmp[5].setAttribute("name", "csv");
       }
     }
+
     function view_toggle(a) {
       var a = document.getElementById("view_data");
       var x = document.getElementById("table");
@@ -291,4 +295,5 @@ try {
     }
   </script>
 </body>
+
 </html>
