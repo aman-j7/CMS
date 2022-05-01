@@ -3,7 +3,7 @@ include "../includes/config.php";
 if ($_SESSION['user_id'] == Null || $_SESSION['type'] == Null ||  $_SESSION['type'] == 'admin') {
   header("Location:../login.php");
 }
-$user_id = $_SESSION['user_id'];
+$user_id =$_SESSION['user_id'];
 include "../video/api.php";
 $pageName = basename($_SERVER['PHP_SELF']);
 $courseDiscussion = $_GET["course"];

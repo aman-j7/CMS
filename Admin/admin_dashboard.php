@@ -103,7 +103,7 @@ $isAdmin = $isAdmin['isAdmin'];
     <?php include '../includes/footer.php'; ?>
   </section>
   <script type="text/javascript" src="../js/sidebar.js"></script>
-  <?php include '../includes/checkDarkTheme.php'; ?>
+  <?php include '../includes/checkDarkTheme.php';?>
 </body>
 
 </html>

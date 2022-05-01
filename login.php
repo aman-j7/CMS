@@ -19,13 +19,6 @@ try {
       $remember = $_POST["remember"];
       $_SESSION['user_id'] = $registration_Id;
       $_SESSION['type'] = $row['role'];
-      if (isset($_COOKIE['theme'])) {
-         $theme= $_COOKIE['theme'];
-         $_SESSION['theme']=$theme;
-      } else {
-        $_SESSION['theme'] = 'light';
-        echo "not set";
-      }
       if ($remember) {
         setcookie('username', $registration_Id, time() + (86400 * 7));
         setcookie('password', $password, time() + (86400 * 7));
@@ -58,6 +51,13 @@ try {
 </head>
 
 <body>
+  <?php
+if (isset($_COOKIE['theme'])) {
+         $theme= $_COOKIE['theme'];
+         $_SESSION['theme']=$theme;
+      } else {
+        $_SESSION['theme'] = 'light';
+      }?>
   <?php if ($exception_occur) : ?>
     <script>
       alert("<?php echo $exception_cause->getMessage() ?>");
