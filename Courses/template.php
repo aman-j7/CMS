@@ -398,6 +398,7 @@ if (isset($_POST["submit"])) {
       });
     }
   </script>
+  <?php include '../includes/checkDarkTheme.php'; ?>
 </body>
 
 </html>

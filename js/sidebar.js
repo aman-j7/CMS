@@ -10,13 +10,29 @@ toggle.addEventListener("click", () => {
 })
 
 modeSwitch.addEventListener("click", setTheme );
+
 function setTheme(){
+  isSet=body.classList.contains("dark");
   body.classList.toggle("dark");
   if (body.classList.contains("dark")) {
     modeText.innerText = "Light mode";
   } else {
     modeText.innerText = "Dark mode";
   }
+  jQuery.ajax({
+    url:'../includes/set_theme.php',
+    type: 'POST',
+    data: {
+      'checked' : isSet ? 'light' : 'dark'
+    },
+    success:function(result){
+    }
+  });
+}
+
+function setDarkTheme(){
+  body.classList.toggle("dark");
+  modeText.innerText = "Dark mode";
 }
 
 function updateUserStatus(){

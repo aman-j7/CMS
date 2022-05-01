@@ -266,6 +266,7 @@ try {
       $('#modal3').modal('show');
     }
   </script>
+  <?php include '../includes/checkDarkTheme.php'; ?>
 </body>
 
 </html>

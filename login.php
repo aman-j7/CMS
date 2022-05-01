@@ -11,7 +11,6 @@ try {
     elseif ($_SESSION['type']  == "admin")
       header("Location:Admin/admin_dashboard.php");
   } else if (isset($_POST["submit"])) {
-    
     $registration_Id = $_POST["id"];
     $password = $_POST["password"];
     $res = mysqli_query($conn, "select role from login where reg_id='$registration_Id' and password='$password'");
@@ -20,6 +19,13 @@ try {
       $remember = $_POST["remember"];
       $_SESSION['user_id'] = $registration_Id;
       $_SESSION['type'] = $row['role'];
+      if (isset($_COOKIE['theme'])) {
+         $theme= $_COOKIE['theme'];
+         $_SESSION['theme']=$theme;
+      } else {
+        $_SESSION['theme'] = 'light';
+        echo "not set";
+      }
       if ($remember) {
         setcookie('username', $registration_Id, time() + (86400 * 7));
         setcookie('password', $password, time() + (86400 * 7));
@@ -39,7 +45,6 @@ try {
   $exception_cause = $except;
 }
 ?>
-
 
 <html>
 

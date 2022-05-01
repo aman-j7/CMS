@@ -221,6 +221,7 @@ if ($row['address'])
 			btn[2].hidden = true;
 		}
 	</script>
+	<?php include '../includes/checkDarkTheme.php'; ?>
 </body>
 
 </html>

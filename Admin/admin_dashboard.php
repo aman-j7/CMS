@@ -1,6 +1,6 @@
 <?php
 include "../includes/config.php";
-if($_SESSION['user_id']==Null || $_SESSION['type']==Null ||  $_SESSION['type']!='admin'){
+if ($_SESSION['user_id'] == Null || $_SESSION['type'] == Null ||  $_SESSION['type'] != 'admin') {
   header("Location:../login.php");
 }
 $pageName = basename($_SERVER['PHP_SELF']);
@@ -103,6 +103,7 @@ $isAdmin = $isAdmin['isAdmin'];
     <?php include '../includes/footer.php'; ?>
   </section>
   <script type="text/javascript" src="../js/sidebar.js"></script>
+  <?php include '../includes/checkDarkTheme.php'; ?>
 </body>
 
 </html>

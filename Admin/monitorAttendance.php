@@ -61,6 +61,7 @@ $res = mysqli_query($conn, "SELECT `course_name`,`course_id` FROM `courses`");
         <?php include '../includes/footer.php'; ?>
     </section>
     <script type="text/javascript" src="../js/sidebar.js"></script>
+    <?php include '../includes/checkDarkTheme.php'; ?>
 </body>
 
 </html>

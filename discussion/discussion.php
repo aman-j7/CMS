@@ -144,6 +144,7 @@ $result =  mysqli_query($conn, "SELECT *  FROM $courseDiscussion where parent_co
     </div>
   </section>
   <script type="text/javascript" src="../js/sidebar.js"></script>
+  <?php include '../includes/checkDarkTheme.php'; ?>
 </body>
 
 </html>

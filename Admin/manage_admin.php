@@ -64,7 +64,8 @@ try {
 </head>
 
 <body>
-    <?php if ($exception_occur) : ?>
+    <?php
+    if ($exception_occur) : ?>
         <script>
             alert("<?php echo $exception_cause->getMessage() ?>");
         </script>
@@ -303,6 +304,7 @@ try {
             $('#modal3').modal('show');
         }
     </script>
+    <?php include '../includes/checkDarkTheme.php'; ?>
 </body>
 
 </html>

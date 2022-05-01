@@ -93,6 +93,7 @@ if ($role == 'student') {
     <?php include '../includes/footer.php'; ?>
   </section>
   <script type="text/javascript" src="../js/sidebar.js"></script>
+  <?php include '../includes/checkDarkTheme.php'; ?>
 </body>
 
 </html>
