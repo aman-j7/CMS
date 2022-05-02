@@ -112,7 +112,10 @@ try {
     mysqli_query($conn, "ALTER TABLE $progress DROP COLUMN $colname");
   } else if (isset($_POST["csv_add_course"])) {
     $handle = fopen($_FILES['filename']['tmp_name'], "r");
-    fgetcsv($handle, 1000, ",");
+    $data=fgetcsv($handle, 1000, ",");
+    if( !$data || $data[0]!='course_id' || $data[1]!='course_name' ){
+        throw new Exception("The order of Column in CSV file should be : course_id , course_name");
+    }
     while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
       mysqli_query($conn, "insert into courses values('$data[0]','$data[1]')");
       $c_id = $data[0];
@@ -142,14 +145,20 @@ try {
     fclose($handle);
   } else if (isset($_POST["csv_add_teacher"])) {
     $handle = fopen($_FILES['filename']['tmp_name'], "r");
-    fgetcsv($handle, 1000, ",");
+    $data=fgetcsv($handle, 1000, ",");
+    if( !$data || $data[0]!='course_id' || $data[1]!='teacher_id' ){
+        throw new Exception("The order of Column in CSV file should be : course_id , teacher_id");
+    }
     while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
       mysqli_query($conn, "insert into teaches values('$data[0]','$data[1]')");
     }
     fclose($handle);
   } else if (isset($_POST["csv_add_student"])) {
     $handle = fopen($_FILES['filename']['tmp_name'], "r");
-    fgetcsv($handle, 1000, ",");
+    $data=fgetcsv($handle, 1000, ",");
+    if( !$data || $data[0]!='course_id' || $data[1]!='student_id' ){
+        throw new Exception("The order of Column in CSV file should be : course_id , student_id");
+    }
     while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
       mysqli_query($conn, "insert into assign values('$data[0]','$data[1]')");
       $progress = $data[0] . "p";

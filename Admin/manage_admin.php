@@ -38,9 +38,11 @@ try {
         mysqli_query($conn, "DELETE FROM `login` where `reg_id`='$f_id'");
     } else if (isset($_POST["csv"])) {
         $handle = fopen($_FILES['filename']['tmp_name'], "r");
-        fgetcsv($handle, 1000, ",");
+        $data=fgetcsv($handle, 1000, ",");
+        if( !$data || $data[0]!='id' || $data[1]!='name' || $data[2]!='email' || $data[3]!='dept_id' || $data[4]!='isAdmin' ){
+            throw new Exception("The order of Column in CSV file should be : id , name , email , dept_id, isAdmin");
+        }
         while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-            echo $data[0] . ' ' . $data[1] . ' ' . $data[2] . ' ' . $data[3] . ' ' . $data[4];
             mysqli_query($conn, "insert into admin (`id`, `name`,`email`,`dept_id`,`isAdmin`) values('$data[0]','$data[1]','$data[2]','$data[3]','$data[4]')");
             mysqli_query($conn, "insert into login values('$data[0]','CMS@123','admin','$data[2]',0)");
         }

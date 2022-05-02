@@ -4,15 +4,25 @@ if ($_SESSION['user_id'] == Null || $_SESSION['type'] == Null ||  $_SESSION['typ
   header("Location:../login.php");
 }
 $user_id =$_SESSION['user_id'];
-include "../video/api.php";
+$role = $_SESSION['type'];
 $pageName = basename($_SERVER['PHP_SELF']);
 $courseDiscussion = $_GET["course"];
+if($role=='teacher'){
+  $allowed= mysqli_query($conn, "SELECT `course_id` FROM `teaches` WHERE `course_id`='$courseDiscussion' AND `teacher_id`='$user_id' ");
+}else{
+  $allowed= mysqli_query($conn, "SELECT `course_id` FROM `assign` WHERE `course_id`='$courseDiscussion' AND `student_id`='$user_id' ");
+}
+if(!mysqli_num_rows($allowed)){
+  header("Location:../login.php");
+}
 $course = strtoupper($_GET["course"]);
 $t = mysqli_query($conn, "SELECT `course_name` FROM `courses` where course_id='$course'");
 $t = mysqli_fetch_array($t);
 $subject = strtoupper($t["course_name"]);
 $flag = 0;
-$role = $_SESSION['type'];
+if($role=='teacher'){
+  include "../video/api.php";
+}
 if (isset($_POST["submit"])) {
   $f = $_POST['f'];
   $h = strtoupper($_POST["head"]);

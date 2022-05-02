@@ -6,6 +6,13 @@ if($_SESSION['user_id']==Null || $_SESSION['type']==Null ||  $_SESSION['type']==
 $role = $_SESSION['type'];
 $pageName = basename($_SERVER['PHP_SELF']);
 $course = $_GET["course"];
+if($role=='teacher'){
+  $id=$_SESSION['user_id'];
+  $allowed= mysqli_query($conn, "SELECT `course_id` FROM `teaches` WHERE `course_id`='$course' AND `teacher_id`='$id' ");
+  if(!mysqli_num_rows($allowed)){
+    header("Location:../login.php");
+  }
+}
 $courseAttendance = $course . 'p';
 ?>
 <html>

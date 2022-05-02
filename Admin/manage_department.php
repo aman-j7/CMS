@@ -29,7 +29,10 @@ try {
     mysqli_query($conn, "DELETE FROM `department` where dept_id='$d_id'");
   } else if (isset($_POST["csv"])) {
     $handle = fopen($_FILES['filename']['tmp_name'], "r");
-    fgetcsv($handle, 1000, ",");
+    $data=fgetcsv($handle, 1000, ",");
+    if( !$data || $data[0]!='dept_id' || $data[1]!='dept_name' ){
+        throw new Exception("The order of Column in CSV file should be : dept_id , dept_name");
+    }
     while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
       echo "$data[0]" . ' ' . $data[1] . ' ';
       mysqli_query($conn, "insert into department values('$data[0]','$data[1]')");

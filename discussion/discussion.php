@@ -5,13 +5,20 @@ if ($_SESSION['user_id'] == Null || $_SESSION['type'] == Null ||  $_SESSION['typ
 }
 $pageName = basename($_SERVER['PHP_SELF']);
 $course = $_GET["course"];
-$courseDiscussion = $course;
 $id = $_SESSION['user_id'];
 $role = $_SESSION['type'];
+if($role=='teacher'){
+  $allowed= mysqli_query($conn, "SELECT `course_id` FROM `teaches` WHERE `course_id`='$course' AND `teacher_id`='$id' ");
+}else{
+  $allowed= mysqli_query($conn, "SELECT `course_id` FROM `assign` WHERE `course_id`='$course' AND `student_id`='$id' ");
+}
+if(!mysqli_num_rows($allowed)){
+  header("Location:../login.php");
+}
 $username = mysqli_query($conn, "SELECT name FROM $role WHERE id='$id'");
 $username = mysqli_fetch_array($username);
 $username = $username['name'];
-$courseDiscussion = $courseDiscussion . "d";
+$courseDiscussion = $course."d";
 if (isset($_POST["save"])) {
   $id = $_POST['id'];
   $name = $_POST['name'];
