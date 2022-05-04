@@ -1,55 +1,61 @@
 <?php
 include "../includes/config.php";
-if ($_SESSION['user_id'] == Null || $_SESSION['type'] == Null ) {
+if ($_SESSION['user_id'] == Null || $_SESSION['type'] == Null) {
   header("Location:../login.php");
 }
 $pageName = basename($_SERVER['PHP_SELF']);
 $course = $_GET["course"];
 $id = $_SESSION['user_id'];
 $role = $_SESSION['type'];
-if($role=='admin'){
-  $isAdmin=mysqli_query($conn, "SELECT `isAdmin` FROM `admin` WHERE `id`='$id' ");
-  $isAdmin=mysqli_fetch_array($isAdmin);
-  $isAdmin=$isAdmin['isAdmin'];
-}
-else{
-  if($role=='teacher'){
-    $allowed= mysqli_query($conn, "SELECT `course_id` FROM `teaches` WHERE `course_id`='$course' AND `teacher_id`='$id' ");
-  }else if($role=='student'){
-    $allowed= mysqli_query($conn, "SELECT `course_id` FROM `assign` WHERE `course_id`='$course' AND `student_id`='$id' ");
+if ($role == 'admin') {
+  $isAdmin = mysqli_query($conn, "SELECT `isAdmin` FROM `admin` WHERE `id`='$id' ");
+  $isAdmin = mysqli_fetch_array($isAdmin);
+  $isAdmin = $isAdmin['isAdmin'];
+} else {
+  if ($role == 'teacher') {
+    $allowed = mysqli_query($conn, "SELECT `course_id` FROM `teaches` WHERE `course_id`='$course' AND `teacher_id`='$id' ");
+  } else if ($role == 'student') {
+    $allowed = mysqli_query($conn, "SELECT `course_id` FROM `assign` WHERE `course_id`='$course' AND `student_id`='$id' ");
   }
-  if(!mysqli_num_rows($allowed)){
+  if (!mysqli_num_rows($allowed)) {
     header("Location:../login.php");
   }
 }
 $username = mysqli_query($conn, "SELECT name FROM $role WHERE id='$id'");
 $username = mysqli_fetch_array($username);
 $username = $username['name'];
-$courseDiscussion = $course."d";
+$courseDiscussion = $course . "d";
 if (isset($_POST["save"])) {
-  $id = $_POST['id'];
+  $pid = $_POST['id'];
   $name = $_POST['name'];
   $msg = $_POST['msg'];
-  if($role=='admin' && $isAdmin){
-      $checkedRole='superAdmin';
-  }else{
-    $checkedRole=$role;
+  if ($role == 'admin' && $isAdmin) {
+    $checkedRole = 'superAdmin';
+  } else {
+    $checkedRole = $role;
   }
   if ($name != "" && $msg != "") {
-    mysqli_query($conn, "INSERT INTO $courseDiscussion (parent_comment, student, `role`, post) VALUES ('$id', '$name', '$checkedRole', '$msg')");
+    mysqli_query($conn, "INSERT INTO $courseDiscussion (`parent_comment`,`student`,`user_id`, `role`, `post`) VALUES ('$pid', '$name','$id','$checkedRole', '$msg')");
   }
 } else if (isset($_POST["btnreply"])) {
-  $id = $_POST['pid'];
+  $pid = $_POST['pid'];
   $name = $_POST['name'];
   $msg = $_POST['msg'];
-  if($role=='admin' && $isAdmin){
-    $checkedRole='superAdmin';
-  }else{
-    $checkedRole=$role;
+  if ($role == 'admin' && $isAdmin) {
+    $checkedRole = 'superAdmin';
+  } else {
+    $checkedRole = $role;
   }
   if ($name != "" && $msg != "") {
-    mysqli_query($conn, "INSERT INTO $courseDiscussion (parent_comment, student, `role`, post) VALUES ('$id', '$name', '$checkedRole', '$msg')");
+    mysqli_query($conn, "INSERT INTO $courseDiscussion (`parent_comment`,`student`,`user_id`,`role`, post) VALUES ('$pid', '$name','$id','$checkedRole', '$msg')");
   }
+} else if (isset($_POST["btnEdit"])) {
+  $pid = $_POST['pid'];
+  $msg = $_POST['msg'];
+  mysqli_query($conn, "UPDATE `$courseDiscussion` SET `post`='$msg' WHERE `id`='$pid' ");
+} else if (isset($_POST["delete"])) {
+  $pid = $_POST['id'];
+  mysqli_query($conn, "DELETE  FROM $courseDiscussion where `parent_comment`='$pid' OR `id`='$pid' ");
 }
 $result =  mysqli_query($conn, "SELECT *  FROM $courseDiscussion where parent_comment='0' ORDER BY id desc");
 ?>
@@ -93,12 +99,36 @@ $result =  mysqli_query($conn, "SELECT *  FROM $courseDiscussion where parent_co
         </div>
       </div>
     </div>
+    <div id="editModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header" id="header">
+            <h5 class="modal-title" style="margin:0 auto;" id="exampleModalLabel">Edit</h5>
+          </div>
+          <div class="modal-body">
+            <form name="frm2" method="post" action="discussion.php?course=<?php echo $course; ?>">
+              <div class="form-group">
+                <input type="number" id="pid" name="pid" hidden>
+              </div>
+              <div class="form-group">
+                <label for="comment">Edit your Post:</label>
+                <textarea class="form-control" rows="5" name="msg" id="post" required></textarea>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <input type="submit" name="btnEdit" class="btn btn-primary" value="Edit">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
     <div class="container">
       <div class="panel panel-default" style="margin-top:50px">
         <div class="panel-body">
           <h3>Discussion forum</h3>
           <hr>
-          <form name="frm" method="post" action="discussion.php?course=<?php echo $course; ?>">
+          <form name="frm3" method="post" action="discussion.php?course=<?php echo $course; ?>">
             <input type="hidden" id="id" name="id" value="0">
             <div class="form-group">
               <input type="text" class="form-control" name="name" value="<?php echo $username; ?>" hidden>
@@ -124,15 +154,26 @@ $result =  mysqli_query($conn, "SELECT *  FROM $courseDiscussion where parent_co
                 <tr>
                   <?php
                   $colour = "blue";
-                  if ($res['role'] == 'teacher' || $res['role']=='superAdmin')
+                  if ($res['role'] == 'teacher' || $res['role'] == 'superAdmin')
                     $colour = "red";
                   ?>
                   <td><b><img src="../images/avatar.jpg" width="30px" height="30px" /><span style="color: <?php echo $colour; ?>"> <?php echo $res['student']; ?></span> :<i> <?php echo $res['date']; ?>:</i></b></br>
-                    <p style="padding-left:80px"><?php echo $res['post']; ?></br>
-                      <button type="button" class="btn btn-link" data-toggle="modal" data-target="#ReplyModal" data-id=<?php echo $res['id']; ?> id="submit" onclick="func(this)">
+                    <p style="padding-left:80px"><span id="<?php echo $res['id'] ?>"><?php echo $res['post']; ?></span></br>
+                      <button type="button" class="btn btn-link" data-toggle="modal" data-target="#ReplyModal" data-id=<?php echo $res['id']; ?> id="submit" onclick="reply(this)">
                         Reply
                       </button>
-                    </p>
+                      <?php if ($res['user_id'] == $id) : ?>
+                        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#editModal" data-id=<?php echo $res['id']; ?> id="submit" onclick="edit(this)">
+                          Edit
+                        </button>
+                    <form name="frm4" method="post" action="discussion.php?course=<?php echo $course; ?>">
+                      <input type="hidden" id="id" name="id" value="<?php echo $res['id']; ?>">
+                      <button type="submit" class="btn btn-link" name="delete" value="delete">
+                        Delete
+                      </button>
+                    </form>
+                  <?php endif; ?>
+                  </p>
                   </td>
                 </tr>
                 <?php
@@ -142,11 +183,23 @@ $result =  mysqli_query($conn, "SELECT *  FROM $courseDiscussion where parent_co
                   <tr>
                     <?php
                     $colour = "blue";
-                    if ($res1['role'] == 'teacher' || $res1['role']=='superAdmin')
+                    if ($res1['role'] == 'teacher' || $res1['role'] == 'superAdmin')
                       $colour = "red";
                     ?>
                     <td style="padding-left:80px "><b><img src="../images/avatar.jpg" width="30px" height="30px" /><span style="color: <?php echo $colour; ?>"> <?php echo $res1['student']; ?> </span> :<i> <?php echo $res1['date']; ?>:</i></b></br>
-                      <p style="padding-left:40px"><?php echo $res1['post']; ?></p>
+                      <p style="padding-left:40px"><span id="<?php echo $res1['id'] ?>"><?php echo $res1['post']; ?></span><br>
+                        <?php if ($res1['user_id'] == $id) : ?>
+                          <button type="button" class="btn btn-link" data-toggle="modal" data-target="#editModal" data-id=<?php echo $res1['id']; ?> id="submit" onclick="edit(this)">
+                            Edit
+                          </button>
+                      <form name="frm5" method="post" action="discussion.php?course=<?php echo $course; ?>">
+                        <input type="hidden" id="id" name="id" value="<?php echo $res1['id']; ?>">
+                        <button type="submit" class="btn btn-link" name="delete" value="delete">
+                          Delete
+                        </button>
+                      </form>
+                    <?php endif; ?>
+                    </p>
                     </td>
                   </tr>
                 <?php endwhile; ?>
@@ -155,10 +208,18 @@ $result =  mysqli_query($conn, "SELECT *  FROM $courseDiscussion where parent_co
               <hr>
               </hr>
               <script type="text/javascript">
-                function func(a) {
+                function reply(a) {
                   var str = $(a).attr("data-id");
-                  $(".modal-body #pid").val(str);
+                  $("#ReplyModal .modal-body #pid").val(str);
                   $('#ReplyModal').modal('show');
+                }
+
+                function edit(a) {
+                  var str = $(a).attr("data-id");
+                  var content = document.getElementById(str).innerHTML;
+                  $("#editModal .modal-body #pid").val(str);
+                  $("#editModal .modal-body #post").val(content);
+                  $('#editModal').modal('show');
                 }
               </script>
             </tbody>
