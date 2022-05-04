@@ -55,6 +55,12 @@
             </a>
       </li>
       <li class="">
+        <a href="<?php echo $_SERVER['HTTP_REFERER']; ?>">
+          <i class='bx bx-undo icon'></i>
+          <span class="text nav-text">Previous</span>
+        </a>
+      </li>
+      <li class="">
         <a href="../includes/profile.php">
           <i class='bx bx-user icon'></i>
           <span class="text nav-text">Profile</span>
@@ -107,6 +113,14 @@
             </a>
           </li>
         <?php endif; ?>
+      <?php endif;
+      if ($role == 'admin') : ?>
+        <li class="">
+          <a href="../discussion/discussion.php?course=<?php echo 'admin'; ?>">
+            <i class='bx bx-pie-chart-alt icon'></i>
+            <span class="text nav-text">Discussion</span>
+          </a>
+        </li>
       <?php endif; ?>
     </div>
     <div class="bottom-content">

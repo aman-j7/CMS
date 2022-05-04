@@ -1,19 +1,26 @@
 <?php
 include "../includes/config.php";
-if ($_SESSION['user_id'] == Null || $_SESSION['type'] == Null ||  $_SESSION['type'] == 'admin') {
+if ($_SESSION['user_id'] == Null || $_SESSION['type'] == Null ) {
   header("Location:../login.php");
 }
 $pageName = basename($_SERVER['PHP_SELF']);
 $course = $_GET["course"];
 $id = $_SESSION['user_id'];
 $role = $_SESSION['type'];
-if($role=='teacher'){
-  $allowed= mysqli_query($conn, "SELECT `course_id` FROM `teaches` WHERE `course_id`='$course' AND `teacher_id`='$id' ");
-}else{
-  $allowed= mysqli_query($conn, "SELECT `course_id` FROM `assign` WHERE `course_id`='$course' AND `student_id`='$id' ");
+if($role=='admin'){
+  $isAdmin=mysqli_query($conn, "SELECT `isAdmin` FROM `admin` WHERE `id`='$id' ");
+  $isAdmin=mysqli_fetch_array($isAdmin);
+  $isAdmin=$isAdmin['isAdmin'];
 }
-if(!mysqli_num_rows($allowed)){
-  header("Location:../login.php");
+else{
+  if($role=='teacher'){
+    $allowed= mysqli_query($conn, "SELECT `course_id` FROM `teaches` WHERE `course_id`='$course' AND `teacher_id`='$id' ");
+  }else if($role=='student'){
+    $allowed= mysqli_query($conn, "SELECT `course_id` FROM `assign` WHERE `course_id`='$course' AND `student_id`='$id' ");
+  }
+  if(!mysqli_num_rows($allowed)){
+    header("Location:../login.php");
+  }
 }
 $username = mysqli_query($conn, "SELECT name FROM $role WHERE id='$id'");
 $username = mysqli_fetch_array($username);
@@ -23,15 +30,25 @@ if (isset($_POST["save"])) {
   $id = $_POST['id'];
   $name = $_POST['name'];
   $msg = $_POST['msg'];
+  if($role=='admin' && $isAdmin){
+      $checkedRole='superAdmin';
+  }else{
+    $checkedRole=$role;
+  }
   if ($name != "" && $msg != "") {
-    mysqli_query($conn, "INSERT INTO $courseDiscussion (parent_comment, student, `role`, post) VALUES ('$id', '$name', '$role', '$msg')");
+    mysqli_query($conn, "INSERT INTO $courseDiscussion (parent_comment, student, `role`, post) VALUES ('$id', '$name', '$checkedRole', '$msg')");
   }
 } else if (isset($_POST["btnreply"])) {
   $id = $_POST['pid'];
   $name = $_POST['name'];
   $msg = $_POST['msg'];
+  if($role=='admin' && $isAdmin){
+    $checkedRole='superAdmin';
+  }else{
+    $checkedRole=$role;
+  }
   if ($name != "" && $msg != "") {
-    mysqli_query($conn, "INSERT INTO $courseDiscussion (parent_comment, student, `role`, post) VALUES ('$id', '$name', '$role', '$msg')");
+    mysqli_query($conn, "INSERT INTO $courseDiscussion (parent_comment, student, `role`, post) VALUES ('$id', '$name', '$checkedRole', '$msg')");
   }
 }
 $result =  mysqli_query($conn, "SELECT *  FROM $courseDiscussion where parent_comment='0' ORDER BY id desc");
@@ -107,7 +124,7 @@ $result =  mysqli_query($conn, "SELECT *  FROM $courseDiscussion where parent_co
                 <tr>
                   <?php
                   $colour = "blue";
-                  if ($res['role'] == 'teacher')
+                  if ($res['role'] == 'teacher' || $res['role']=='superAdmin')
                     $colour = "red";
                   ?>
                   <td><b><img src="../images/avatar.jpg" width="30px" height="30px" /><span style="color: <?php echo $colour; ?>"> <?php echo $res['student']; ?></span> :<i> <?php echo $res['date']; ?>:</i></b></br>
@@ -125,7 +142,7 @@ $result =  mysqli_query($conn, "SELECT *  FROM $courseDiscussion where parent_co
                   <tr>
                     <?php
                     $colour = "blue";
-                    if ($res1['role'] == 'teacher')
+                    if ($res1['role'] == 'teacher' || $res1['role']=='superAdmin')
                       $colour = "red";
                     ?>
                     <td style="padding-left:80px "><b><img src="../images/avatar.jpg" width="30px" height="30px" /><span style="color: <?php echo $colour; ?>"> <?php echo $res1['student']; ?> </span> :<i> <?php echo $res1['date']; ?>:</i></b></br>

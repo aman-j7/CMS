@@ -65,21 +65,11 @@ $isAdmin = $isAdmin['isAdmin'];
           </div>
         </div>
         <div class="row">
-          <div class="col-lg-4 mt-4">
-            <a href="monitorAttendance.php" style="color:black">
-              <div class="card">
-                <img src="https://www.easywork.asia/wp-content/uploads/2021/07/feature-attendance-report.svg" alt="" class="card-img-top" style="background-color:skyblue">
-                <div class="card-body">
-                  <h5 class="card-title text-center">Monitor Attendance</h5>
-                </div>
-              </div>
-            </a>
-          </div>
           <?php if ($isAdmin) : ?>
             <div class="col-lg-4 mt-4">
               <a href="manage_admin.php" style="color:black">
                 <div class="card">
-                  <img src="https://icon-library.com/images/result-icon/result-icon-26.jpg" alt="" class="card-img-top">
+                  <img src="https://trackrover.com/wp-content/uploads/2019/07/Automatic-Attendance-and-Employee-Efficiency-Monitoring-Solution.jpg" alt="" class="card-img-top">
                   <div class="card-body">
                     <h5 class="card-title text-center">Manage Admin</h5>
                   </div>
@@ -90,9 +80,19 @@ $isAdmin = $isAdmin['isAdmin'];
           <div class="col-lg-4 mt-4">
             <a href="manage_department.php" style="color:black">
               <div class="card">
-                <img src="https://trackrover.com/wp-content/uploads/2019/07/Automatic-Attendance-and-Employee-Efficiency-Monitoring-Solution.jpg" alt="" class="card-img-top">
+                <img src="https://icon-library.com/images/result-icon/result-icon-26.jpg" alt="" class="card-img-top">
                 <div class="card-body">
                   <h5 class="card-title text-center">Manage Department</h5>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-lg-4 mt-4">
+            <a href="monitorAttendance.php" style="color:black">
+              <div class="card">
+                <img src="https://www.easywork.asia/wp-content/uploads/2021/07/feature-attendance-report.svg" alt="" class="card-img-top" style="background-color:skyblue">
+                <div class="card-body">
+                  <h5 class="card-title text-center">Monitor Attendance</h5>
                 </div>
               </div>
             </a>
@@ -103,7 +103,7 @@ $isAdmin = $isAdmin['isAdmin'];
     <?php include '../includes/footer.php'; ?>
   </section>
   <script type="text/javascript" src="../js/sidebar.js"></script>
-  <?php include '../includes/checkDarkTheme.php';?>
+  <?php include '../includes/checkDarkTheme.php'; ?>
 </body>
 
 </html>
