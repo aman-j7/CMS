@@ -55,7 +55,7 @@
             </a>
       </li>
       <li class="">
-        <a href="<?php echo $_SERVER['HTTP_REFERER']; ?>">
+        <a href="<?php if($_SERVER['HTTP_REFERER']==NULL) echo $pageName; else echo $_SERVER['HTTP_REFERER']; ?>">
           <i class='bx bx-undo icon'></i>
           <span class="text nav-text">Previous</span>
         </a>
