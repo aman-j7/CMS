@@ -158,20 +158,22 @@ $result =  mysqli_query($conn, "SELECT *  FROM $courseDiscussion where parent_co
                     $colour = "red";
                   ?>
                   <td><b><img src="../images/avatar.jpg" width="30px" height="30px" /><span style="color: <?php echo $colour; ?>"> <?php echo $res['student']; ?></span> :<i> <?php echo $res['date']; ?>:</i></b></br>
-                    <p style="padding-left:80px"><span id="<?php echo $res['id'] ?>"><?php echo $res['post']; ?></span></br>
-                      <button type="button" class="btn btn-link" data-toggle="modal" data-target="#ReplyModal" data-id=<?php echo $res['id']; ?> id="submit" onclick="reply(this)">
+                  <p style="padding-left:40px"><span id="<?php echo $res['id'] ?>"><?php echo $res['post']; ?></span></br>
+                  <div>    
+                  <button style="float:left; margin-left:20px;" type="button" class="btn btn-link" data-toggle="modal" data-target="#ReplyModal" data-id=<?php echo $res['id']; ?> id="submit" onclick="reply(this)">
                         Reply
                       </button>
                       <?php if ($res['user_id'] == $id) : ?>
-                        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#editModal" data-id=<?php echo $res['id']; ?> id="submit" onclick="edit(this)">
+                        <button style="float:left;" type="button" class="btn btn-link" data-toggle="modal" data-target="#editModal" data-id=<?php echo $res['id']; ?> id="submit" onclick="edit(this)">
                           Edit
                         </button>
                     <form name="frm4" method="post" action="discussion.php?course=<?php echo $course; ?>">
                       <input type="hidden" id="id" name="id" value="<?php echo $res['id']; ?>">
-                      <button type="submit" class="btn btn-link" name="delete" value="delete">
+                      <button style="float:left;" type="submit" class="btn btn-link" name="delete" value="delete">
                         Delete
                       </button>
                     </form>
+                    </div>
                   <?php endif; ?>
                   </p>
                   </td>
@@ -189,15 +191,17 @@ $result =  mysqli_query($conn, "SELECT *  FROM $courseDiscussion where parent_co
                     <td style="padding-left:80px "><b><img src="../images/avatar.jpg" width="30px" height="30px" /><span style="color: <?php echo $colour; ?>"> <?php echo $res1['student']; ?> </span> :<i> <?php echo $res1['date']; ?>:</i></b></br>
                       <p style="padding-left:40px"><span id="<?php echo $res1['id'] ?>"><?php echo $res1['post']; ?></span><br>
                         <?php if ($res1['user_id'] == $id) : ?>
-                          <button type="button" class="btn btn-link" data-toggle="modal" data-target="#editModal" data-id=<?php echo $res1['id']; ?> id="submit" onclick="edit(this)">
+                          <div>
+                          <button style="float:left; margin-left:20px;" type="button" class="btn btn-link" data-toggle="modal" data-target="#editModal" data-id=<?php echo $res1['id']; ?> id="submit" onclick="edit(this)">
                             Edit
                           </button>
                       <form name="frm5" method="post" action="discussion.php?course=<?php echo $course; ?>">
                         <input type="hidden" id="id" name="id" value="<?php echo $res1['id']; ?>">
-                        <button type="submit" class="btn btn-link" name="delete" value="delete">
+                        <button style="float:left;" type="submit" class="btn btn-link" name="delete" value="delete">
                           Delete
                         </button>
                       </form>
+                      <div>
                     <?php endif; ?>
                     </p>
                     </td>
