@@ -126,15 +126,15 @@ $result =  mysqli_query($conn, "SELECT *  FROM $courseDiscussion where parent_co
     <div class="container">
       <div class="panel panel-default" style="margin-top:50px">
         <div class="panel-body">
-          <h3>Discussion forum</h3>
-          <hr>
+          <h3 class="text">Discussion forum</h3>
+          <hr class="horizontal">
           <form name="frm3" method="post" action="discussion.php?course=<?php echo $course; ?>">
             <input type="hidden" id="id" name="id" value="0">
             <div class="form-group">
               <input type="text" class="form-control" name="name" value="<?php echo $username; ?>" hidden>
             </div>
             <div class="form-group">
-              <label for="comment">Write your question:</label>
+              <label for="comment" class="text">Write your question:</label>
               <textarea class="form-control" rows="5" name="msg" required></textarea>
             </div>
             <input type="submit" name="save" class="btn btn-primary mt-2" value="Send">
@@ -142,7 +142,7 @@ $result =  mysqli_query($conn, "SELECT *  FROM $courseDiscussion where parent_co
         </div>
       </div>
       <div class="panel panel-default">
-        <h3>Recent Questions</h3>
+        <h3 class="text" style="margin-top: 50px;">Recent Questions</h3>
         <div class="panel-body" style="height: 500px; overflow:auto">
           <table class="table" id="MyTable" style="background-color: #edfafa; border-left:1px solid black; border-right:1px solid black">
             <tbody id="record">
@@ -209,8 +209,8 @@ $result =  mysqli_query($conn, "SELECT *  FROM $courseDiscussion where parent_co
                 <?php endwhile; ?>
                 </tr>
               <?php endwhile; ?>
-              <hr>
-              </hr>
+              <hr class="horizontal">
+              </hr class="horizontal">
               <script type="text/javascript">
                 function reply(a) {
                   var str = $(a).attr("data-id");

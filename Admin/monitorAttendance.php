@@ -28,7 +28,7 @@ $res = mysqli_query($conn, "SELECT `course_name`,`course_id` FROM `courses`");
                 Monitor Attendance
             </h1>
         </div>
-        <div class="container border border-3 d-grid gap-3 px-4 mt-4" style="min-height: calc(100vh - 230px);">
+        <div class="container mt-4" style="min-height: calc(100vh - 230px);">
             <div class="container mt-2 ">
                 <?php
                 $c = 0;

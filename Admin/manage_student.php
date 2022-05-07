@@ -218,7 +218,7 @@ try {
         </div>
         <div class="form-outline mb-4 mt-5 form-check form-switch">
           <label>
-            <h6>View Data</h6>
+            <h6 class="text">View Data</h6>
           </label>
           <input class="form-check-input" type="checkbox" id="view_data" onclick="view_toggle()">
         </div>
