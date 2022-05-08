@@ -10,8 +10,8 @@ $exception_cause=new Exception();
 try
 {
 if (isset($_POST["submit"])) {
-  $pass1 = $_POST['pass1'];
-  $pass2 = $_POST['pass2'];
+  $pass1 =  mysqli_real_escape_string($conn,stripcslashes($_POST['pass1']));
+  $pass2 =  mysqli_real_escape_string($conn,stripcslashes($_POST['pass2']));
   if ($pass1 == $pass2) {
     if ($pass1 != "CMS@123") {
       $cur_pass=mysqli_query($conn,"SELECT  `password` FROM `login` WHERE `reg_id`='$id'");

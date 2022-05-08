@@ -11,12 +11,12 @@ try {
     elseif ($_SESSION['type']  == "admin")
       header("Location:Admin/admin_dashboard.php");
   } else if (isset($_POST["submit"])) {
-    $registration_Id = $_POST["id"];
-    $password = $_POST["password"];
+    $registration_Id =  mysqli_real_escape_string($conn,stripcslashes($_POST["id"]));
+    $password =   mysqli_real_escape_string($conn,stripcslashes($_POST["password"]));
     $res = mysqli_query($conn, "select role from login where reg_id='$registration_Id' and password='$password'");
     $row = mysqli_fetch_array($res);
     if ($row) {
-      $remember = $_POST["remember"];
+      $remember =  mysqli_real_escape_string($conn,stripcslashes($_POST["remember"]));
       $_SESSION['user_id'] = $registration_Id;
       $_SESSION['type'] = $row['role'];
       if ($remember) {

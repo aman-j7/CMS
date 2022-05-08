@@ -7,6 +7,9 @@ $pageName = basename($_SERVER['PHP_SELF']);
 $course = $_GET["course"];
 $id = $_SESSION['user_id'];
 $role = $_SESSION['type'];
+$exception_occur = 0;
+$exception_cause = new Exception();
+try {
 if ($role == 'admin') {
   $isAdmin = mysqli_query($conn, "SELECT `isAdmin` FROM `admin` WHERE `id`='$id' ");
   $isAdmin = mysqli_fetch_array($isAdmin);
@@ -26,9 +29,9 @@ $username = mysqli_fetch_array($username);
 $username = $username['name'];
 $courseDiscussion = $course . "d";
 if (isset($_POST["save"])) {
-  $pid = $_POST['id'];
-  $name = $_POST['name'];
-  $msg = $_POST['msg'];
+  $pid = mysqli_real_escape_string($conn,stripcslashes( $_POST['id']));
+  $name = mysqli_real_escape_string($conn,stripcslashes( $_POST['name']));
+  $msg =  mysqli_real_escape_string($conn,stripcslashes($_POST['msg']));
   if ($role == 'admin' && $isAdmin) {
     $checkedRole = 'superAdmin';
   } else {
@@ -38,9 +41,9 @@ if (isset($_POST["save"])) {
     mysqli_query($conn, "INSERT INTO $courseDiscussion (`parent_comment`,`student`,`user_id`, `role`, `post`) VALUES ('$pid', '$name','$id','$checkedRole', '$msg')");
   }
 } else if (isset($_POST["btnreply"])) {
-  $pid = $_POST['pid'];
-  $name = $_POST['name'];
-  $msg = $_POST['msg'];
+  $pid =  mysqli_real_escape_string($conn,stripcslashes($_POST['pid']));
+  $name =  mysqli_real_escape_string($conn,stripcslashes($_POST['name']));
+  $msg = mysqli_real_escape_string($conn,stripcslashes( $_POST['msg']));
   if ($role == 'admin' && $isAdmin) {
     $checkedRole = 'superAdmin';
   } else {
@@ -50,14 +53,18 @@ if (isset($_POST["save"])) {
     mysqli_query($conn, "INSERT INTO $courseDiscussion (`parent_comment`,`student`,`user_id`,`role`, post) VALUES ('$pid', '$name','$id','$checkedRole', '$msg')");
   }
 } else if (isset($_POST["btnEdit"])) {
-  $pid = $_POST['pid'];
-  $msg = $_POST['msg'];
+  $pid = mysqli_real_escape_string($conn,stripcslashes( $_POST['pid']));
+  $msg = mysqli_real_escape_string($conn,stripcslashes( $_POST['msg']));
   mysqli_query($conn, "UPDATE `$courseDiscussion` SET `post`='$msg' WHERE `id`='$pid' ");
 } else if (isset($_POST["delete"])) {
-  $pid = $_POST['id'];
+  $pid =  mysqli_real_escape_string($conn,stripcslashes($_POST['id']));
   mysqli_query($conn, "DELETE  FROM $courseDiscussion where `parent_comment`='$pid' OR `id`='$pid' ");
 }
 $result =  mysqli_query($conn, "SELECT *  FROM $courseDiscussion where parent_comment='0' ORDER BY id desc");
+}catch (Exception $except) {
+  $exception_occur = 1;
+  $exception_cause = $except;
+}
 ?>
 <html>
 
@@ -72,7 +79,12 @@ $result =  mysqli_query($conn, "SELECT *  FROM $courseDiscussion where parent_co
 </head>
 
 <body>
-  <?php include '../includes/sidebar.php'; ?>
+<?php if ($exception_occur) : ?>
+    <script>
+      alert("<?php echo $exception_cause->getMessage() ?>");
+    </script>
+  <?php endif;
+   include '../includes/sidebar.php'; ?>
   <section class="home">
     <div id="ReplyModal" class="modal fade" role="dialog">
       <div class="modal-dialog">

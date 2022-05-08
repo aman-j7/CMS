@@ -2,11 +2,18 @@
 include "../includes/config.php";
 $id = $_SESSION['user_id'];
 $role = $_SESSION['type'];
+$exception_occur = 0;
+$exception_cause = new Exception();
+try {
 $pageName = basename($_SERVER['PHP_SELF']);
 if ($role == 'student') {
   $res = mysqli_query($conn, "SELECT course_id FROM `assign` WHERE student_id='$id'");
 } else {
   $res = mysqli_query($conn, "SELECT course_id FROM `teaches` WHERE teacher_id='$id'");
+}
+}catch (Exception $except) {
+  $exception_occur = 1;
+  $exception_cause = $except;
 }
 ?>
 <html>
@@ -27,7 +34,12 @@ if ($role == 'student') {
 </head>
 
 <body>
-  <?php include '../includes/sidebar.php'; ?>
+<?php if ($exception_occur) : ?>
+    <script>
+      alert("<?php echo $exception_cause->getMessage() ?>");
+    </script>
+  <?php endif;
+  include '../includes/sidebar.php'; ?>
   <section class="home">
     <div class="container mt-4 ">
       <h1 class="text-center pt-2 pb-2 text">

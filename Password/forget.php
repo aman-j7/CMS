@@ -15,9 +15,9 @@ $exception_occur = 0;
 $exception_cause = new Exception();
 try {
   if (isset($_POST["submit2"])) {
-    $o1 = $_POST["otp1"];
-    $otp = $_POST["otp2"];
-    $reg = $_POST["reg"];
+    $o1 =  mysqli_real_escape_string($conn,stripcslashes($_POST["otp1"]));
+    $otp =  mysqli_real_escape_string($conn,stripcslashes($_POST["otp2"]));
+    $reg =  mysqli_real_escape_string($conn,stripcslashes($_POST["reg"]));
     $flag = 0;
     if ($o1 == $otp) {
       header("Location:change_password.php");
@@ -27,7 +27,7 @@ try {
   }
 
   if (isset($_POST["submit1"])) {
-    $reg = $_POST["reg"];
+    $reg =  mysqli_real_escape_string($conn,stripcslashes($_POST["reg"]));
     $res = mysqli_query($conn, "select email from login where reg_id='$reg'");
     $row = mysqli_fetch_array($res);
     if ($row) {

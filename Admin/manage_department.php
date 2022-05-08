@@ -11,21 +11,21 @@ $pageName = basename($_SERVER['PHP_SELF']);
 $exception_cause = new Exception();
 try {
   if (isset($_POST["submit_add_department"])) {
-    $f = $_GET["f"];
-    $d_id = $_POST["d_id"];
-    $d_name = $_POST["d_name"];
+    $f = mysqli_real_escape_string($conn,stripcslashes( $_GET["f"]));
+    $d_id =  mysqli_real_escape_string($conn,stripcslashes($_POST["d_id"]));
+    $d_name =  mysqli_real_escape_string($conn,stripcslashes($_POST["d_name"]));
     if ($f) {
       mysqli_query($conn, "update department set dept_name='$d_name' where dept_id='$d_id'");
     } else {
       mysqli_query($conn, "insert into department values('$d_id','$d_name')");
     }
   } else if (isset($_POST["submit_update_department"])) {
-    $d_id = $_POST["d_id"];
+    $d_id =  mysqli_real_escape_string($conn,stripcslashes($_POST["d_id"]));
     $res = mysqli_query($conn, "Select dept_id,dept_name from department where dept_id='$d_id'");
     $row = mysqli_fetch_array($res);
     $flag = 1;
   } else if (isset($_POST["submit_drop_department"])) {
-    $d_id = $_POST["d_id"];
+    $d_id =  mysqli_real_escape_string($conn,stripcslashes($_POST["d_id"]));
     mysqli_query($conn, "DELETE FROM `department` where dept_id='$d_id'");
   } else if (isset($_POST["csv"])) {
     $handle = fopen($_FILES['filename']['tmp_name'], "r");
@@ -34,7 +34,6 @@ try {
         throw new Exception("The order of Column in CSV file should be : dept_id , dept_name");
     }
     while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-      echo "$data[0]" . ' ' . $data[1] . ' ';
       mysqli_query($conn, "insert into department values('$data[0]','$data[1]')");
     }
     fclose($handle);

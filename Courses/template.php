@@ -7,6 +7,9 @@ $user_id =$_SESSION['user_id'];
 $role = $_SESSION['type'];
 $pageName = basename($_SERVER['PHP_SELF']);
 $courseDiscussion = $_GET["course"];
+$exception_occur = 0;
+$exception_cause = new Exception();
+try {
 if($role=='teacher'){
   $allowed= mysqli_query($conn, "SELECT `course_id` FROM `teaches` WHERE `course_id`='$courseDiscussion' AND `teacher_id`='$user_id' ");
 }else{
@@ -24,14 +27,14 @@ if($role=='teacher'){
   include "../video/api.php";
 }
 if (isset($_POST["submit"])) {
-  $f = $_POST['f'];
-  $h = strtoupper($_POST["head"]);
-  $ml = $_POST["material_link"];
-  $hl = $_POST["lecture_link"];
-  $rl = $_POST['refrence'];
-  $al = $_POST["assigment"];
-  $ul = $_POST["upload"];
-  $attendanceTime = $_POST['attendanceTime'];
+  $f =  mysqli_real_escape_string($conn,stripcslashes($_POST['f']));
+  $h = mysqli_real_escape_string($conn,stripcslashes( strtoupper($_POST["head"])));
+  $ml =  mysqli_real_escape_string($conn,stripcslashes($_POST["material_link"]));
+  $hl =  mysqli_real_escape_string($conn,stripcslashes($_POST["lecture_link"]));
+  $rl =  mysqli_real_escape_string($conn,stripcslashes($_POST['refrence']));
+  $al =  mysqli_real_escape_string($conn,stripcslashes($_POST["assigment"]));
+  $ul =  mysqli_real_escape_string($conn,stripcslashes($_POST["upload"]));
+  $attendanceTime =  mysqli_real_escape_string($conn,stripcslashes($_POST['attendanceTime']));
   $progress = $course . 'p';
   if ($hl == "")
     $hl = NULL;
@@ -44,8 +47,8 @@ if (isset($_POST["submit"])) {
     $ul = NULL;
   }
   if ($f) {
-    $no = $_POST['no'];
-    $oldHead = $_POST['oldHead'];
+    $no =  mysqli_real_escape_string($conn,stripcslashes($_POST['no']));
+    $oldHead = mysqli_real_escape_string($conn,stripcslashes( $_POST['oldHead']));
     mysqli_query($conn, "UPDATE `$course` SET `header`='$h',`link`='$hl',`notes`='$ml',`ref`='$rl',`assigment`='$al',`upload`='$ul',`attendanceTime`='$attendanceTime' WHERE `no`=$no ");
     mysqli_query($conn, "UPDATE `$progress` SET `header`='$h' WHERE `header`='$oldHead'");
   } else {
@@ -53,12 +56,12 @@ if (isset($_POST["submit"])) {
     mysqli_query($conn, "INSERT INTO `$progress` ( `header`) VALUES ('$h')");
   }
 } else if (isset($_POST["update"])) {
-  $no = $_POST['no'];
+  $no = mysqli_real_escape_string($conn,stripcslashes( $_POST['no']));
   $up = mysqli_query($conn, "SELECT `no`, `header`, `link`, `notes`, `ref`, `assigment`,`upload`,`attendanceTime` FROM $course WHERE `no`=$no");
   $up = mysqli_fetch_array($up);
   $flag = 1;
 } else if (isset($_POST["delete"])) {
-  $no = $_POST['no'];
+  $no =  mysqli_real_escape_string($conn,stripcslashes($_POST['no']));
   $progress = $course . 'p';
   $header = mysqli_query($conn, "SELECT `header` FROM $course WHERE  `no`=$no");
   $header = mysqli_fetch_array($header);
@@ -66,26 +69,30 @@ if (isset($_POST["submit"])) {
   mysqli_query($conn, "DELETE FROM $course WHERE  `no`=$no");
   mysqli_query($conn, "DELETE FROM $progress WHERE `header`='$header'");
 } else if (isset($_POST["meeting"])) {
-  $arr['topic'] = $_POST["topic"];
-  $arr['start_date'] = $_POST["date"];
-  $arr['duration'] = $_POST["duration"];
-  $arr['password'] = $_POST["password"];
+  $arr['topic'] =  mysqli_real_escape_string($conn,stripcslashes($_POST["topic"]));
+  $arr['start_date'] =  mysqli_real_escape_string($conn,stripcslashes($_POST["date"]));
+  $arr['duration'] =  mysqli_real_escape_string($conn,stripcslashes($_POST["duration"]));
+  $arr['password'] = mysqli_real_escape_string($conn,stripcslashes( $_POST["password"]));
   $arr['type'] = '2';
   $attendanceTime = $_POST['attendanceTime'];
   $result = createMeeting($arr);
   if (isset($result->id)) {
-    $t = $_POST["topic"];
+    $t =  mysqli_real_escape_string($conn,stripcslashes($_POST["topic"]));
     $progress = $course . 'p';
     $date = $arr['start_date'];
     mysqli_query($conn, "INSERT INTO `$course` ( `header`, `link`, `notes`, `assigment`,`upload`,`isMeeting`,`attendanceTime`) VALUES ('$t','$result->join_url','$result->password','$date','$result->duration','1','$attendanceTime')");
     mysqli_query($conn, "INSERT INTO `$progress` ( `header`) VALUES ('$t')");
   }
 } else if (isset($_POST["meeting_api"])) {
-  $api_key = $_POST['api_key'];
-  $api_secret = $_POST['api_secret'];
-  $email = $_POST['email'];
+  $api_key =  mysqli_real_escape_string($conn,stripcslashes($_POST['api_key']));
+  $api_secret =  mysqli_real_escape_string($conn,stripcslashes($_POST['api_secret']));
+  $email = mysqli_real_escape_string($conn,stripcslashes($_POST['email']));
   mysqli_query($conn, "update teacher set api_key='$api_key',api_secret='$api_secret', email='$email' where id='$user_id'");
   mysqli_query($conn, "UPDATE `login` SET `email`='$email' WHERE `reg_id`='$user_id'");
+}
+}catch (Exception $except) {
+  $exception_occur = 1;
+  $exception_cause = $except;
 }
 ?>
 <html>
@@ -101,7 +108,12 @@ if (isset($_POST["submit"])) {
 </head>
 
 <body>
-  <?php if ($role == "teacher") : ?>
+<?php if ($exception_occur) : ?>
+    <script>
+      alert("<?php echo $exception_cause->getMessage() ?>");
+    </script>
+  <?php endif;
+   if ($role == "teacher") : ?>
     <div class="modal fade" id="modal1" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">

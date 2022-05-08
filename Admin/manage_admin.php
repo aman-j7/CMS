@@ -11,11 +11,11 @@ $pageName = basename($_SERVER['PHP_SELF']);
 $exception_cause = new Exception();
 try {
     if (isset($_POST["submit_add_teacher"])) {
-        $f = $_GET["f"];
-        $f_id = $_POST["f_id"];
-        $f_name = $_POST["f_name"];
-        $d_id = $_POST["d_id"];
-        $f_email = $_POST["f_email"];
+        $f = mysqli_real_escape_string($conn,stripcslashes($_GET["f"]));
+        $f_id =  mysqli_real_escape_string($conn,stripcslashes($_POST["f_id"]));
+        $f_name =  mysqli_real_escape_string($conn,stripcslashes($_POST["f_name"]));
+        $d_id =  mysqli_real_escape_string($conn,stripcslashes($_POST["d_id"]));
+        $f_email =   mysqli_real_escape_string($conn,stripcslashes($_POST["f_email"]));
         if (isset($_POST["isAdmin"]))
             $isAdmin = 1;
         else
@@ -28,12 +28,12 @@ try {
             mysqli_query($conn, "insert into login values('$f_id','CMS@123','admin','$f_email',0)");
         }
     } else if (isset($_POST["submit_update_teacher"])) {
-        $f_id = $_POST["f_id"];
+        $f_id =   mysqli_real_escape_string($conn,stripcslashes($_POST["f_id"]));
         $res = mysqli_query($conn, "Select id,name,dept_id,email,isAdmin from admin where id='$f_id'");
         $row = mysqli_fetch_array($res);
         $flag = 1;
     } else if (isset($_POST["submit_drop_teacher"])) {
-        $f_id = $_POST["f_id"];
+        $f_id =  mysqli_real_escape_string($conn,stripcslashes($_POST["f_id"]));
         mysqli_query($conn, "DELETE FROM `admin` where id='$f_id'");
         mysqli_query($conn, "DELETE FROM `login` where `reg_id`='$f_id'");
     } else if (isset($_POST["csv"])) {

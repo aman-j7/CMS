@@ -13,9 +13,9 @@ $role = $_SESSION['type'];
 $exception_cause = new Exception();
 try {
   if (isset($_POST["submit_add_course"])) {
-    $f = $_GET["f"];
-    $c_id = $_POST["c_id"];
-    $c_name = strtoupper($_POST["c_name"]);
+    $f =  mysqli_real_escape_string($conn,stripcslashes($_GET["f"]));
+    $c_id =  mysqli_real_escape_string($conn,stripcslashes($_POST["c_id"]));
+    $c_name =  mysqli_real_escape_string($conn,stripcslashes(strtoupper($_POST["c_name"])));
     if ($f) {
       mysqli_query($conn, "update courses set course_name='$c_name' where course_id='$c_id'");
     } else {
@@ -45,12 +45,12 @@ try {
         `header` VARCHAR(100) NOT NULL  PRIMARY KEY)");
     }
   } else if (isset($_POST["submit_update_course"])) {
-    $c_id = $_POST["c_id"];
+    $c_id = mysqli_real_escape_string($conn,stripcslashes( $_POST["c_id"]));
     $res = mysqli_query($conn, "Select course_id,course_name from courses where course_id='$c_id'");
     $row = mysqli_fetch_array($res);
     $flag = 1;
   } else if (isset($_POST["submit_drop_course"])) {
-    $c_id = $_POST["c_id"];
+    $c_id =  mysqli_real_escape_string($conn,stripcslashes($_POST["c_id"]));
     $disc = $c_id . "d";
     $progress = $c_id . "p";
     mysqli_query($conn, "DELETE FROM `courses` where course_id='$c_id'");
@@ -58,33 +58,33 @@ try {
     mysqli_query($conn, "DROP TABLE $disc");
     mysqli_query($conn, "DROP TABLE $progress");
   } else if (isset($_POST["submit_add_teacher"])) {
-    $f = $_GET["f"];
-    $c_id = $_POST["c_id"];
-    $f_id = $_POST["f_id"];
+    $f =  mysqli_real_escape_string($conn,stripcslashes($_GET["f"]));
+    $c_id = mysqli_real_escape_string($conn,stripcslashes( $_POST["c_id"]));
+    $f_id =  mysqli_real_escape_string($conn,stripcslashes($_POST["f_id"]));
     if ($f) {
-      $oldf_id = $_POST['of_id'];
-      $oldc_id = $_POST['oc_id'];
+      $oldf_id =  mysqli_real_escape_string($conn,stripcslashes($_POST['of_id']));
+      $oldc_id =  mysqli_real_escape_string($conn,stripcslashes($_POST['oc_id']));
       mysqli_query($conn, "UPDATE `teaches` SET `course_id`='$c_id',`teacher_id`='$f_id' WHERE `course_id` = '$oldc_id' AND `teacher_id`='$oldf_id'");
     } else {
       mysqli_query($conn, "INSERT INTO `teaches`(`course_id`, `teacher_id`) VALUES ('$c_id','$f_id')");
     }
   } else if (isset($_POST["submit_update_teacher"])) {
-    $c_id = $_POST["c_id"];
-    $f_id = $_POST['f_id'];
+    $c_id =  mysqli_real_escape_string($conn,stripcslashes($_POST["c_id"]));
+    $f_id = mysqli_real_escape_string($conn,stripcslashes( $_POST['f_id']));
     $res = mysqli_query($conn, "SELECT `course_id`, `teacher_id` FROM `teaches` WHERE `course_id`='$c_id' AND `teacher_id`='$f_id'");
     $row = mysqli_fetch_array($res);
     $teacher = 1;
   } else if (isset($_POST["submit_drop_teacher"])) {
-    $c_id = $_POST["c_id"];
-    $f_id = $_POST['f_id'];
+    $c_id =  mysqli_real_escape_string($conn,stripcslashes($_POST["c_id"]));
+    $f_id =  mysqli_real_escape_string($conn,stripcslashes($_POST['f_id']));
     mysqli_query($conn, "DELETE FROM `teaches` where course_id='$c_id' AND teacher_id='$f_id'");
   } else if (isset($_POST["submit_add_student"])) {
-    $f = $_GET["f"];
-    $c_id = $_POST["c_id"];
-    $s_id = $_POST["s_id"];
+    $f =  mysqli_real_escape_string($conn,stripcslashes($_GET["f"]));
+    $c_id =  mysqli_real_escape_string($conn,stripcslashes($_POST["c_id"]));
+    $s_id =  mysqli_real_escape_string($conn,stripcslashes($_POST["s_id"]));
     if ($f) {
-      $olds_id = $_POST['os_id'];
-      $oldc_id = $_POST['oc_id'];
+      $olds_id =  mysqli_real_escape_string($conn,stripcslashes($_POST['os_id']));
+      $oldc_id =  mysqli_real_escape_string($conn,stripcslashes($_POST['oc_id']));
       $progress = $oldc_id . "p";
       $colname = $olds_id . 'S';
       mysqli_query($conn, "UPDATE `assign` SET `student_id`='$s_id' WHERE `course_id` = '$oldc_id' AND `student_id`='$olds_id'");
@@ -99,14 +99,14 @@ try {
       mysqli_query($conn, "ALTER TABLE $progress ADD $colname DATETIME NOT NULL");
     }
   } else if (isset($_POST["submit_update_student"])) {
-    $c_id = $_POST["c_id"];
-    $s_id = $_POST['s_id'];
+    $c_id =  mysqli_real_escape_string($conn,stripcslashes($_POST["c_id"]));
+    $s_id =  mysqli_real_escape_string($conn,stripcslashes($_POST['s_id']));
     $res = mysqli_query($conn, "SELECT `course_id`, `student_id` FROM `assign` WHERE `course_id`='$c_id' AND `student_id`='$s_id'");
     $row = mysqli_fetch_array($res);
     $student = 1;
   } else if (isset($_POST["submit_drop_student"])) {
-    $c_id = $_POST["c_id"];
-    $s_id = $_POST['s_id'];
+    $c_id =  mysqli_real_escape_string($conn,stripcslashes($_POST["c_id"]));
+    $s_id =  mysqli_real_escape_string($conn,stripcslashes($_POST['s_id']));
     $progress = $c_id . "p";
     $colname = $s_id . 'S';
     mysqli_query($conn, "DELETE FROM `assign` where course_id='$c_id' AND student_id='$s_id'");

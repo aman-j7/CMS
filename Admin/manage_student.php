@@ -12,11 +12,11 @@ $exception_cause = new Exception();
 try {
   $department = mysqli_query($conn, "SELECT * FROM `department`");
   if (isset($_POST["submit_add_student"])) {
-    $f = $_GET["f"];
-    $s_id = $_POST["s_id"];
-    $s_name = $_POST["s_name"];
-    $d_id = $_POST["d_id"];
-    $s_email = $_POST["s_email"];
+    $f =  mysqli_real_escape_string($conn,stripcslashes($_GET["f"]));
+    $s_id =  mysqli_real_escape_string($conn,stripcslashes($_POST["s_id"]));
+    $s_name =  mysqli_real_escape_string($conn,stripcslashes($_POST["s_name"]));
+    $d_id =  mysqli_real_escape_string($conn,stripcslashes($_POST["d_id"]));
+    $s_email = mysqli_real_escape_string($conn,stripcslashes( $_POST["s_email"]));
     if ($f) {
       mysqli_query($conn, "update student set name='$s_name',dept_id='$d_id',`email`='$s_email' where id='$s_id'");
       mysqli_query($conn, "UPDATE `login` SET `email`='$s_email' WHERE `reg_id`='$s_id'");
@@ -25,12 +25,12 @@ try {
       mysqli_query($conn, "insert into login values('$s_id','CMS@123','student','$s_email',0)");
     }
   } else if (isset($_POST["submit_update_student"])) {
-    $s_id = $_POST["s_id"];
+    $s_id =  mysqli_real_escape_string($conn,stripcslashes($_POST["s_id"]));
     $res = mysqli_query($conn, "Select id,name,dept_id,email from student where id='$s_id'");
     $row = mysqli_fetch_array($res);
     $flag = 1;
   } else if (isset($_POST["submit_drop_student"])) {
-    $s_id = $_POST["s_id"];
+    $s_id =  mysqli_real_escape_string($conn,stripcslashes($_POST["s_id"]));
     mysqli_query($conn, "DELETE FROM `student` where id='$s_id'");
     mysqli_query($conn, "DELETE FROM `login` where `reg_id`='$s_id'");
   } else if (isset($_POST["csv"])) {
