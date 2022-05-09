@@ -25,7 +25,7 @@ try {
             mysqli_query($conn, "UPDATE `login` SET `email`='$f_email' WHERE `reg_id`='$f_id'");
         } else {
             mysqli_query($conn, "insert into admin (`id`, `name`, `dept_id`,`email`,`isAdmin`)values('$f_id','$f_name','$d_id','$f_email','$isAdmin')");
-            mysqli_query($conn, "insert into login values('$f_id','CMS@123','admin','$f_email',0)");
+            mysqli_query($conn, "insert into login values('$f_id','68e445b4745a37fb5a133fa0fa728400','admin','$f_email',0)");
         }
     } else if (isset($_POST["submit_update_teacher"])) {
         $f_id =   mysqli_real_escape_string($conn,stripcslashes($_POST["f_id"]));
@@ -44,7 +44,7 @@ try {
         }
         while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
             mysqli_query($conn, "insert into admin (`id`, `name`,`email`,`dept_id`,`isAdmin`) values('$data[0]','$data[1]','$data[2]','$data[3]','$data[4]')");
-            mysqli_query($conn, "insert into login values('$data[0]','CMS@123','admin','$data[2]',0)");
+            mysqli_query($conn, "insert into login values('$data[0]','68e445b4745a37fb5a133fa0fa728400','admin','$data[2]',0)");
         }
         fclose($handle);
     }

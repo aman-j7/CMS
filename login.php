@@ -12,7 +12,7 @@ try {
       header("Location:Admin/admin_dashboard.php");
   } else if (isset($_POST["submit"])) {
     $registration_Id =  mysqli_real_escape_string($conn,stripcslashes($_POST["id"]));
-    $password =   mysqli_real_escape_string($conn,stripcslashes($_POST["password"]));
+    $password =   md5(mysqli_real_escape_string($conn,stripcslashes($_POST["password"])));
     $res = mysqli_query($conn, "select role from login where reg_id='$registration_Id' and password='$password'");
     $row = mysqli_fetch_array($res);
     if ($row) {
@@ -23,7 +23,7 @@ try {
         setcookie('username', $registration_Id, time() + (86400 * 7));
         setcookie('password', $password, time() + (86400 * 7));
       }
-      if ($password == "CMS@123") {
+      if ($password == "68e445b4745a37fb5a133fa0fa728400") {
         $default_pass = 1;
       } elseif ($row['role'] == "teacher" || $row['role'] == "student")
         header("Location:NonAdmin/dashboard.php");

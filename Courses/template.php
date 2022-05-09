@@ -239,6 +239,7 @@ if (isset($_POST["submit"])) {
                 <input type="email" class="form-control api" name="email" placeholder="Enter email" value="<?php if ($secret_key['email']) echo $secret_key['email'] ?>" required>
               </div>
               <div class="modal-footer">
+                <a href="https://youtu.be/voJOIavlKTk" target="_blank">Learn More</a>
                 <input type="submit" class="btn btn-default btn-primary" name="meeting_api" value="Update" />
                 <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
               </div>
@@ -304,7 +305,7 @@ if (isset($_POST["submit"])) {
               </div>
               <div class="card border border-dark">
                 <div class="card-body" style="min-height:150px">
-                  <a href="<?php echo $res['link'] ?>" class="link-secondary">Meeting Link</a><br>
+                  <a href="<?php echo $res['link'] ?>" class="link-secondary" target="_blank">Meeting Link</a><br>
                   <b>Password:</b><br> <?php echo $res['notes'] ?><br>
                   <b>Start Time:</b><br><?php echo substr($res['assigment'], 0, 10) . ' ' . substr($res['assigment'], 11, strlen($res['assigment'])); ?><br>
                 </div>
@@ -336,17 +337,17 @@ if (isset($_POST["submit"])) {
               <div class="card border border-dark">
                 <div class="card-body" style="min-height:150px">
                   <?php if ($res['link'] != NULL) : ?>
-                    <a href="<?php echo $res['link'] ?>" class="link-secondary">Lecture Video Link</a><br>
+                    <a href="<?php echo $res['link'] ?>" class="link-secondary" target="_blank">Lecture Video Link</a><br>
                   <?php endif; ?>
                   <?php if ($res['notes'] != NULL) : ?>
-                    <a href="<?php echo $res['notes'] ?>" class="link-secondary">Material link</a><br>
+                    <a href="<?php echo $res['notes'] ?>" class="link-secondary" target="_blank">Material link</a><br>
                   <?php endif; ?>
                   <?php if ($res['ref'] != NULL) : ?>
-                    <a href="<?php echo $res['ref'] ?>" class="link-secondary">Refrences</a><br>
+                    <a href="<?php echo $res['ref'] ?>" class="link-secondary" target="_blank">Refrences</a><br>
                   <?php endif; ?>
                   <?php if ($res['assigment'] != NULL) : ?>
-                    <a href=" <?php echo $res['assigment'] ?>" class="link-secondary">Assigment Link</a><br>
-                    <a href="<?php echo $res['upload'] ?>" class="link-secondary">Upload Link</a><br>
+                    <a href=" <?php echo $res['assigment'] ?>" class="link-secondary" target="_blank">Assigment Link</a><br>
+                    <a href="<?php echo $res['upload'] ?>" class="link-secondary" target="_blank">Upload Link</a><br>
                   <?php endif; ?>
                   <?php if ($role == "teacher") : ?>
                     <b>Attendance Time:</b><br><?php echo $res['attendanceTime']; ?><br>

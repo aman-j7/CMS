@@ -22,7 +22,7 @@ try {
       mysqli_query($conn, "UPDATE `login` SET `email`='$s_email' WHERE `reg_id`='$s_id'");
     } else {
       mysqli_query($conn, "insert into student (`id`, `name`, `dept_id`,`email`) values('$s_id','$s_name','$d_id','$s_email')");
-      mysqli_query($conn, "insert into login values('$s_id','CMS@123','student','$s_email',0)");
+      mysqli_query($conn, "insert into login values('$s_id','68e445b4745a37fb5a133fa0fa728400','student','$s_email',0)");
     }
   } else if (isset($_POST["submit_update_student"])) {
     $s_id =  mysqli_real_escape_string($conn,stripcslashes($_POST["s_id"]));
@@ -41,7 +41,7 @@ try {
     }
     while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
       mysqli_query($conn, "insert into student (`id`, `name`,`email`,`dept_id`) values('$data[0]','$data[1]','$data[2]','$data[3]')");
-      mysqli_query($conn, "insert into login values('$data[0]','CMS@123','student','$data[2]',0)");
+      mysqli_query($conn, "insert into login values('$data[0]','68e445b4745a37fb5a133fa0fa728400','student','$data[2]',0)");
     }
     fclose($handle);
   }

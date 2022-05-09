@@ -10,13 +10,13 @@ $exception_cause=new Exception();
 try
 {
 if (isset($_POST["submit"])) {
-  $pass1 =  mysqli_real_escape_string($conn,stripcslashes($_POST['pass1']));
-  $pass2 =  mysqli_real_escape_string($conn,stripcslashes($_POST['pass2']));
+  $pass1 =  md5(mysqli_real_escape_string($conn,stripcslashes($_POST['pass1'])));
+  $pass2 = md5(mysqli_real_escape_string($conn,stripcslashes($_POST['pass2'])));
   if ($pass1 == $pass2) {
-    if ($pass1 != "CMS@123") {
+    if ($pass1 != "68e445b4745a37fb5a133fa0fa728400") {
       $cur_pass=mysqli_query($conn,"SELECT  `password` FROM `login` WHERE `reg_id`='$id'");
       $cur_pass=mysqli_fetch_array($cur_pass);
-      if($cur_pass['password']=="CMS@123"){
+      if($cur_pass['password']=="68e445b4745a37fb5a133fa0fa728400"){
         $check_profile=1;
       }
       mysqli_query($conn, "update `login` set password='$pass2' where reg_id='$id'");
