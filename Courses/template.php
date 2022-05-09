@@ -239,7 +239,7 @@ if (isset($_POST["submit"])) {
                 <input type="email" class="form-control api" name="email" placeholder="Enter email" value="<?php if ($secret_key['email']) echo $secret_key['email'] ?>" required>
               </div>
               <div class="modal-footer">
-                <input type="submit" class="btn btn-default btn-success" name="meeting_api" value="Submit" />
+                <input type="submit" class="btn btn-default btn-primary" name="meeting_api" value="Update" />
                 <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
               </div>
             </form>
