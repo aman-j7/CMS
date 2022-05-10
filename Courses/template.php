@@ -54,6 +54,13 @@ if (isset($_POST["submit"])) {
   } else {
     mysqli_query($conn, "INSERT INTO `$course` ( `header`, `link`, `notes`, `ref`, `assigment`,`upload`,`attendanceTime`) VALUES ('$h','$hl','$ml','$rl','$al','$ul','$attendanceTime')");
     mysqli_query($conn, "INSERT INTO `$progress` ( `header`) VALUES ('$h')");
+    $columns = mysqli_query($conn, "SELECT `COLUMN_NAME` 
+                FROM `INFORMATION_SCHEMA`.`COLUMNS` 
+                WHERE `TABLE_NAME`='$progress'");
+      mysqli_fetch_array($columns);
+      while ($id = mysqli_fetch_array($columns)){
+        mysqli_query($conn, "UPDATE `$progress` SET `$id[COLUMN_NAME]`='0000-00-00 00:00:00' where `header`='$h'");
+      }
   }
 } else if (isset($_POST["update"])) {
   $no = mysqli_real_escape_string($conn,stripcslashes( $_POST['no']));
