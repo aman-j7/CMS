@@ -91,12 +91,16 @@ try {
       mysqli_query($conn, "ALTER TABLE $progress DROP COLUMN $colname");
       $progress = $c_id . "p";
       $colname = $s_id . 'S';
-      mysqli_query($conn, "ALTER TABLE $progress ADD $colname DATETIME NOT NULL");
+      $date=date("0000-00-00 00:00:00");
+      mysqli_query($conn, "ALTER TABLE `$progress` ADD $colname DATETIME ");
+      mysqli_query($conn, "UPDATE TABLE `$progress` SET `$colname`='$date'");
     } else {
       $progress = $c_id . "p";
       $colname = $s_id . 'S';
+      $date=date("0000-00-00 00:00:00");
       mysqli_query($conn, "INSERT INTO `assign`(`course_id`, `student_id`) VALUES ('$c_id','$s_id')");
-      mysqli_query($conn, "ALTER TABLE $progress ADD $colname DATETIME NOT NULL");
+      mysqli_query($conn, "ALTER TABLE `$progress` ADD $colname DATETIME ");
+      mysqli_query($conn, "UPDATE TABLE `$progress` SET `$colname`='$date'");
     }
   } else if (isset($_POST["submit_update_student"])) {
     $c_id =  mysqli_real_escape_string($conn,stripcslashes($_POST["c_id"]));
@@ -164,7 +168,9 @@ try {
       mysqli_query($conn, "insert into assign values('$data[0]','$data[1]')");
       $progress = $data[0] . "p";
       $colname = $data[1] . 'S';
-      mysqli_query($conn, "ALTER TABLE $progress ADD $colname DATETIME NOT NULL");
+      $date=date("0000-00-00 00:00:00");
+      mysqli_query($conn, "ALTER TABLE `$progress` ADD $colname DATETIME ");
+      mysqli_query($conn, "UPDATE TABLE `$progress` SET `$colname`='$date'");
     }
     fclose($handle);
   }
