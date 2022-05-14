@@ -155,7 +155,7 @@ try {
       </div>
       <div class="panel panel-default">
         <h3 class="text" style="margin-top: 50px;">Recent Questions</h3>
-        <div class="panel-body" id="chat" style="height: 500px; overflow:auto" data='<?php echo $courseDiscussion;?>'>
+        <div class="panel-body" id="chat" style="height: 500px; overflow:auto" data='<?php echo $course;?>'>
 
         </div>
       </div>
@@ -193,10 +193,11 @@ try {
 
 
     }
+    getchat();
     setInterval(function() {
       getchat();
 
-    }, 2000);
+    }, 30000);
   </script>
 
   <?php include '../includes/checkDarkTheme.php'; ?>

@@ -1,6 +1,8 @@
 <?php
 include "../includes/config.php";
-$courseDiscussion=$_POST['course_id'];
+$id = $_SESSION['user_id'];
+$course=$_POST['course_id'];
+$courseDiscussion=$course.'d';
 $result =  mysqli_query($conn, "SELECT *  FROM $courseDiscussion where parent_comment='0' ORDER BY id desc");
 $html="";
 $html.='<table class="table" id="MyTable" style="background-color: #edfafa; border-left:1px solid black; border-right:1px solid black">
