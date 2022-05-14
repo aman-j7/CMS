@@ -1,41 +1,38 @@
 <?php
 include "../includes/config.php";
-if(isset($_SESSION['user_id']))
+if (isset($_SESSION['user_id']))
   $id = $_SESSION['user_id'];
-else 
-  $id=mysqli_real_escape_string($conn,stripcslashes($_GET["id"]));
+else
+  $id = mysqli_real_escape_string($conn, stripcslashes($_GET["id"]));
 $same_pass = 0;
 $wrong_pass = 0;
 $password_changed = 0;
-$exception_occur=0;
-$check_profile=0;
-$exception_cause=new Exception();
-try
-{
-if (isset($_POST["submit"])) {
-  $pass1 =  md5(mysqli_real_escape_string($conn,stripcslashes($_POST['pass1'])));
-  $pass2 = md5(mysqli_real_escape_string($conn,stripcslashes($_POST['pass2'])));
-  if ($pass1 == $pass2) {
-    if ($pass1 != "68e445b4745a37fb5a133fa0fa728400") {
-      $cur_pass=mysqli_query($conn,"SELECT  `password` FROM `login` WHERE `reg_id`='$id'");
-      $cur_pass=mysqli_fetch_array($cur_pass);
-      if($cur_pass['password']=="68e445b4745a37fb5a133fa0fa728400"){
-        $check_profile=1;
+$exception_occur = 0;
+$check_profile = 0;
+$exception_cause = new Exception();
+try {
+  if (isset($_POST["submit"])) {
+    $pass1 =  md5(mysqli_real_escape_string($conn, stripcslashes($_POST['pass1'])));
+    $pass2 = md5(mysqli_real_escape_string($conn, stripcslashes($_POST['pass2'])));
+    if ($pass1 == $pass2) {
+      if ($pass1 != "68e445b4745a37fb5a133fa0fa728400") {
+        $cur_pass = mysqli_query($conn, "SELECT  `password` FROM `login` WHERE `reg_id`='$id'");
+        $cur_pass = mysqli_fetch_array($cur_pass);
+        if ($cur_pass['password'] == "68e445b4745a37fb5a133fa0fa728400") {
+          $check_profile = 1;
+        }
+        mysqli_query($conn, "update `login` set password='$pass2' where reg_id='$id'");
+        $password_changed = 1;
+      } else {
+        $same_pass = 1;
       }
-      mysqli_query($conn, "update `login` set password='$pass2' where reg_id='$id'");
-      $password_changed= 1;
     } else {
-      $same_pass = 1;
+      $wrong_pass = 1;
     }
-  } else {
-    $wrong_pass = 1;
   }
-}
-}
-catch(Exception $except){
-  $exception_occur=1;
-  $exception_cause=$except;
-
+} catch (Exception $except) {
+  $exception_occur = 1;
+  $exception_cause = $except;
 }
 ?>
 
@@ -50,31 +47,31 @@ catch(Exception $except){
   <script type="text/javascript" src="../js/login.js"></script>
 
   <title>Change Password</title>
-  <link rel = "icon" href = "../images/favicon.ico" type = "image/x-icon">
+  <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
 
 </head>
 
-<body id = "change_pass">
-<?php if($exception_occur):?>
+<body id="change_pass">
+  <?php if ($exception_occur) : ?>
     <script>
-    alert("<?php echo $exception_cause->getMessage()?>");
-  </script>
-  <?php endif;
-  if ($password_changed && $check_profile): ?>
-    <script>
-       window.location = '../includes/profile.php';
+      alert("<?php echo $exception_cause->getMessage() ?>");
     </script>
-    <?php elseif ($password_changed):?>
+  <?php endif;
+  if ($password_changed && $check_profile) : ?>
     <script>
-    Swal.fire({
-      icon: 'success',
-      title: 'Password Changed Successfully!',
-      timer: 10000
-    }).then(function() {
-        window.location = '../includes/logout.php';//swal wali dikat
-    });
-      </script>
-    <?php endif;?>
+      window.location = '../includes/profile.php';
+    </script>
+  <?php elseif ($password_changed) : ?>
+    <script>
+      Swal.fire({
+        icon: 'success',
+        title: 'Password Changed Successfully!',
+        timer: 10000
+      }).then(function() {
+        window.location = '../includes/logout.php'; //swal wali dikat
+      });
+    </script>
+  <?php endif; ?>
   <section class="h-100 gradient-form">
     <div class="container h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">
@@ -89,10 +86,10 @@ catch(Exception $except){
                   </div>
 
                   <form method="POST" action="change_password.php" autocomplete="off">
-                    <?php if ($same_pass): ?>
-                    <div class="alert alert-info" role="alert">Cannot Use Default password!</div>
+                    <?php if ($same_pass) : ?>
+                      <div class="alert alert-info" role="alert">Cannot Use Default password!</div>
                     <?php endif; ?>
-                    <?php if ($wrong_pass): ?>
+                    <?php if ($wrong_pass) : ?>
                       <div class="alert alert-danger" role="alert">Password does not match!</div>
                     <?php endif; ?>
                     <p><strong>Enter New Password</strong></p>
@@ -140,4 +137,5 @@ catch(Exception $except){
     showSlides();
   </script>
 </body>
+
 </html>
