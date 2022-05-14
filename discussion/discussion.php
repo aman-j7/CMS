@@ -155,7 +155,7 @@ try {
       </div>
       <div class="panel panel-default">
         <h3 class="text" style="margin-top: 50px;">Recent Questions</h3>
-        <div class="panel-body" id="chat" style="height: 500px; overflow:auto" data='<?php echo $course;?>'>
+        <div class="panel-body" id="chat" style="height: 500px; overflow:auto" data='<?php echo $course; ?>'>
 
         </div>
       </div>
@@ -179,7 +179,7 @@ try {
 
     function getchat() {
       let content = document.getElementById('chat');
-      courseId=content.getAttribute('data');
+      courseId = content.getAttribute('data');
       jQuery.ajax({
         url: '../includes/chatting.php',
         type: 'POST',
@@ -190,16 +190,13 @@ try {
           jQuery("#chat").html(result)
         }
       });
-
-
     }
     getchat();
     setInterval(function() {
       getchat();
 
-    }, 30000);
+    }, 1000);
   </script>
-
   <?php include '../includes/checkDarkTheme.php'; ?>
 </body>
 
