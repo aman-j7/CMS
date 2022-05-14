@@ -25,7 +25,7 @@ function setTheme(){
     data: {
       'checked' : isSet ? 'light' : 'dark'
     },
-    success:function(result){
+    success:function(){
     }
   });
 }
