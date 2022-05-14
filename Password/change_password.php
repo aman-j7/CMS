@@ -1,6 +1,9 @@
 <?php
 include "../includes/config.php";
-$id = $_SESSION['user_id'];
+if(isset($_SESSION['user_id']))
+  $id = $_SESSION['user_id'];
+else 
+  $id=mysqli_real_escape_string($conn,stripcslashes($_GET["id"]));
 $same_pass = 0;
 $wrong_pass = 0;
 $password_changed = 0;

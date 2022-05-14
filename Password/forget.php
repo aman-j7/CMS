@@ -20,7 +20,8 @@ try {
     $reg =  mysqli_real_escape_string($conn,stripcslashes($_POST["reg"]));
     $flag = 0;
     if ($o1 == $otp) {
-      header("Location:change_password.php");
+      $reg =  mysqli_real_escape_string($conn,stripcslashes($_POST["reg"]));
+      header("Location:change_password.php?id=$reg");
     } else {
       $invalid_otp = 1;
     }
