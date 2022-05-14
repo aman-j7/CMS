@@ -68,7 +68,7 @@ try {
         title: 'Password Changed Successfully!',
         timer: 10000
       }).then(function() {
-        window.location = '../includes/logout.php'; //swal wali dikat
+        window.location = '../includes/logout.php'; 
       });
     </script>
   <?php endif; ?>
@@ -85,7 +85,7 @@ try {
                     <img src="../images/logo.png" id="logo" style="width: 180px;" alt="logo">
                   </div>
 
-                  <form method="POST" action="change_password.php" autocomplete="off">
+                  <form method="POST" action="change_password.php?id=<?php echo $id;?>" autocomplete="off">
                     <?php if ($same_pass) : ?>
                       <div class="alert alert-info" role="alert">Cannot Use Default password!</div>
                     <?php endif; ?>

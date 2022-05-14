@@ -1,7 +1,7 @@
 <?php
 include "../includes/config.php";
 include "../includes/random_color.php";
-if($_SESSION['user_id']==Null || $_SESSION['type']==Null ||  $_SESSION['type']!='admin'){
+if(!isset($_SESSION['user_id']) || !isset($_SESSION['type']) || $_SESSION['user_id']==Null || $_SESSION['type']==Null ||  $_SESSION['type']!='admin'){
   header("Location:../login.php");
 }
 $teacher = 0;
@@ -91,16 +91,14 @@ try {
       mysqli_query($conn, "ALTER TABLE $progress DROP COLUMN $colname");
       $progress = $c_id . "p";
       $colname = $s_id . 'S';
-      $date=date("0000-00-00 00:00:00");
       mysqli_query($conn, "ALTER TABLE `$progress` ADD $colname DATETIME ");
-      mysqli_query($conn, "UPDATE  `$progress` SET `$colname`='$date'");
+      mysqli_query($conn, "UPDATE `$progress` SET `$colname`='0000-00-00 00:00:00'");
     } else {
       $progress = $c_id . "p";
       $colname = $s_id . 'S';
-      $date=date("0000-00-00 00:00:00");
       mysqli_query($conn, "INSERT INTO `assign`(`course_id`, `student_id`) VALUES ('$c_id','$s_id')");
       mysqli_query($conn, "ALTER TABLE `$progress` ADD $colname DATETIME ");
-      mysqli_query($conn, "UPDATE `$progress` SET `$colname`='$data'");
+      mysqli_query($conn, "UPDATE `$progress` SET `$colname`='0000-00-00 00:00:00'");
     }
   } else if (isset($_POST["submit_update_student"])) {
     $c_id =  mysqli_real_escape_string($conn,stripcslashes($_POST["c_id"]));
@@ -168,9 +166,8 @@ try {
       mysqli_query($conn, "insert into assign values('$data[0]','$data[1]')");
       $progress = $data[0] . "p";
       $colname = $data[1] . 'S';
-      $date=date("0000-00-00 00:00:00");
       mysqli_query($conn, "ALTER TABLE `$progress` ADD $colname DATETIME ");
-      mysqli_query($conn, "UPDATE  `$progress` SET `$colname`='$date'");
+      mysqli_query($conn, "UPDATE  `$progress` SET `$colname`='0000-00-00 00:00:00'");
     }
     fclose($handle);
   }

@@ -1,7 +1,8 @@
 <?php
 include "../includes/config.php";
-
-
+if(!isset($_SESSION['user_id']) || !isset($_SESSION['type']) ){
+    header("Location:../login.php");
+}
 $pageName = basename($_SERVER['PHP_SELF']);
 $id = $_SESSION['user_id'];
 $role = $_SESSION['type'];

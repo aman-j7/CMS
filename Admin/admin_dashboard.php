@@ -1,6 +1,6 @@
 <?php
 include "../includes/config.php";
-if ($_SESSION['user_id'] == Null || $_SESSION['type'] == Null ||  $_SESSION['type'] != 'admin') {
+if (!isset($_SESSION['user_id']) || !isset($_SESSION['type']) || $_SESSION['user_id'] == Null || $_SESSION['type'] == Null ||  $_SESSION['type'] != 'admin') {
   header("Location:../login.php");
 }
 $pageName = basename($_SERVER['PHP_SELF']);

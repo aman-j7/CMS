@@ -1,5 +1,8 @@
 <?php
 include "../includes/config.php";
+if (!isset($_SESSION['user_id']) || !isset($_SESSION['type']) || $_SESSION['user_id'] == Null || $_SESSION['type'] == Null ||  $_SESSION['type'] == 'admin') {
+  header("Location:../login.php");
+}
 $id = $_SESSION['user_id'];
 $role = $_SESSION['type'];
 $exception_occur = 0;

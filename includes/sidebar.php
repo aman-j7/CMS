@@ -46,7 +46,7 @@
     <div class="menu">
       <li class="">
         <?php if ($role == "admin") : ?>
-          <a href="../admin/admin_dashboard.php">
+          <a href="../Admin/admin_dashboard.php">
           <?php elseif ($role == "teacher" || $role == "student") : ?>
             <a href="../NonAdmin/dashboard.php">
             <?php endif; ?>

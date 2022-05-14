@@ -1,6 +1,6 @@
 <?php
 include "../includes/config.php";
-if ($_SESSION['user_id'] == Null || $_SESSION['type'] == Null ||  $_SESSION['type'] == 'admin') {
+if (!isset($_SESSION['user_id']) || !isset($_SESSION['type']) || $_SESSION['user_id'] == Null || $_SESSION['type'] == Null ||  $_SESSION['type'] == 'admin') {
   header("Location:../login.php");
 }
 $user_id =$_SESSION['user_id'];
@@ -18,7 +18,7 @@ if($role=='teacher'){
 if(!mysqli_num_rows($allowed)){
   header("Location:../login.php");
 }
-$course = strtoupper($_GET["course"]);
+$course = $_GET["course"];
 $t = mysqli_query($conn, "SELECT `course_name` FROM `courses` where course_id='$course'");
 $t = mysqli_fetch_array($t);
 $subject = strtoupper($t["course_name"]);
@@ -52,7 +52,7 @@ if (isset($_POST["submit"])) {
     mysqli_query($conn, "UPDATE `$course` SET `header`='$h',`link`='$hl',`notes`='$ml',`ref`='$rl',`assigment`='$al',`upload`='$ul',`attendanceTime`='$attendanceTime' WHERE `no`=$no ");
     mysqli_query($conn, "UPDATE `$progress` SET `header`='$h' WHERE `header`='$oldHead'");
   } else {
-    mysqli_query($conn, "INSERT INTO `$course` ( `header`, `link`, `notes`, `ref`, `assigment`,`upload`,`attendanceTime`) VALUES ('$h','$hl','$ml','$rl','$al','$ul','$attendanceTime')");
+    mysqli_query($conn, "INSERT INTO `$course` ( `header`, `link`, `notes`, `ref`, `assigment`,`upload`,`attendanceTime`,`isMeeting`) VALUES ('$h','$hl','$ml','$rl','$al','$ul','$attendanceTime','0')");
     mysqli_query($conn, "INSERT INTO `$progress` ( `header`) VALUES ('$h')");
     $columns = mysqli_query($conn, "SELECT `COLUMN_NAME` 
                 FROM `INFORMATION_SCHEMA`.`COLUMNS` 
@@ -87,6 +87,7 @@ if (isset($_POST["submit"])) {
     $t =  mysqli_real_escape_string($conn,stripcslashes($_POST["topic"]));
     $progress = $course . 'p';
     $date = $arr['start_date'];
+    echo "helllo";
     mysqli_query($conn, "INSERT INTO `$course` ( `header`, `link`, `notes`, `assigment`,`upload`,`isMeeting`,`attendanceTime`) VALUES ('$t','$result->join_url','$result->password','$date','$result->duration','1','$attendanceTime')");
     mysqli_query($conn, "INSERT INTO `$progress` ( `header`) VALUES ('$t')");
   }

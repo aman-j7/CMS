@@ -1,6 +1,6 @@
 <?php
 include "../includes/config.php";
-if($_SESSION['user_id']==Null || $_SESSION['type']==Null ||  $_SESSION['type']=='student'){
+if(!isset($_SESSION['user_id']) || !isset($_SESSION['type']) || $_SESSION['user_id']==Null || $_SESSION['type']==Null ||  $_SESSION['type']=='student'){
   header("Location:../login.php");
 }
 $role = $_SESSION['type'];
