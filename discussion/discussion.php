@@ -60,7 +60,6 @@ try {
     $pid =  mysqli_real_escape_string($conn, stripcslashes($_POST['id']));
     mysqli_query($conn, "DELETE  FROM $courseDiscussion where `parent_comment`='$pid' OR `id`='$pid' ");
   }
-  // $result =  mysqli_query($conn, "SELECT *  FROM $courseDiscussion where parent_comment='0' ORDER BY id desc");
 } catch (Exception $except) {
   $exception_occur = 1;
   $exception_cause = $except;

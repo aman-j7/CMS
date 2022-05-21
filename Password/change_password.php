@@ -6,6 +6,7 @@ else
   $id = mysqli_real_escape_string($conn, stripcslashes($_GET["id"]));
 $same_pass = 0;
 $wrong_pass = 0;
+$def_pass=0;
 $password_changed = 0;
 $exception_occur = 0;
 $check_profile = 0;
@@ -18,7 +19,9 @@ try {
       if ($pass1 != "68e445b4745a37fb5a133fa0fa728400") {
         $cur_pass = mysqli_query($conn, "SELECT  `password` FROM `login` WHERE `reg_id`='$id'");
         $cur_pass = mysqli_fetch_array($cur_pass);
-        if ($cur_pass['password'] == "68e445b4745a37fb5a133fa0fa728400") {
+        
+        if($cur_pass['password']!=$pass1){     
+          if ($cur_pass['password'] == "68e445b4745a37fb5a133fa0fa728400") {
           $check_profile = 1;
         }
         mysqli_query($conn, "update `login` set password='$pass2' where reg_id='$id'");
@@ -26,6 +29,11 @@ try {
       } else {
         $same_pass = 1;
       }
+    }
+    else{
+      $def_pass=1;
+
+    }
     } else {
       $wrong_pass = 1;
     }
@@ -87,18 +95,21 @@ try {
 
                   <form method="POST" action="change_password.php?id=<?php echo $id;?>" autocomplete="off">
                     <?php if ($same_pass) : ?>
-                      <div class="alert alert-info" role="alert">Cannot Use Default password!</div>
+                      <div class="alert alert-danger" role="alert">Cannot use previous password!</div>
                     <?php endif; ?>
                     <?php if ($wrong_pass) : ?>
                       <div class="alert alert-danger" role="alert">Password does not match!</div>
                     <?php endif; ?>
+                    <?php if ($def_pass) : ?>
+                      <div class="alert alert-danger" role="alert">Cannot Use Default password!</div>
+                    <?php endif; ?>
                     <p><strong>Enter New Password</strong></p>
                     <div class="form-outline mb-4">
-                      <input type="password" name="pass1" class="form-control pass_toggle" placeholder="New Password" />
+                      <input type="password" name="pass1" class="form-control pass_toggle" placeholder="New Password" required/>
                     </div>
 
                     <div class="form-outline mb-4">
-                      <input type="password" name="pass2" class="form-control pass_toggle" placeholder="Confirm Password" />
+                      <input type="password" name="pass2" class="form-control pass_toggle" placeholder="Confirm Password" required/>
                     </div>
                     <div class="form-outline mb-4 form-check form-switch">
                       <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault " onclick="pass_toggle()">

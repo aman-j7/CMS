@@ -87,6 +87,8 @@ if ($row['address'])
 													<h5 class="user-name"><?php echo $row['name']; ?></h5>
 													<h6 class="user-email"><?php echo $row['email']; ?></h6>
 													<button type="button" class="btn btn-link mt-2" onclick="editProfile()">Edit Profile</button>
+													<br/>
+													<a href="../Password/change_password.php">Change password</a>
 												</div>
 											</div>
 										</div>
@@ -114,7 +116,7 @@ if ($row['address'])
 												<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 													<div class="form-group">
 														<label for="phone">Phone</label>
-														<input type="text" class="form-control" name="phone" placeholder="Enter phone number" value="<?php echo $row['phone'] ?>" disabled>
+														<input type="text" maxlength="10" minlength="10" class="form-control" name="phone" placeholder="Enter phone number" value="<?php echo $row['phone'] ?>" disabled>
 													</div>
 												</div>
 												<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">

@@ -36,7 +36,7 @@ while ($res = mysqli_fetch_array($result)) :
   $html .= '</p>
       </td>
     </tr>';
-  $result1 =  mysqli_query($conn, "SELECT *  FROM $courseDiscussion where parent_comment=$pid ORDER BY id desc");
+  $result1 =  mysqli_query($conn, "SELECT *  FROM $courseDiscussion where parent_comment=$pid ORDER BY id");
   while ($res1 = mysqli_fetch_array($result1)) :
 
     $html .= '<tr>';
